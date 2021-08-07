@@ -142,3 +142,91 @@ enum {
 
 # test.c 文件
 
+## 测试驱动开发（test-driven development, TDD）
+
+1. 加入一个测试。
+2. 运行所有测试，新的测试应该会失败。
+3. 编写实现代码。
+4. 运行所有测试，若有测试失败回到3。
+5. 重构代码。
+6. 回到 1
+
+## 宏定义相关
+
+* `/`表示一行未结束
+
+* 输出函数里面，多个`""`一起写的时候之间可以没有逗号。
+
+* 输出中`%3.2f`3表示输出至少三个字符，不足的补空格
+
+* 分号吞噬问题：[ref](https://blog.csdn.net/imgosty/article/details/81901183)
+
+  test.c中使用`do{}while(0)`的结构旨在防止宏定义的分号吞噬问题。若宏定义里面有多过一个语句，则需要使用该方法，以下例子来自origin
+
+  ```C
+  #define M() a(); b()
+  if (cond)
+      M();
+  else
+      c();
+  
+  /* 预处理后 */
+  
+  if (cond)
+      a(); b(); /* b(); 在 if 之外     */
+  else          /* <- else 缺乏对应 if */
+      c();
+  ```
+
+  只使用`{}`也不行
+
+  ```C
+  #define M() { a(); b(); }
+  
+  /* 预处理后 */
+  
+  if (cond)
+      { a(); b(); }; /* 最后的分号代表 if 语句结束 */
+  else               /* else 缺乏对应 if */
+      c();
+  ```
+
+  使用`do{}while(0)`即可解决
+
+  ```C
+  #define M() do { a(); b(); } while(0)
+  
+  /* 预处理后 */
+  
+  if (cond)
+      do { a(); b(); } while(0);
+  else
+      c();
+  ```
+
+* stdout和stderr的区别：
+
+  * stdout为标准输出，在`fprintf`中使用`stdout`的话其效果与`printf`相同，输出为行缓冲，只有换行时才会输出；而`stderr`为标准错误，其输出无缓冲，会直接输出。
+  * [参考](https://blog.csdn.net/c_phoenix/article/details/52858151)
+
+* 更多参考
+
+  * [C语言中宏定义的使用](https://blog.csdn.net/imgosty/article/details/81901183)
+  * [C语言中宏定义#、##、#@、\\的用法](https://blog.csdn.net/l101606022/article/details/79021401)
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
