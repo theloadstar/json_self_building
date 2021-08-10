@@ -214,7 +214,16 @@ enum {
   * [C语言中宏定义的使用](https://blog.csdn.net/imgosty/article/details/81901183)
   * [C语言中宏定义#、##、#@、\\的用法](https://blog.csdn.net/l101606022/article/details/79021401)
 
-  
+
+## 断言
+
+断言assert，简单说就是测试内部的bool语句的真值，若为真，则正常执行；否则，终止程序，并输出相应的错误信息。在debug模式下可用，在release中不可用。也可以在程序开头添加`#define NDEBUG`,这样编译器就会禁用文件中的所有assert语句。
+
+```
+assert()宏接受一个整型表达式作为参数。如果表达式求值为假，assert()宏就在标准错误流（stderr） 中写入一条错误信息， 并调用abort()函数终止程序。
+```
+
+
 
 
 
