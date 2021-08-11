@@ -144,7 +144,7 @@ enum {
 
 由于make时报错：
 
-![image-20210811163350729](../../../Downloads/算法笔记/SelfLearningNote/graph/Cmake_chapter1_.h.png)
+![image-20210811163350729](../graph/Cmake_chapter1_.h.png)
 
 故将注释贴于下方，源文件删掉注视
 
@@ -376,9 +376,9 @@ assert()宏接受一个整型表达式作为参数。如果表达式求值为假
 
 根据cmake的编译报错结果，de完bug后显示测试正确，看到结果的那一刻确实爽的～～～😊
 
-![image-20210811170139493](../../../Downloads/算法笔记/SelfLearningNote/graph/chapter1_cmake_process.png)
+![image-20210811170139493](../graph/chapter1_cmake_process.png)
 
-![chapter1_result](../../../Downloads/算法笔记/SelfLearningNote/graph/chapter1_result.png)
+![chapter1_result](../graph/chapter1_result.png)
 
 
 
@@ -386,7 +386,7 @@ assert()宏接受一个整型表达式作为参数。如果表达式求值为假
 
 妙啊：
 
-![image-20210811170821702](../../../Downloads/算法笔记/SelfLearningNote/graph/finish_chapter1_screenshot.png)
+![image-20210811170821702](../graph/finish_chapter1_screenshot.png)
 
 蓝色是因为iTerm的特性，按住command后点击会打开文件
 
