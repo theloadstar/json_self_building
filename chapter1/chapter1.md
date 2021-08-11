@@ -262,7 +262,9 @@ assert()宏接受一个整型表达式作为参数。如果表达式求值为假
 - [ ➔ array
 - { ➔ object
 
+## homework
 
+`LEPT_PARSE_ROOT_NOT_SINGULAR`相关的未读懂题意，应该自己好好琢磨琢磨的，在md其实对应的位置有提示应该在哪里改
 
 
 

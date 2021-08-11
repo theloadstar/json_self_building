@@ -11,19 +11,6 @@ typedef struct{
 	const char* json;
 }lept_context;
 
-//解析函数
-//json 格式： ws value ws
-int lept_parse(lept_value* v, const char* json){
-	lept_context c;
-	//v 不得为空指针
-	assert(v!=NULL);
-	c.json = json;
-	//初值设为null，这样若解析失败，返回null值
-	v->type = LEPT_NULL;
-	//先处理一个ws
-	lept_parse_whitespace(&c);
-	return lept_parse_value(&c,v);
-}
 /*
 *由于json语法较为简单，这里不用写类似于编译里的词法分析器token，直接按照字符进行判断即可，判断的规则如下：
 n ➔ null
@@ -85,6 +72,29 @@ static int lept_parse_value(lept_context* c,lept_value* v){
 		case '\0': return LEPT_PARSE_EXPECT_VALUE;
 		default:   return LEPT_PARSE_INVALID_VALUE;
 	}
+}
+
+//解析函数
+//json 格式： ws value ws
+int lept_parse(lept_value* v, const char* json){
+	lept_context c;
+	//出现多个value时返回not singular
+	int ret = 0;
+	//v 不得为空指针
+	assert(v!=NULL);
+	c.json = json;
+	//初值设为null，这样若解析失败，返回null值
+	v->type = LEPT_NULL;
+	//先处理一个ws
+	lept_parse_whitespace(&c);
+	ret = lept_parse_value(&c,v);
+	//若ws value ws解析后还存在字符，返回not singular
+	if(ret==LEPT_PARSE_OK){
+		lept_parse_whitespace(&c);
+		if(*c->json!='\0')
+			ret = LEPT_PARSE_ROOT_NOT_SINGULAR;
+	}
+	return ret;
 }
 
 int lept_get_type(const lept_value* v){
