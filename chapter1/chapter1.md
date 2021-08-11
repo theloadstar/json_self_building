@@ -361,6 +361,8 @@ assert()宏接受一个整型表达式作为参数。如果表达式求值为假
 
 # Cmake
 
+[通俗解释](https://www.zhihu.com/question/309584159/answer/1426004389)
+
 ## 单词
 
 * parse：解析
@@ -382,9 +384,15 @@ assert()宏接受一个整型表达式作为参数。如果表达式求值为假
 
 最终可以在cmake创建的可执行文件所在目录，直接运行`./可执行文件`即可运行
 
+妙啊：
 
+![image-20210811170821702](../../../Downloads/算法笔记/SelfLearningNote/graph/finish_chapter1_screenshot.png)
 
+蓝色是因为iTerm的特性，按住command后点击会打开文件
 
+# To do
+
+- [ ] CMakeList语法
 
 
 
