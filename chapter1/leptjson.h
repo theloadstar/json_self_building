@@ -27,6 +27,7 @@ enum {
 };
 
 //解析函数
+//注意该函数的v负责存储解析的结果，故传入先指向的初值无关，在test中的初值故可随意设置
 int lept_prase(lept_value* v, const char *json);
 
 //获取解析结果

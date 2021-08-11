@@ -22,15 +22,23 @@ static int test_pass = 0;
 
 #define EXPECT_EQ_INT(expect, actual) EXPECT_EQ_BASE((expect) == (actual), expect, actual, "%d")
 
+//在没有写解析函数lept_parse之前
 //该函数第一个测试通过，因为刚开始的lept_parse默认返回值为0，但第二个测试的actual应该为2，即true类型
+//测试null
 static void test_parse_null() {
     lept_value v;
     v.type = LEPT_TRUE;
     EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v, "null"));
     EXPECT_EQ_INT(LEPT_NULL, lept_get_type(&v));
 }
+//测试true
+static void test_parse_true(){
+    lept_value v;
+    v.type = LEPT_NULL;
+    EXPECT_EQ_INT(LEPT_PARSE_OK,lept_parse(&v, "true"));
+    EXPECT_EQ_INT(LEPT_TRUE,lept_get_type(&v));
+}
 
-/* ... */
 
 static void test_parse() {
     test_parse_null();

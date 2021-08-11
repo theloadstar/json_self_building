@@ -209,11 +209,17 @@ enum {
   * stdout为标准输出，在`fprintf`中使用`stdout`的话其效果与`printf`相同，输出为行缓冲，只有换行时才会输出；而`stderr`为标准错误，其输出无缓冲，会直接输出。
   * [参考](https://blog.csdn.net/c_phoenix/article/details/52858151)
 
+* \__FILE__   \_\_LINE__
+
+  `__FILE__`用于指示本行语句所在源文件的文件名，`__LINE__`用于指示本行语句在源文件中的行号，可使用`__LINE__`修改其值，[ref](https://blog.csdn.net/qingzhuyuxian/article/details/80968135)
+
 * 更多参考
 
   * [C语言中宏定义的使用](https://blog.csdn.net/imgosty/article/details/81901183)
   * [C语言中宏定义#、##、#@、\\的用法](https://blog.csdn.net/l101606022/article/details/79021401)
 
+
+# leptjson.c
 
 ## 断言
 
@@ -223,7 +229,38 @@ enum {
 assert()宏接受一个整型表达式作为参数。如果表达式求值为假，assert()宏就在标准错误流（stderr） 中写入一条错误信息， 并调用abort()函数终止程序。
 ```
 
+## json实例
 
+```json
+{
+    "title": "Design Patterns",
+    "subtitle": "Elements of Reusable Object-Oriented Software",
+    "author": [
+        "Erich Gamma",
+        "Richard Helm",
+        "Ralph Johnson",
+        "John Vlissides"
+    ],
+    "year": 2009,
+    "weight": 1.8,
+    "hardcover": true,
+    "publisher": {
+        "Company": "Pearson Education",
+        "Country": "India"
+    },
+    "website": null
+}
+```
+
+判断规则：
+
+- n ➔ null
+- t ➔ true
+- f ➔ false
+- " ➔ string
+- 0-9/- ➔ number
+- [ ➔ array
+- { ➔ object
 
 
 
