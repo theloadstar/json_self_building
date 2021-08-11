@@ -1,10 +1,10 @@
 #ifndef _LEPTJSON_H_
 #define _LEPTJSON_H_
 
-//json 的七种基本类型值
+/*json 的七种基本类型值*/
 typedef enum { LEPT_NULL, LEPT_FALSE, LEPT_TRUE, LEPT_NUMBER, LEPT_STRING, LEPT_ARRAY, LEPT_OBJECT } lept_type;
 
-//定义存放json值的结构体，目前只需存放NULL/BOOL值，故只需先存放一个值即可
+/*定义存放json值的结构体，目前只需存放NULL/BOOL值，故只需先存放一个值即可*/
 typedef struct{
 	lept_type type;
 } lept_value;
@@ -18,19 +18,20 @@ ws表示white space，包括空格、制表、换行、回车，故如下返回�
 * 返回值在解析完以上三个部分后还有其他内容
 */
 
-//解析函数返回值类型
+/*解析函数返回值类型*/
 enum {
 	LEPT_PARSE_OK = 0,
 	LEPT_PARSE_EXPECT_VALUE,
 	LEPT_PARSE_INVALID_VALUE,
 	LEPT_PARSE_ROOT_NOT_SINGULAR
 };
-
+/*
 //解析函数
 //注意该函数的v负责存储解析的结果，故传入先指向的初值无关，在test中的初值故可随意设置
-int lept_prase(lept_value* v, const char *json);
+*/
+int lept_parse(lept_value* v, const char *json);
 
-//获取解析结果
+/*获取解析结果*/
 lept_type lept_get_type(const lept_value* v);
 
 

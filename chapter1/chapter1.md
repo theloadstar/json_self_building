@@ -140,6 +140,99 @@ enum {
 * 返回解析出现了除7种类型以及ws以外的无效类型
 * 返回值在解析完`ws value ws`后还有其他内容
 
+## 文件代码
+
+由于make时报错：
+
+![image-20210811163350729](../../../Downloads/算法笔记/SelfLearningNote/graph/Cmake_chapter1_.h.png)
+
+故将注释贴于下方，源文件删掉注视
+
+```C
+#ifndef _LEPTJSON_H_
+#define _LEPTJSON_H_
+
+//json 的七种基本类型值
+typedef enum { LEPT_NULL, LEPT_FALSE, LEPT_TRUE, LEPT_NUMBER, LEPT_STRING, LEPT_ARRAY, LEPT_OBJECT } lept_type;
+
+//定义存放json值的结构体，目前只需存放NULL/BOOL值，故只需先存放一个值即可
+typedef struct{
+	lept_type type;
+} lept_value;
+
+/*
+JSON 格式： ws value ws
+ws表示white space，包括空格、制表、换行、回车，故如下返回值分别代表：
+* 返回值解析无错误
+* 返回值解析缺少内容
+* 返回解析出现了除7种类型以及ws以外的无效类型
+* 返回值在解析完以上三个部分后还有其他内容
+*/
+
+//解析函数返回值类型
+enum {
+	LEPT_PARSE_OK = 0,
+	LEPT_PARSE_EXPECT_VALUE,
+	LEPT_PARSE_INVALID_VALUE,
+	LEPT_PARSE_ROOT_NOT_SINGULAR
+};
+
+//解析函数
+//注意该函数的v负责存储解析的结果，故传入先指向的初值无关，在test中的初值故可随意设置
+int lept_prase(lept_value* v, const char *json);
+
+//获取解析结果
+lept_type lept_get_type(const lept_value* v);
+
+
+#endif
+```
+
+经[查阅](https://blog.csdn.net/wangluojisuan/article/details/6828526)得知，头文件的注释需要使用`/**/`的格式而非`//`的格式，最终文件更改为如下所示：
+
+```c
+#ifndef _LEPTJSON_H_
+#define _LEPTJSON_H_
+
+/*json 的七种基本类型值*/
+typedef enum { LEPT_NULL, LEPT_FALSE, LEPT_TRUE, LEPT_NUMBER, LEPT_STRING, LEPT_ARRAY, LEPT_OBJECT } lept_type;
+
+/*定义存放json值的结构体，目前只需存放NULL/BOOL值，故只需先存放一个值即可*/
+typedef struct{
+	lept_type type;
+} lept_value;
+
+/*
+JSON 格式： ws value ws
+ws表示white space，包括空格、制表、换行、回车，故如下返回值分别代表：
+* 返回值解析无错误
+* 返回值解析缺少内容
+* 返回解析出现了除7种类型以及ws以外的无效类型
+* 返回值在解析完以上三个部分后还有其他内容
+*/
+
+/*解析函数返回值类型*/
+enum {
+	LEPT_PARSE_OK = 0,
+	LEPT_PARSE_EXPECT_VALUE,
+	LEPT_PARSE_INVALID_VALUE,
+	LEPT_PARSE_ROOT_NOT_SINGULAR
+};
+/*
+//解析函数
+//注意该函数的v负责存储解析的结果，故传入先指向的初值无关，在test中的初值故可随意设置
+*/
+int lept_prase(lept_value* v, const char *json);
+
+/*获取解析结果*/
+lept_type lept_get_type(const lept_value* v);
+
+
+#endif
+```
+
+
+
 # test.c 文件
 
 ## 测试驱动开发（test-driven development, TDD）
@@ -266,9 +359,28 @@ assert()宏接受一个整型表达式作为参数。如果表达式求值为假
 
 `LEPT_PARSE_ROOT_NOT_SINGULAR`相关的未读懂题意，应该自己好好琢磨琢磨的，在md其实对应的位置有提示应该在哪里改
 
+# Cmake
+
+## 单词
+
+* parse：解析
+* singular：单数的，单一的，非凡的
+
+## Bug
+
+在头文件、非头文件的define等位置，写注释需使用`/**/`的形式而不能采用`//`的形式
+
+## result
+
+根据cmake的编译报错结果，de完bug后显示测试正确，看到结果的那一刻确实爽的～～～😊
+
+![image-20210811170139493](../../../Downloads/算法笔记/SelfLearningNote/graph/chapter1_cmake_process.png)
+
+![chapter1_result](../../../Downloads/算法笔记/SelfLearningNote/graph/chapter1_result.png)
 
 
 
+最终可以在cmake创建的可执行文件所在目录，直接运行`./可执行文件`即可运行
 
 
 
