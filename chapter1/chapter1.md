@@ -390,6 +390,12 @@ assert()宏接受一个整型表达式作为参数。如果表达式求值为假
 
 蓝色是因为iTerm的特性，按住command后点击会打开文件
 
+# 总结
+
+使用Doxygen+Graphviz方式生成函数调用关系图如下：
+
+![chapter1_func_call_graph](../graph/chapter1_func_call_graph.png)
+
 # To do
 
 - [ ] CMakeList语法
