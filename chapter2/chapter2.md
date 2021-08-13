@@ -116,3 +116,34 @@ static void test_parse_number(){
 
 之后make便无报错。
 
+%g：用来输出实数，它根据数值的大小，自动选f格式或e格式（选择输出时占宽度较小的一种），且不输出无意义的0。即%g是根据结果自动选择科学记数法还是一般的小数记数法。17是因为double的长度为17位有效数字[参考](https://blog.csdn.net/chenlu1/article/details/49443531)
+
+此外，在`test_parse_invalid_value`里加入如下代码来测试不合法的数字用例
+
+```C++
+		/*test invalid number*/
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"+0");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "+1");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, ".123"); /* at least one digit before '.' */
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "1.");   /* at least one digit after '.' */
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "INF");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "inf");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "NAN");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "nan");
+```
+
+make以后无error，当然，此时运行test.c无法通过测试。由错误信息可见错误为刚编写的测试函数，这里我们简单分析一下错误信息：
+
+![chapter2_test_failed](../graph/chapter2_test_failed.png)
+
+该信息表示测试失败的代码位于68行
+
+```C++
+TEST_NUMBER(0.0, "0");
+```
+
+这里出现了三个错误，
+
+1. 第一个报错`expect: 0 actual: 2`由`TEST_NUMBER`宏给出`EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v, json))`,期望值为`LEPT_PARSE_OK`，实际上因为没写相关的number解析函数，故解析失败，返回的为`LEPT_PARSE_INVALID_VALUE`，即枚举值2；
+2. 第二个报错`expect: 3 actual: 0`同样由`TEST_NUMBER`宏给出`EXPECT_EQ_INT(LEPT_NUMBER, lept_get_type(&v))`，期望值为`LEPT_NUMBER`,即枚举值3。实际值由于上一步解析失败被赋予了`LEPT_NULL`，即枚举值0；
+3. 第三个报错为get number时的assert断言

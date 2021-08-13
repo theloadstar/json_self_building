@@ -54,24 +54,6 @@ static void test_parse_false(){
     EXPECT_EQ_INT(LEPT_FALSE,lept_get_type((&v)));
 }
 
-/*以下代码测试error*/
-static void test_parse_expect_value(){
-    TEST_ERROR(LEPT_PARSE_EXPECT_VALUE,"");
-    TEST_ERROR(LEPT_PARSE_EXPECT_VALUE," ");
-}
-
-/* test parse invalid value*/
-static void test_parse_invalid_value(){
-    TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"nul");
-    TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"invalid");
-}
-
-
-/*test root_not_singual*/
-static void test_parse_root_not_singular(){
-    TEST_ERROR(LEPT_PARSE_ROOT_NOT_SINGULAR,"null x");
-}
-
 /* test json_number*/
 #define TEST_NUMBER(expect, json)\
     do{\
@@ -102,6 +84,33 @@ static void test_parse_number(){
     TEST_NUMBER(1.234E+10, "1.234E+10");
     TEST_NUMBER(1.234E-10, "1.234E-10");
     TEST_NUMBER(0.0, "1e-10000"); /* must underflow */
+}
+
+/*以下代码测试error*/
+static void test_parse_expect_value(){
+    TEST_ERROR(LEPT_PARSE_EXPECT_VALUE,"");
+    TEST_ERROR(LEPT_PARSE_EXPECT_VALUE," ");
+}
+
+/* test parse invalid value*/
+static void test_parse_invalid_value(){
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"nul");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"invalid");
+    /*test invalid number*/
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"+0");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "+1");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, ".123"); /* at least one digit before '.' */
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "1.");   /* at least one digit after '.' */
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "INF");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "inf");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "NAN");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "nan");
+}
+
+
+/*test root_not_singual*/
+static void test_parse_root_not_singular(){
+    TEST_ERROR(LEPT_PARSE_ROOT_NOT_SINGULAR,"null x");
 }
 
 static void test_parse() {

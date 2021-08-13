@@ -1,6 +1,7 @@
 #include "leptjson.h"
 #include <assert.h> /*assert()*/
 #include <stdlib.h> /*NULL*/
+#include <stdio.h>
 
 /*
 //个人没明白这个宏的意义，因为在lept_parse_value里都是经过switch分支进入到对应的解析里的，那么第一个字符
@@ -72,8 +73,8 @@ static int lept_parse_value(lept_context* c,lept_value* v){
 		case 'n' : return lept_parse_null(c,v);
 		case 't' : return lept_parse_true(c,v);
 		case 'f' : return lept_parse_false(c,v);
-		case '\0': return LEPT_PARSE_EXPECT_VALUE;
-		default:   return LEPT_PARSE_INVALID_VALUE;
+		case '\0': /*printf("LEPT_PARSE_EXPECT_VALUE\n");*/return LEPT_PARSE_EXPECT_VALUE;
+		default:   /*printf("LEPT_PARSE_INVALID_VALUE\n");*/return LEPT_PARSE_INVALID_VALUE;
 	}
 }
 

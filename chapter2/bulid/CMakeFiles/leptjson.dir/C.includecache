@@ -13,6 +13,8 @@ assert.h
 -
 stdlib.h
 -
+stdio.h
+-
 
 /Users/vectord/GitHubSL/JSON/chapter2/leptjson.h
 
