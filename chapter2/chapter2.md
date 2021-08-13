@@ -63,3 +63,56 @@ lept_type lept_get_number(const lept_value* v){
 }
 ```
 
+---
+
+<font color = "red">宏定义的参数是**无类型的**</font>[参考](https://www.cnblogs.com/mini-coconut/p/8516801.html)
+
+---
+
+# 测试
+
+首次写测试时，没考虑到格式的问题，在`TEST_NUMBER`里使用的format均是%d，更改后新增的测试如下：
+
+```C++
+#define (expect, actual) EXPECT_EQ_BASE((expect) == (actual), expect, actual, "%.17g")
+
+/* test json_number*/
+#define TEST_NUMBER(expect, json)\
+    do{\
+        lept_value v;\
+        v.type = LEPT_FALSE;\
+        EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v, json));\
+        EXPECT_EQ_INT(LEPT_NUMBER, lept_get_type(&v));\
+        EXPECT_EQ_DOUBLE(expect, lept_get_number(&v));\
+    }while(0)
+
+static void test_parse_number(){
+    TEST_NUMBER(0.0, "0");
+    TEST_NUMBER(0.0, "-0");
+    TEST_NUMBER(0.0, "-0.0");
+    TEST_NUMBER(1.0, "1");
+    TEST_NUMBER(-1.0, "-1");
+    TEST_NUMBER(1.5, "1.5");
+    TEST_NUMBER(-1.5, "-1.5");
+    TEST_NUMBER(3.1416, "3.1416");
+    TEST_NUMBER(1E10, "1E10");
+    TEST_NUMBER(1e10, "1e10");
+    TEST_NUMBER(1E+10, "1E+10");
+    TEST_NUMBER(1E-10, "1E-10");
+    TEST_NUMBER(-1E10, "-1E10");
+    TEST_NUMBER(-1e10, "-1e10");
+    TEST_NUMBER(-1E+10, "-1E+10");
+    TEST_NUMBER(-1E-10, "-1E-10");
+    TEST_NUMBER(1.234E+10, "1.234E+10");
+    TEST_NUMBER(1.234E-10, "1.234E-10");
+    TEST_NUMBER(0.0, "1e-10000"); /* must underflow */
+}
+```
+
+首次写完测试后make时一直报格式的错误，几经周折，发现有两个地方自己在写的时候忽视了：
+
+1. 如上所述需要增加`EXPECT_EQ_DOUBLE`的宏
+2. `lept_get_number`的返回类型应该为<font color = "red">double</font>
+
+之后make便无报错。
+
