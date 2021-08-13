@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>My Project: leptjson.h头文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">My Project
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="PageDoc"><div class="header">
+  <div class="headertitle">
+<div class="title">leptjson.h头文件 </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><h1><a class="anchor" id="autotoc_md1"></a>
+JSON结构</h1>
+<p>JSON为树状结构，包含六种数据类型</p>
+<ul>
+<li>null: 表示为 null</li>
+<li>boolean: 表示为 true 或 false</li>
+<li>number: 一般的浮点数表示方式，在下一单元详细说明</li>
+<li>string: 表示为 "..."</li>
+<li>array: 表示为 [ ... ]</li>
+<li>object: 表示为 { ... }</li>
+</ul>
+<p>如下例子所示：</p>
+<div class="fragment"><div class="line"> {C++}</div>
+<div class="line">{</div>
+<div class="line">    &quot;title&quot;: &quot;Design Patterns&quot;,</div>
+<div class="line">    &quot;subtitle&quot;: &quot;Elements of Reusable Object-Oriented Software&quot;,</div>
+<div class="line">    &quot;author&quot;: [</div>
+<div class="line">        &quot;Erich Gamma&quot;,</div>
+<div class="line">        &quot;Richard Helm&quot;,</div>
+<div class="line">        &quot;Ralph Johnson&quot;,</div>
+<div class="line">        &quot;John Vlissides&quot;</div>
+<div class="line">    ],</div>
+<div class="line">    &quot;year&quot;: 2009,</div>
+<div class="line">    &quot;weight&quot;: 1.8,</div>
+<div class="line">    &quot;hardcover&quot;: true,</div>
+<div class="line">    &quot;publisher&quot;: {</div>
+<div class="line">        &quot;Company&quot;: &quot;Pearson Education&quot;,</div>
+<div class="line">        &quot;Country&quot;: &quot;India&quot;</div>
+<div class="line">    },</div>
+<div class="line">    &quot;website&quot;: null</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>主要需求：</p>
+<ol type="1">
+<li>把 JSON 文本解析为一个树状数据结构（parse）。</li>
+<li>提供接口访问该数据结构（access）。</li>
+<li>把数据结构转换成 JSON 文本（stringify）。</li>
+</ol>
+<p><img src="../graph/json_requements.png" alt="json_requements" class="inline"/></p>
+<p>chapter1主要进行bool和null的解析</p>
+<h2><a class="anchor" id="autotoc_md2"></a>
+语法子集</h2>
+<p>chapter1的json语法使用 <a href="https://tools.ietf.org/html/rfc7159">RFC7159</a> 中的 <a href="https://tools.ietf.org/html/rfc5234">ABNF</a> 表示:</p>
+<div class="fragment"><div class="line">JSON-text = ws value ws</div>
+<div class="line">ws = *(%x20 / %x09 / %x0A / %x0D)</div>
+<div class="line">value = <span class="keyword">null</span> / <span class="keyword">false</span> / <span class="keyword">true</span> </div>
+<div class="line"><span class="keyword">null</span>  = <span class="stringliteral">&quot;null&quot;</span></div>
+<div class="line"><span class="keyword">false</span> = <span class="stringliteral">&quot;false&quot;</span></div>
+<div class="line"><span class="keyword">true</span>  = <span class="stringliteral">&quot;true&quot;</span></div>
+</div><!-- fragment --><p>其中，<code>x</code>表示16进制，<code>/</code>表示多选一，<code>*</code>表示零个或多个，&lt;tt&gt;()表示整体。这里的数字对应相应的ascii码，表示空格、制表符、换行符、回车符。</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
+include 防范</h1>
+<p>一个头文件在同一个文件下只能被包含一次，但由于头文件也能包含其他头文件，就可能出现某个文件包含了一个头文件多次的情况，使用include防范避免此问题。</p>
+<div class="fragment"><div class="line"> {C++}</div>
+<div class="line">#ifndef _LEPTJSON_H_</div>
+<div class="line">#define _LEPTJSON_H_</div>
+<div class="line">/*头文件内容*/</div>
+<div class="line">#endif</div>
+</div><!-- fragment --><p>leptjson.h文件的开头结尾如上所示：&lt;tt&gt;ifndef为预编译指令，<code>_LEPTJSON_H_</code>可以为任意的的名字，这里使用_开头是考虑到该名称在其他地方不太可能被定义，<code>_H_</code>结尾则为一种习惯，若有多个头文件，则可以使用<code>项目名称_目录_文件名称_H_</code>的形式。</p>
+<p>编译器第一次遇到该文件时，此时<code>_LEPTJSON_H_</code>还未被定义，执行内容，定义<code>_LEPTJSON_H_</code>。之后若再include该头文件时，因为此时<code>_LEPTJSON_H_</code>已被定义，不满足line1的内容，故line1后的内容不再执行。即&lt;font color = "red"&gt;它忽略第一次include以外的所有内容，而不是防止编译器将文件include两次&lt;/font&gt;。</p>
+<p><a href="https://blog.csdn.net/Bubbler_726/article/details/104618748">参考</a></p>
+<h1><a class="anchor" id="autotoc_md4"></a>
+C 枚举类型</h1>
+<p>C有一种称为<code>enum</code>的枚举型数据类型，其写法与结构体类似，不同的是内部直接写枚举值，如：</p>
+<div class="fragment"><div class="line"><span class="keyword">enum</span> typeName{ valueName1, valueName2, valueName3, ...... };</div>
+</div><!-- fragment --><p>可以看成一个集合，内部的枚举值均为一些命名的&lt;font color = "red"&gt;整型变量（包括char类型）&lt;/font&gt;，从0开始，递增+1，也可以给第n个整型变量赋初值n，之后的枚举值在n的基础上递增+1，但不改变第n个前面的枚举值。即显式说明了枚举常量的值时，未指定的枚举名的值将依着最后一个指定值向后依次递增（注意是最后一个指定值）。<code>typeName</code>为集合的名字，类型的定义以<code>;</code>结束。</p>
+<p>使用<code>typeNmae</code>定义枚举变量，&lt;font color = "red"&gt;枚举变量只能被赋予枚举值&lt;/font&gt;，否则需要进行类型转换。</p>
+<p><a href="https://www.cnblogs.com/lanhaicode/p/10620028.html">参考</a></p>
+<hr  />
+<div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> { <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a1030eb0ab9292ee33137f5f86d289d39">LEPT_NULL</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12ab6c1e6d9be35871a072cf2e8ea228d61">LEPT_FALSE</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12af606ea76adc5f3f6840ee9eca580b443">LEPT_TRUE</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a4a3d31f138fa000c4c64b8bf4544877d">LEPT_NUMBER</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a9c15dfb1adab0399655e64008a5eebc0">LEPT_STRING</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a1bff734990e29a2af80696dbaf9c0ab7">LEPT_ARRAY</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12adcc63c8c1933f8d640ef4ad59e7afbc8">LEPT_OBJECT</a> } <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12">lept_type</a>;</div>
+<div class="ttc" id="aleptjson_8h_html_a778ded1e56e69fe147edf4305a39cb12"><div class="ttname"><a href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12">lept_type</a></div><div class="ttdeci">lept_type</div><div class="ttdef"><b>Definition:</b> leptjson.h:5</div></div>
+<div class="ttc" id="aleptjson_8h_html_a778ded1e56e69fe147edf4305a39cb12a1030eb0ab9292ee33137f5f86d289d39"><div class="ttname"><a href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a1030eb0ab9292ee33137f5f86d289d39">LEPT_NULL</a></div><div class="ttdeci">@ LEPT_NULL</div><div class="ttdef"><b>Definition:</b> leptjson.h:5</div></div>
+<div class="ttc" id="aleptjson_8h_html_a778ded1e56e69fe147edf4305a39cb12a1bff734990e29a2af80696dbaf9c0ab7"><div class="ttname"><a href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a1bff734990e29a2af80696dbaf9c0ab7">LEPT_ARRAY</a></div><div class="ttdeci">@ LEPT_ARRAY</div><div class="ttdef"><b>Definition:</b> leptjson.h:5</div></div>
+<div class="ttc" id="aleptjson_8h_html_a778ded1e56e69fe147edf4305a39cb12a4a3d31f138fa000c4c64b8bf4544877d"><div class="ttname"><a href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a4a3d31f138fa000c4c64b8bf4544877d">LEPT_NUMBER</a></div><div class="ttdeci">@ LEPT_NUMBER</div><div class="ttdef"><b>Definition:</b> leptjson.h:5</div></div>
+<div class="ttc" id="aleptjson_8h_html_a778ded1e56e69fe147edf4305a39cb12a9c15dfb1adab0399655e64008a5eebc0"><div class="ttname"><a href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a9c15dfb1adab0399655e64008a5eebc0">LEPT_STRING</a></div><div class="ttdeci">@ LEPT_STRING</div><div class="ttdef"><b>Definition:</b> leptjson.h:5</div></div>
+<div class="ttc" id="aleptjson_8h_html_a778ded1e56e69fe147edf4305a39cb12ab6c1e6d9be35871a072cf2e8ea228d61"><div class="ttname"><a href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12ab6c1e6d9be35871a072cf2e8ea228d61">LEPT_FALSE</a></div><div class="ttdeci">@ LEPT_FALSE</div><div class="ttdef"><b>Definition:</b> leptjson.h:5</div></div>
+<div class="ttc" id="aleptjson_8h_html_a778ded1e56e69fe147edf4305a39cb12adcc63c8c1933f8d640ef4ad59e7afbc8"><div class="ttname"><a href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12adcc63c8c1933f8d640ef4ad59e7afbc8">LEPT_OBJECT</a></div><div class="ttdeci">@ LEPT_OBJECT</div><div class="ttdef"><b>Definition:</b> leptjson.h:5</div></div>
+<div class="ttc" id="aleptjson_8h_html_a778ded1e56e69fe147edf4305a39cb12af606ea76adc5f3f6840ee9eca580b443"><div class="ttname"><a href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12af606ea76adc5f3f6840ee9eca580b443">LEPT_TRUE</a></div><div class="ttdeci">@ LEPT_TRUE</div><div class="ttdef"><b>Definition:</b> leptjson.h:5</div></div>
+</div><!-- fragment --><p>由前文知，JSON主要有六种变量类型，若false/true算为两种，则有七种类型，使用枚举得到以上的集合类型<code>lept_type</code>。</p>
+<p>目前，只需实现NULL/TRUE/FALSE类型的解析，我们定义一个用来存放JSON值的结构体<code><a class="el" href="structlept__value.html">lept_value</a></code>,之后会逐步完善该结构体。</p>
+<div class="fragment"><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>{</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12">lept_type</a> type;</div>
+<div class="line">} <a class="code" href="structlept__value.html">lept_value</a>;</div>
+<div class="ttc" id="astructlept__value_html"><div class="ttname"><a href="structlept__value.html">lept_value</a></div><div class="ttdef"><b>Definition:</b> leptjson.h:8</div></div>
+</div><!-- fragment --><p>之后声明两个函数，一个为解析函数，一个为获取某个json值类型的函数，即获取解析结果的函数</p>
+<p>解析函数：</p>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> lept_prase(<a class="code" href="structlept__value.html">lept_value</a>* v, <span class="keyword">const</span> <span class="keywordtype">char</span> *json);</div>
+</div><!-- fragment --><p>解析函数的参数为一个负责存储解析结果的v和解析前的字符串json；由于我们不希望改变json的内容，故使用const实现；该函数的返回值为错误类型，如下所示；</p>
+<p>获取解析结果：</p>
+<div class="fragment"><div class="line"><a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12">lept_type</a> <a class="code" href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8">lept_get_type</a>(<span class="keyword">const</span> <a class="code" href="structlept__value.html">lept_value</a>* v);</div>
+<div class="ttc" id="aleptjson_8c_html_a9e8d66ac09862fd747dacd00d117f5f8"><div class="ttname"><a href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8">lept_get_type</a></div><div class="ttdeci">lept_type lept_get_type(const lept_value *v)</div><div class="ttdef"><b>Definition:</b> leptjson.c:103</div></div>
+</div><!-- fragment --><p>解析函数的返回值类型如下：</p>
+<div class="fragment"><div class="line"><span class="keyword">enum</span> {</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba66d3ddaf9d656f33d034fa5ce1afa5a5">LEPT_PARSE_OK</a> = 0,</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba7f0e55a3eba7a745ebbad82317d65976">LEPT_PARSE_EXPECT_VALUE</a>,</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba61c60dc2a0c026c34ed6717861f9aeb9">LEPT_PARSE_INVALID_VALUE</a>,</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55bab0b7570c1daa2e5a01a8c90b9e5283ff">LEPT_PARSE_ROOT_NOT_SINGULAR</a></div>
+<div class="line">};</div>
+<div class="ttc" id="aleptjson_8h_html_a06fc87d81c62e9abb8790b6e5713c55ba61c60dc2a0c026c34ed6717861f9aeb9"><div class="ttname"><a href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba61c60dc2a0c026c34ed6717861f9aeb9">LEPT_PARSE_INVALID_VALUE</a></div><div class="ttdeci">@ LEPT_PARSE_INVALID_VALUE</div><div class="ttdef"><b>Definition:</b> leptjson.h:25</div></div>
+<div class="ttc" id="aleptjson_8h_html_a06fc87d81c62e9abb8790b6e5713c55ba66d3ddaf9d656f33d034fa5ce1afa5a5"><div class="ttname"><a href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba66d3ddaf9d656f33d034fa5ce1afa5a5">LEPT_PARSE_OK</a></div><div class="ttdeci">@ LEPT_PARSE_OK</div><div class="ttdef"><b>Definition:</b> leptjson.h:23</div></div>
+<div class="ttc" id="aleptjson_8h_html_a06fc87d81c62e9abb8790b6e5713c55ba7f0e55a3eba7a745ebbad82317d65976"><div class="ttname"><a href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba7f0e55a3eba7a745ebbad82317d65976">LEPT_PARSE_EXPECT_VALUE</a></div><div class="ttdeci">@ LEPT_PARSE_EXPECT_VALUE</div><div class="ttdef"><b>Definition:</b> leptjson.h:24</div></div>
+<div class="ttc" id="aleptjson_8h_html_a06fc87d81c62e9abb8790b6e5713c55bab0b7570c1daa2e5a01a8c90b9e5283ff"><div class="ttname"><a href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55bab0b7570c1daa2e5a01a8c90b9e5283ff">LEPT_PARSE_ROOT_NOT_SINGULAR</a></div><div class="ttdeci">@ LEPT_PARSE_ROOT_NOT_SINGULAR</div><div class="ttdef"><b>Definition:</b> leptjson.h:26</div></div>
+</div><!-- fragment --><p>结合json语法，各个类型分别表示：</p>
+<ul>
+<li>返回值解析无错误</li>
+<li>返回值解析缺少内容</li>
+<li>返回解析出现了除7种类型以及ws以外的无效类型</li>
+<li>返回值在解析完<code>ws value ws</code>后还有其他内容</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md6"></a>
+文件代码</h1>
+<p>由于make时报错：</p>
+<p><img src="../graph/Cmake_chapter1_.h.png" alt="image-20210811163350729" class="inline"/></p>
+<p>故将注释贴于下方，源文件删掉注视</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#ifndef _LEPTJSON_H_</span></div>
+<div class="line"><span class="preprocessor">#define _LEPTJSON_H_</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//json 的七种基本类型值</span></div>
+<div class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> { <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a1030eb0ab9292ee33137f5f86d289d39">LEPT_NULL</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12ab6c1e6d9be35871a072cf2e8ea228d61">LEPT_FALSE</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12af606ea76adc5f3f6840ee9eca580b443">LEPT_TRUE</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a4a3d31f138fa000c4c64b8bf4544877d">LEPT_NUMBER</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a9c15dfb1adab0399655e64008a5eebc0">LEPT_STRING</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a1bff734990e29a2af80696dbaf9c0ab7">LEPT_ARRAY</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12adcc63c8c1933f8d640ef4ad59e7afbc8">LEPT_OBJECT</a> } <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12">lept_type</a>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//定义存放json值的结构体，目前只需存放NULL/BOOL值，故只需先存放一个值即可</span></div>
+<div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>{</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12">lept_type</a> type;</div>
+<div class="line">} <a class="code" href="structlept__value.html">lept_value</a>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">JSON 格式： ws value ws</span></div>
+<div class="line"><span class="comment">ws表示white space，包括空格、制表、换行、回车，故如下返回值分别代表：</span></div>
+<div class="line"><span class="comment">* 返回值解析无错误</span></div>
+<div class="line"><span class="comment">* 返回值解析缺少内容</span></div>
+<div class="line"><span class="comment">* 返回解析出现了除7种类型以及ws以外的无效类型</span></div>
+<div class="line"><span class="comment">* 返回值在解析完以上三个部分后还有其他内容</span></div>
+<div class="line"><span class="comment">*/</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//解析函数返回值类型</span></div>
+<div class="line"><span class="keyword">enum</span> {</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba66d3ddaf9d656f33d034fa5ce1afa5a5">LEPT_PARSE_OK</a> = 0,</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba7f0e55a3eba7a745ebbad82317d65976">LEPT_PARSE_EXPECT_VALUE</a>,</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba61c60dc2a0c026c34ed6717861f9aeb9">LEPT_PARSE_INVALID_VALUE</a>,</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55bab0b7570c1daa2e5a01a8c90b9e5283ff">LEPT_PARSE_ROOT_NOT_SINGULAR</a></div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//解析函数</span></div>
+<div class="line"><span class="comment">//注意该函数的v负责存储解析的结果，故传入先指向的初值无关，在test中的初值故可随意设置</span></div>
+<div class="line"><span class="keywordtype">int</span> lept_prase(<a class="code" href="structlept__value.html">lept_value</a>* v, <span class="keyword">const</span> <span class="keywordtype">char</span> *json);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//获取解析结果</span></div>
+<div class="line"><a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12">lept_type</a> <a class="code" href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8">lept_get_type</a>(<span class="keyword">const</span> <a class="code" href="structlept__value.html">lept_value</a>* v);</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+</div><!-- fragment --><p>经<a href="https://blog.csdn.net/wangluojisuan/article/details/6828526">查阅</a>得知，头文件的注释需要使用<code>/**/</code>的格式而非<code>//</code>的格式，最终文件更改为如下所示：</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#ifndef _LEPTJSON_H_</span></div>
+<div class="line"><span class="preprocessor">#define _LEPTJSON_H_</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">/*json 的七种基本类型值*/</span></div>
+<div class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> { <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a1030eb0ab9292ee33137f5f86d289d39">LEPT_NULL</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12ab6c1e6d9be35871a072cf2e8ea228d61">LEPT_FALSE</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12af606ea76adc5f3f6840ee9eca580b443">LEPT_TRUE</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a4a3d31f138fa000c4c64b8bf4544877d">LEPT_NUMBER</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a9c15dfb1adab0399655e64008a5eebc0">LEPT_STRING</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12a1bff734990e29a2af80696dbaf9c0ab7">LEPT_ARRAY</a>, <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12adcc63c8c1933f8d640ef4ad59e7afbc8">LEPT_OBJECT</a> } <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12">lept_type</a>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">/*定义存放json值的结构体，目前只需存放NULL/BOOL值，故只需先存放一个值即可*/</span></div>
+<div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span>{</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12">lept_type</a> type;</div>
+<div class="line">} <a class="code" href="structlept__value.html">lept_value</a>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">JSON 格式： ws value ws</span></div>
+<div class="line"><span class="comment">ws表示white space，包括空格、制表、换行、回车，故如下返回值分别代表：</span></div>
+<div class="line"><span class="comment">* 返回值解析无错误</span></div>
+<div class="line"><span class="comment">* 返回值解析缺少内容</span></div>
+<div class="line"><span class="comment">* 返回解析出现了除7种类型以及ws以外的无效类型</span></div>
+<div class="line"><span class="comment">* 返回值在解析完以上三个部分后还有其他内容</span></div>
+<div class="line"><span class="comment">*/</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">/*解析函数返回值类型*/</span></div>
+<div class="line"><span class="keyword">enum</span> {</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba66d3ddaf9d656f33d034fa5ce1afa5a5">LEPT_PARSE_OK</a> = 0,</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba7f0e55a3eba7a745ebbad82317d65976">LEPT_PARSE_EXPECT_VALUE</a>,</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba61c60dc2a0c026c34ed6717861f9aeb9">LEPT_PARSE_INVALID_VALUE</a>,</div>
+<div class="line">    <a class="code" href="leptjson_8h.html#a06fc87d81c62e9abb8790b6e5713c55bab0b7570c1daa2e5a01a8c90b9e5283ff">LEPT_PARSE_ROOT_NOT_SINGULAR</a></div>
+<div class="line">};</div>
+<div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">//解析函数</span></div>
+<div class="line"><span class="comment">//注意该函数的v负责存储解析的结果，故传入先指向的初值无关，在test中的初值故可随意设置</span></div>
+<div class="line"><span class="comment">*/</span></div>
+<div class="line"><span class="keywordtype">int</span> lept_prase(<a class="code" href="structlept__value.html">lept_value</a>* v, <span class="keyword">const</span> <span class="keywordtype">char</span> *json);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">/*获取解析结果*/</span></div>
+<div class="line"><a class="code" href="leptjson_8h.html#a778ded1e56e69fe147edf4305a39cb12">lept_type</a> <a class="code" href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8">lept_get_type</a>(<span class="keyword">const</span> <a class="code" href="structlept__value.html">lept_value</a>* v);</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md7"></a>
+test.c 文件</h1>
+<h2><a class="anchor" id="autotoc_md8"></a>
+测试驱动开发（test-driven development, TDD）</h2>
+<ol type="1">
+<li>加入一个测试。</li>
+<li>运行所有测试，新的测试应该会失败。</li>
+<li>编写实现代码。</li>
+<li>运行所有测试，若有测试失败回到3。</li>
+<li>重构代码。</li>
+<li>回到 1</li>
+</ol>
+<h2><a class="anchor" id="autotoc_md9"></a>
+宏定义相关</h2>
+<ul>
+<li><code>/</code>表示一行未结束</li>
+<li>输出函数里面，多个<code>""</code>一起写的时候之间可以没有逗号。</li>
+<li>输出中<code>%3.2f</code>3表示输出至少三个字符，不足的补空格</li>
+<li><p class="startli">分号吞噬问题：<a href="https://blog.csdn.net/imgosty/article/details/81901183">ref</a></p>
+<p class="startli">test.c中使用&lt;tt&gt;do{}while(0)的结构旨在防止宏定义的分号吞噬问题。若宏定义里面有多过一个语句，则需要使用该方法，以下例子来自origin</p>
+</li>
+</ul>
+<div class="fragment"><div class="line"><span class="preprocessor">#define M() a(); b()</span></div>
+<div class="line"><span class="keywordflow">if</span> (cond)</div>
+<div class="line">    M();</div>
+<div class="line"><span class="keywordflow">else</span></div>
+<div class="line">    c();</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">/* 预处理后 */</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (cond)</div>
+<div class="line">    a(); b(); <span class="comment">/* b(); 在 if 之外     */</span></div>
+<div class="line"><span class="keywordflow">else</span>          <span class="comment">/* &lt;- else 缺乏对应 if */</span></div>
+<div class="line">    c();</div>
+</div><!-- fragment --><p>只使用<code>{}</code>也不行</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#define M() { a(); b(); }</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">/* 预处理后 */</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (cond)</div>
+<div class="line">    { a(); b(); }; <span class="comment">/* 最后的分号代表 if 语句结束 */</span></div>
+<div class="line"><span class="keywordflow">else</span>               <span class="comment">/* else 缺乏对应 if */</span></div>
+<div class="line">    c();</div>
+</div><!-- fragment --><p>使用<code>do{}while(0)</code>即可解决</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#define M() do { a(); b(); } while(0)</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">/* 预处理后 */</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (cond)</div>
+<div class="line">    <span class="keywordflow">do</span> { a(); b(); } <span class="keywordflow">while</span>(0);</div>
+<div class="line"><span class="keywordflow">else</span></div>
+<div class="line">    c();</div>
+</div><!-- fragment --><ul>
+<li>stdout和stderr的区别：<ul>
+<li>stdout为标准输出，在<code>fprintf</code>中使用<code>stdout</code>的话其效果与<code>printf</code>相同，输出为行缓冲，只有换行时才会输出；而<code>stderr</code>为标准错误，其输出无缓冲，会直接输出。</li>
+<li><a href="https://blog.csdn.net/c_phoenix/article/details/52858151">参考</a></li>
+</ul>
+</li>
+<li><p class="startli">__FILE__ __LINE__</p>
+<p class="startli"><code>__FILE__</code>用于指示本行语句所在源文件的文件名，<code>__LINE__</code>用于指示本行语句在源文件中的行号，可使用<code>__LINE__</code>修改其值，<a href="https://blog.csdn.net/qingzhuyuxian/article/details/80968135">ref</a></p>
+</li>
+<li>更多参考<ul>
+<li><a href="https://blog.csdn.net/imgosty/article/details/81901183">C语言中宏定义的使用</a></li>
+<li><a href="https://blog.csdn.net/l101606022/article/details/79021401">C语言中宏定义::、##、#@、\的用法</a></li>
+</ul>
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md10"></a>
+leptjson.c</h1>
+<h2><a class="anchor" id="autotoc_md11"></a>
+断言</h2>
+<p>断言assert，简单说就是测试内部的bool语句的真值，若为真，则正常执行；否则，终止程序，并输出相应的错误信息。在debug模式下可用，在release中不可用。也可以在程序开头添加<code>#define NDEBUG</code>,这样编译器就会禁用文件中的所有assert语句。</p>
+<div class="fragment"><div class="line">assert()宏接受一个整型表达式作为参数。如果表达式求值为假，assert()宏就在标准错误流（stderr） 中写入一条错误信息， 并调用abort()函数终止程序。</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md12"></a>
+json实例</h2>
+<div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;title&quot;: &quot;Design Patterns&quot;,</div>
+<div class="line">    &quot;subtitle&quot;: &quot;Elements of Reusable Object-Oriented Software&quot;,</div>
+<div class="line">    &quot;author&quot;: [</div>
+<div class="line">        &quot;Erich Gamma&quot;,</div>
+<div class="line">        &quot;Richard Helm&quot;,</div>
+<div class="line">        &quot;Ralph Johnson&quot;,</div>
+<div class="line">        &quot;John Vlissides&quot;</div>
+<div class="line">    ],</div>
+<div class="line">    &quot;year&quot;: 2009,</div>
+<div class="line">    &quot;weight&quot;: 1.8,</div>
+<div class="line">    &quot;hardcover&quot;: true,</div>
+<div class="line">    &quot;publisher&quot;: {</div>
+<div class="line">        &quot;Company&quot;: &quot;Pearson Education&quot;,</div>
+<div class="line">        &quot;Country&quot;: &quot;India&quot;</div>
+<div class="line">    },</div>
+<div class="line">    &quot;website&quot;: null</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>判断规则：</p>
+<ul>
+<li>n ➔ null</li>
+<li>t ➔ true</li>
+<li>f ➔ false</li>
+<li>" ➔ string</li>
+<li>0-9/- ➔ number</li>
+<li>[ ➔ array</li>
+<li>{ ➔ object</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md13"></a>
+homework</h2>
+<p><code>LEPT_PARSE_ROOT_NOT_SINGULAR</code>相关的未读懂题意，应该自己好好琢磨琢磨的，在md其实对应的位置有提示应该在哪里改</p>
+<h1><a class="anchor" id="autotoc_md14"></a>
+Cmake</h1>
+<p><a href="https://www.zhihu.com/question/309584159/answer/1426004389">通俗解释</a></p>
+<h2><a class="anchor" id="autotoc_md15"></a>
+单词</h2>
+<ul>
+<li>parse：解析</li>
+<li>singular：单数的，单一的，非凡的</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md16"></a>
+Bug</h2>
+<p>在头文件、非头文件的define等位置，写注释需使用<code>/**/</code>的形式而不能采用<code>//</code>的形式</p>
+<h2><a class="anchor" id="autotoc_md17"></a>
+result</h2>
+<p>根据cmake的编译报错结果，de完bug后显示测试正确，看到结果的那一刻确实爽的～～～😊</p>
+<p><img src="../graph/chapter1_cmake_process.png" alt="image-20210811170139493" class="inline"/></p>
+<p><img src="../graph/chapter1_result.png" alt="chapter1_result" class="inline"/></p>
+<p>最终可以在cmake创建的可执行文件所在目录，直接运行<code>./可执行文件</code>即可运行</p>
+<p>妙啊：</p>
+<p><img src="../graph/finish_chapter1_screenshot.png" alt="image-20210811170821702" class="inline"/></p>
+<p>蓝色是因为iTerm的特性，按住command后点击会打开文件</p>
+<h1><a class="anchor" id="autotoc_md18"></a>
+To do</h1>
+<ul>
+<li>[ ] CMakeList语法 </li>
+</ul>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

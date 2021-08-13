@@ -1,0 +1,670 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>My Project: test.c 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">My Project
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#define-members">宏定义</a> &#124;
+<a href="#func-members">函数</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle">
+<div class="title">test.c 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="leptjson_8h_source.html">leptjson.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+test.c 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c__incl.png" border="0" usemap="#atest_8c" alt=""/></div>
+<map name="atest_8c" id="atest_8c">
+<area shape="rect" title=" " alt="" coords="140,5,193,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,67,107"/>
+<area shape="rect" title=" " alt="" coords="91,80,155,107"/>
+<area shape="rect" title=" " alt="" coords="179,80,245,107"/>
+<area shape="rect" href="leptjson_8h.html" title=" " alt="" coords="269,80,347,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:af9b5734cd20ab892439f324933d1c8aa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#af9b5734cd20ab892439f324933d1c8aa">EXPECT_EQ_BASE</a>(equality,  expect,  actual,  format)</td></tr>
+<tr class="separator:af9b5734cd20ab892439f324933d1c8aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46717653087c5a5a641495d668689dbb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#a46717653087c5a5a641495d668689dbb">EXPECT_EQ_INT</a>(expect,  actual)&#160;&#160;&#160;<a class="el" href="test_8c.html#af9b5734cd20ab892439f324933d1c8aa">EXPECT_EQ_BASE</a>((expect) == (actual), expect, actual, &quot;%d&quot;)</td></tr>
+<tr class="separator:a46717653087c5a5a641495d668689dbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:abe47ff3e46c3d1161ac8c20069afed4d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#abe47ff3e46c3d1161ac8c20069afed4d">test_parse_null</a> ()</td></tr>
+<tr class="separator:abe47ff3e46c3d1161ac8c20069afed4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22a40834da9889c8b03670ca61bf2340"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#a22a40834da9889c8b03670ca61bf2340">test_parse_true</a> ()</td></tr>
+<tr class="separator:a22a40834da9889c8b03670ca61bf2340"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc27c450d7840122bc89459405b39f3b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#afc27c450d7840122bc89459405b39f3b">test_parse_false</a> ()</td></tr>
+<tr class="separator:afc27c450d7840122bc89459405b39f3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedaddebb9e5533d1bcee45126f1044b4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#aedaddebb9e5533d1bcee45126f1044b4">test_parse_expect_value</a> ()</td></tr>
+<tr class="separator:aedaddebb9e5533d1bcee45126f1044b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad81c2037014950321eba7e47470e639f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#ad81c2037014950321eba7e47470e639f">test_parse_invalid_value</a> ()</td></tr>
+<tr class="separator:ad81c2037014950321eba7e47470e639f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4c2e02eeff6ea0a0d92b14855ad5933"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#ad4c2e02eeff6ea0a0d92b14855ad5933">test_parse_root_not_singular</a> ()</td></tr>
+<tr class="separator:ad4c2e02eeff6ea0a0d92b14855ad5933"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57dbe22fb03fd6fda2c89267045fdf6b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#a57dbe22fb03fd6fda2c89267045fdf6b">test_parse</a> ()</td></tr>
+<tr class="separator:a57dbe22fb03fd6fda2c89267045fdf6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:a380bfcc511cc2f61cd3441d41a5e6348"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#a380bfcc511cc2f61cd3441d41a5e6348">main_ret</a> = 0</td></tr>
+<tr class="separator:a380bfcc511cc2f61cd3441d41a5e6348"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a125a07facfdab18ee2d8495d4f8c9d5b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#a125a07facfdab18ee2d8495d4f8c9d5b">test_count</a> = 0</td></tr>
+<tr class="separator:a125a07facfdab18ee2d8495d4f8c9d5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a932d7e32d71a44c499d1b16c19e58edd"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_8c.html#a932d7e32d71a44c499d1b16c19e58edd">test_pass</a> = 0</td></tr>
+<tr class="separator:a932d7e32d71a44c499d1b16c19e58edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="af9b5734cd20ab892439f324933d1c8aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b5734cd20ab892439f324933d1c8aa">&#9670;&nbsp;</a></span>EXPECT_EQ_BASE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EXPECT_EQ_BASE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">equality, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expect, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">actual, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">format&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span> {\</div>
+<div class="line">        test_count++;\</div>
+<div class="line">        if (equality)\</div>
+<div class="line">            test_pass++;\</div>
+<div class="line">        else {\</div>
+<div class="line">            fprintf(stderr, <span class="stringliteral">&quot;%s:%d: expect: &quot;</span> format <span class="stringliteral">&quot; actual: &quot;</span> format <span class="stringliteral">&quot;\n&quot;</span>, __FILE__, __LINE__, expect, actual);\</div>
+<div class="line">            main_ret = 1;\</div>
+<div class="line">        }\</div>
+<div class="line">    } <span class="keywordflow">while</span>(0)</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a46717653087c5a5a641495d668689dbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46717653087c5a5a641495d668689dbb">&#9670;&nbsp;</a></span>EXPECT_EQ_INT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EXPECT_EQ_INT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expect, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">actual&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="test_8c.html#af9b5734cd20ab892439f324933d1c8aa">EXPECT_EQ_BASE</a>((expect) == (actual), expect, actual, &quot;%d&quot;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">函数说明</h2>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&nbsp;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+函数调用图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph.png" border="0" usemap="#atest_8c_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" alt=""/></div>
+<map name="atest_8c_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph" id="atest_8c_ae66f6b31b5ad750f1fe042a706a4e3d4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,144,56,171"/>
+<area shape="rect" href="test_8c.html#a57dbe22fb03fd6fda2c89267045fdf6b" title=" " alt="" coords="104,144,188,171"/>
+<area shape="rect" href="test_8c.html#aedaddebb9e5533d1bcee45126f1044b4" title=" " alt="" coords="236,5,407,32"/>
+<area shape="rect" href="test_8c.html#afc27c450d7840122bc89459405b39f3b" title=" " alt="" coords="261,56,381,83"/>
+<area shape="rect" href="test_8c.html#ad81c2037014950321eba7e47470e639f" title=" " alt="" coords="257,107,386,149"/>
+<area shape="rect" href="test_8c.html#abe47ff3e46c3d1161ac8c20069afed4d" title=" " alt="" coords="265,173,377,200"/>
+<area shape="rect" href="test_8c.html#ad4c2e02eeff6ea0a0d92b14855ad5933" title=" " alt="" coords="251,225,391,266"/>
+<area shape="rect" href="test_8c.html#a22a40834da9889c8b03670ca61bf2340" title=" " alt="" coords="264,291,379,317"/>
+<area shape="rect" href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8" title=" " alt="" coords="455,117,557,144"/>
+<area shape="rect" href="leptjson_8c.html#a525c2a7b36845848379dd758662452c0" title=" " alt="" coords="464,169,548,196"/>
+<area shape="rect" href="leptjson_8c.html#a36bbec38a331bd84a2ecb970772eefb5" title=" " alt="" coords="623,144,747,171"/>
+<area shape="rect" href="leptjson_8c.html#ae1db3760af2a0de87e6c21945d3f794e" title=" " alt="" coords="605,195,764,221"/>
+<area shape="rect" href="leptjson_8c.html#aaac5fdfb7647a3685977a071b4fcc2db" title=" " alt="" coords="812,93,932,120"/>
+<area shape="rect" href="leptjson_8c.html#ab6bb32301b5ab1bb54ce684b2c9414d9" title=" " alt="" coords="816,144,928,171"/>
+<area shape="rect" href="leptjson_8c.html#ae3c38c5ee0489f9e00ae071e4ae22f14" title=" " alt="" coords="815,195,929,221"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a57dbe22fb03fd6fda2c89267045fdf6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57dbe22fb03fd6fda2c89267045fdf6b">&#9670;&nbsp;</a></span>test_parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void test_parse </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+函数调用图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_a57dbe22fb03fd6fda2c89267045fdf6b_cgraph.png" border="0" usemap="#atest_8c_a57dbe22fb03fd6fda2c89267045fdf6b_cgraph" alt=""/></div>
+<map name="atest_8c_a57dbe22fb03fd6fda2c89267045fdf6b_cgraph" id="atest_8c_a57dbe22fb03fd6fda2c89267045fdf6b_cgraph">
+<area shape="rect" title=" " alt="" coords="5,144,89,171"/>
+<area shape="rect" href="test_8c.html#aedaddebb9e5533d1bcee45126f1044b4" title=" " alt="" coords="137,5,308,32"/>
+<area shape="rect" href="test_8c.html#afc27c450d7840122bc89459405b39f3b" title=" " alt="" coords="163,56,283,83"/>
+<area shape="rect" href="test_8c.html#ad81c2037014950321eba7e47470e639f" title=" " alt="" coords="158,107,287,149"/>
+<area shape="rect" href="test_8c.html#abe47ff3e46c3d1161ac8c20069afed4d" title=" " alt="" coords="167,173,279,200"/>
+<area shape="rect" href="test_8c.html#ad4c2e02eeff6ea0a0d92b14855ad5933" title=" " alt="" coords="153,225,293,266"/>
+<area shape="rect" href="test_8c.html#a22a40834da9889c8b03670ca61bf2340" title=" " alt="" coords="165,291,280,317"/>
+<area shape="rect" href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8" title=" " alt="" coords="356,117,459,144"/>
+<area shape="rect" href="leptjson_8c.html#a525c2a7b36845848379dd758662452c0" title=" " alt="" coords="365,169,449,196"/>
+<area shape="rect" href="leptjson_8c.html#a36bbec38a331bd84a2ecb970772eefb5" title=" " alt="" coords="524,144,648,171"/>
+<area shape="rect" href="leptjson_8c.html#ae1db3760af2a0de87e6c21945d3f794e" title=" " alt="" coords="507,195,665,221"/>
+<area shape="rect" href="leptjson_8c.html#aaac5fdfb7647a3685977a071b4fcc2db" title=" " alt="" coords="713,93,833,120"/>
+<area shape="rect" href="leptjson_8c.html#ab6bb32301b5ab1bb54ce684b2c9414d9" title=" " alt="" coords="717,144,829,171"/>
+<area shape="rect" href="leptjson_8c.html#ae3c38c5ee0489f9e00ae071e4ae22f14" title=" " alt="" coords="716,195,831,221"/>
+</map>
+</div>
+<div class="dynheader">
+这是这个函数的调用关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_a57dbe22fb03fd6fda2c89267045fdf6b_icgraph.png" border="0" usemap="#atest_8c_a57dbe22fb03fd6fda2c89267045fdf6b_icgraph" alt=""/></div>
+<map name="atest_8c_a57dbe22fb03fd6fda2c89267045fdf6b_icgraph" id="atest_8c_a57dbe22fb03fd6fda2c89267045fdf6b_icgraph">
+<area shape="rect" title=" " alt="" coords="104,5,188,32"/>
+<area shape="rect" href="test_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aedaddebb9e5533d1bcee45126f1044b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedaddebb9e5533d1bcee45126f1044b4">&#9670;&nbsp;</a></span>test_parse_expect_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void test_parse_expect_value </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+函数调用图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_aedaddebb9e5533d1bcee45126f1044b4_cgraph.png" border="0" usemap="#atest_8c_aedaddebb9e5533d1bcee45126f1044b4_cgraph" alt=""/></div>
+<map name="atest_8c_aedaddebb9e5533d1bcee45126f1044b4_cgraph" id="atest_8c_aedaddebb9e5533d1bcee45126f1044b4_cgraph">
+<area shape="rect" title=" " alt="" coords="5,56,176,83"/>
+<area shape="rect" href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8" title=" " alt="" coords="224,31,327,57"/>
+<area shape="rect" href="leptjson_8c.html#a525c2a7b36845848379dd758662452c0" title=" " alt="" coords="233,81,317,108"/>
+<area shape="rect" href="leptjson_8c.html#a36bbec38a331bd84a2ecb970772eefb5" title=" " alt="" coords="392,56,516,83"/>
+<area shape="rect" href="leptjson_8c.html#ae1db3760af2a0de87e6c21945d3f794e" title=" " alt="" coords="375,107,533,133"/>
+<area shape="rect" href="leptjson_8c.html#aaac5fdfb7647a3685977a071b4fcc2db" title=" " alt="" coords="581,5,701,32"/>
+<area shape="rect" href="leptjson_8c.html#ab6bb32301b5ab1bb54ce684b2c9414d9" title=" " alt="" coords="585,56,697,83"/>
+<area shape="rect" href="leptjson_8c.html#ae3c38c5ee0489f9e00ae071e4ae22f14" title=" " alt="" coords="584,107,699,133"/>
+</map>
+</div>
+<div class="dynheader">
+这是这个函数的调用关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_aedaddebb9e5533d1bcee45126f1044b4_icgraph.png" border="0" usemap="#atest_8c_aedaddebb9e5533d1bcee45126f1044b4_icgraph" alt=""/></div>
+<map name="atest_8c_aedaddebb9e5533d1bcee45126f1044b4_icgraph" id="atest_8c_aedaddebb9e5533d1bcee45126f1044b4_icgraph">
+<area shape="rect" title=" " alt="" coords="236,5,407,32"/>
+<area shape="rect" href="test_8c.html#a57dbe22fb03fd6fda2c89267045fdf6b" title=" " alt="" coords="104,5,188,32"/>
+<area shape="rect" href="test_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="afc27c450d7840122bc89459405b39f3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc27c450d7840122bc89459405b39f3b">&#9670;&nbsp;</a></span>test_parse_false()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void test_parse_false </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+函数调用图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_afc27c450d7840122bc89459405b39f3b_cgraph.png" border="0" usemap="#atest_8c_afc27c450d7840122bc89459405b39f3b_cgraph" alt=""/></div>
+<map name="atest_8c_afc27c450d7840122bc89459405b39f3b_cgraph" id="atest_8c_afc27c450d7840122bc89459405b39f3b_cgraph">
+<area shape="rect" title=" " alt="" coords="5,56,125,83"/>
+<area shape="rect" href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8" title=" " alt="" coords="173,31,276,57"/>
+<area shape="rect" href="leptjson_8c.html#a525c2a7b36845848379dd758662452c0" title=" " alt="" coords="183,81,267,108"/>
+<area shape="rect" href="leptjson_8c.html#a36bbec38a331bd84a2ecb970772eefb5" title=" " alt="" coords="341,56,465,83"/>
+<area shape="rect" href="leptjson_8c.html#ae1db3760af2a0de87e6c21945d3f794e" title=" " alt="" coords="324,107,483,133"/>
+<area shape="rect" href="leptjson_8c.html#aaac5fdfb7647a3685977a071b4fcc2db" title=" " alt="" coords="531,5,651,32"/>
+<area shape="rect" href="leptjson_8c.html#ab6bb32301b5ab1bb54ce684b2c9414d9" title=" " alt="" coords="535,56,647,83"/>
+<area shape="rect" href="leptjson_8c.html#ae3c38c5ee0489f9e00ae071e4ae22f14" title=" " alt="" coords="533,107,648,133"/>
+</map>
+</div>
+<div class="dynheader">
+这是这个函数的调用关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_afc27c450d7840122bc89459405b39f3b_icgraph.png" border="0" usemap="#atest_8c_afc27c450d7840122bc89459405b39f3b_icgraph" alt=""/></div>
+<map name="atest_8c_afc27c450d7840122bc89459405b39f3b_icgraph" id="atest_8c_afc27c450d7840122bc89459405b39f3b_icgraph">
+<area shape="rect" title=" " alt="" coords="236,5,356,32"/>
+<area shape="rect" href="test_8c.html#a57dbe22fb03fd6fda2c89267045fdf6b" title=" " alt="" coords="104,5,188,32"/>
+<area shape="rect" href="test_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad81c2037014950321eba7e47470e639f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad81c2037014950321eba7e47470e639f">&#9670;&nbsp;</a></span>test_parse_invalid_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void test_parse_invalid_value </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+函数调用图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_ad81c2037014950321eba7e47470e639f_cgraph.png" border="0" usemap="#atest_8c_ad81c2037014950321eba7e47470e639f_cgraph" alt=""/></div>
+<map name="atest_8c_ad81c2037014950321eba7e47470e639f_cgraph" id="atest_8c_ad81c2037014950321eba7e47470e639f_cgraph">
+<area shape="rect" title=" " alt="" coords="5,49,135,90"/>
+<area shape="rect" href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8" title=" " alt="" coords="183,31,285,57"/>
+<area shape="rect" href="leptjson_8c.html#a525c2a7b36845848379dd758662452c0" title=" " alt="" coords="192,81,276,108"/>
+<area shape="rect" href="leptjson_8c.html#a36bbec38a331bd84a2ecb970772eefb5" title=" " alt="" coords="351,56,475,83"/>
+<area shape="rect" href="leptjson_8c.html#ae1db3760af2a0de87e6c21945d3f794e" title=" " alt="" coords="333,107,492,133"/>
+<area shape="rect" href="leptjson_8c.html#aaac5fdfb7647a3685977a071b4fcc2db" title=" " alt="" coords="540,5,660,32"/>
+<area shape="rect" href="leptjson_8c.html#ab6bb32301b5ab1bb54ce684b2c9414d9" title=" " alt="" coords="544,56,656,83"/>
+<area shape="rect" href="leptjson_8c.html#ae3c38c5ee0489f9e00ae071e4ae22f14" title=" " alt="" coords="543,107,657,133"/>
+</map>
+</div>
+<div class="dynheader">
+这是这个函数的调用关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_ad81c2037014950321eba7e47470e639f_icgraph.png" border="0" usemap="#atest_8c_ad81c2037014950321eba7e47470e639f_icgraph" alt=""/></div>
+<map name="atest_8c_ad81c2037014950321eba7e47470e639f_icgraph" id="atest_8c_ad81c2037014950321eba7e47470e639f_icgraph">
+<area shape="rect" title=" " alt="" coords="236,5,365,47"/>
+<area shape="rect" href="test_8c.html#a57dbe22fb03fd6fda2c89267045fdf6b" title=" " alt="" coords="104,13,188,39"/>
+<area shape="rect" href="test_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,56,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="abe47ff3e46c3d1161ac8c20069afed4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe47ff3e46c3d1161ac8c20069afed4d">&#9670;&nbsp;</a></span>test_parse_null()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void test_parse_null </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+函数调用图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_abe47ff3e46c3d1161ac8c20069afed4d_cgraph.png" border="0" usemap="#atest_8c_abe47ff3e46c3d1161ac8c20069afed4d_cgraph" alt=""/></div>
+<map name="atest_8c_abe47ff3e46c3d1161ac8c20069afed4d_cgraph" id="atest_8c_abe47ff3e46c3d1161ac8c20069afed4d_cgraph">
+<area shape="rect" title=" " alt="" coords="5,56,117,83"/>
+<area shape="rect" href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8" title=" " alt="" coords="165,31,268,57"/>
+<area shape="rect" href="leptjson_8c.html#a525c2a7b36845848379dd758662452c0" title=" " alt="" coords="175,81,259,108"/>
+<area shape="rect" href="leptjson_8c.html#a36bbec38a331bd84a2ecb970772eefb5" title=" " alt="" coords="333,56,457,83"/>
+<area shape="rect" href="leptjson_8c.html#ae1db3760af2a0de87e6c21945d3f794e" title=" " alt="" coords="316,107,475,133"/>
+<area shape="rect" href="leptjson_8c.html#aaac5fdfb7647a3685977a071b4fcc2db" title=" " alt="" coords="523,5,643,32"/>
+<area shape="rect" href="leptjson_8c.html#ab6bb32301b5ab1bb54ce684b2c9414d9" title=" " alt="" coords="527,56,639,83"/>
+<area shape="rect" href="leptjson_8c.html#ae3c38c5ee0489f9e00ae071e4ae22f14" title=" " alt="" coords="525,107,640,133"/>
+</map>
+</div>
+<div class="dynheader">
+这是这个函数的调用关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_abe47ff3e46c3d1161ac8c20069afed4d_icgraph.png" border="0" usemap="#atest_8c_abe47ff3e46c3d1161ac8c20069afed4d_icgraph" alt=""/></div>
+<map name="atest_8c_abe47ff3e46c3d1161ac8c20069afed4d_icgraph" id="atest_8c_abe47ff3e46c3d1161ac8c20069afed4d_icgraph">
+<area shape="rect" title=" " alt="" coords="236,5,348,32"/>
+<area shape="rect" href="test_8c.html#a57dbe22fb03fd6fda2c89267045fdf6b" title=" " alt="" coords="104,5,188,32"/>
+<area shape="rect" href="test_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad4c2e02eeff6ea0a0d92b14855ad5933"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4c2e02eeff6ea0a0d92b14855ad5933">&#9670;&nbsp;</a></span>test_parse_root_not_singular()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void test_parse_root_not_singular </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+函数调用图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_ad4c2e02eeff6ea0a0d92b14855ad5933_cgraph.png" border="0" usemap="#atest_8c_ad4c2e02eeff6ea0a0d92b14855ad5933_cgraph" alt=""/></div>
+<map name="atest_8c_ad4c2e02eeff6ea0a0d92b14855ad5933_cgraph" id="atest_8c_ad4c2e02eeff6ea0a0d92b14855ad5933_cgraph">
+<area shape="rect" title=" " alt="" coords="5,49,145,90"/>
+<area shape="rect" href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8" title=" " alt="" coords="193,31,296,57"/>
+<area shape="rect" href="leptjson_8c.html#a525c2a7b36845848379dd758662452c0" title=" " alt="" coords="203,81,287,108"/>
+<area shape="rect" href="leptjson_8c.html#a36bbec38a331bd84a2ecb970772eefb5" title=" " alt="" coords="361,56,485,83"/>
+<area shape="rect" href="leptjson_8c.html#ae1db3760af2a0de87e6c21945d3f794e" title=" " alt="" coords="344,107,503,133"/>
+<area shape="rect" href="leptjson_8c.html#aaac5fdfb7647a3685977a071b4fcc2db" title=" " alt="" coords="551,5,671,32"/>
+<area shape="rect" href="leptjson_8c.html#ab6bb32301b5ab1bb54ce684b2c9414d9" title=" " alt="" coords="555,56,667,83"/>
+<area shape="rect" href="leptjson_8c.html#ae3c38c5ee0489f9e00ae071e4ae22f14" title=" " alt="" coords="553,107,668,133"/>
+</map>
+</div>
+<div class="dynheader">
+这是这个函数的调用关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_ad4c2e02eeff6ea0a0d92b14855ad5933_icgraph.png" border="0" usemap="#atest_8c_ad4c2e02eeff6ea0a0d92b14855ad5933_icgraph" alt=""/></div>
+<map name="atest_8c_ad4c2e02eeff6ea0a0d92b14855ad5933_icgraph" id="atest_8c_ad4c2e02eeff6ea0a0d92b14855ad5933_icgraph">
+<area shape="rect" title=" " alt="" coords="236,5,376,47"/>
+<area shape="rect" href="test_8c.html#a57dbe22fb03fd6fda2c89267045fdf6b" title=" " alt="" coords="104,13,188,39"/>
+<area shape="rect" href="test_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,13,56,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a22a40834da9889c8b03670ca61bf2340"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22a40834da9889c8b03670ca61bf2340">&#9670;&nbsp;</a></span>test_parse_true()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void test_parse_true </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+函数调用图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_a22a40834da9889c8b03670ca61bf2340_cgraph.png" border="0" usemap="#atest_8c_a22a40834da9889c8b03670ca61bf2340_cgraph" alt=""/></div>
+<map name="atest_8c_a22a40834da9889c8b03670ca61bf2340_cgraph" id="atest_8c_a22a40834da9889c8b03670ca61bf2340_cgraph">
+<area shape="rect" title=" " alt="" coords="5,56,120,83"/>
+<area shape="rect" href="leptjson_8c.html#a9e8d66ac09862fd747dacd00d117f5f8" title=" " alt="" coords="168,31,271,57"/>
+<area shape="rect" href="leptjson_8c.html#a525c2a7b36845848379dd758662452c0" title=" " alt="" coords="177,81,261,108"/>
+<area shape="rect" href="leptjson_8c.html#a36bbec38a331bd84a2ecb970772eefb5" title=" " alt="" coords="336,56,460,83"/>
+<area shape="rect" href="leptjson_8c.html#ae1db3760af2a0de87e6c21945d3f794e" title=" " alt="" coords="319,107,477,133"/>
+<area shape="rect" href="leptjson_8c.html#aaac5fdfb7647a3685977a071b4fcc2db" title=" " alt="" coords="525,5,645,32"/>
+<area shape="rect" href="leptjson_8c.html#ab6bb32301b5ab1bb54ce684b2c9414d9" title=" " alt="" coords="529,56,641,83"/>
+<area shape="rect" href="leptjson_8c.html#ae3c38c5ee0489f9e00ae071e4ae22f14" title=" " alt="" coords="528,107,643,133"/>
+</map>
+</div>
+<div class="dynheader">
+这是这个函数的调用关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="test_8c_a22a40834da9889c8b03670ca61bf2340_icgraph.png" border="0" usemap="#atest_8c_a22a40834da9889c8b03670ca61bf2340_icgraph" alt=""/></div>
+<map name="atest_8c_a22a40834da9889c8b03670ca61bf2340_icgraph" id="atest_8c_a22a40834da9889c8b03670ca61bf2340_icgraph">
+<area shape="rect" title=" " alt="" coords="236,5,351,32"/>
+<area shape="rect" href="test_8c.html#a57dbe22fb03fd6fda2c89267045fdf6b" title=" " alt="" coords="104,5,188,32"/>
+<area shape="rect" href="test_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,56,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">变量说明</h2>
+<a id="a380bfcc511cc2f61cd3441d41a5e6348"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a380bfcc511cc2f61cd3441d41a5e6348">&#9670;&nbsp;</a></span>main_ret</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main_ret = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a125a07facfdab18ee2d8495d4f8c9d5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a125a07facfdab18ee2d8495d4f8c9d5b">&#9670;&nbsp;</a></span>test_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int test_count = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a932d7e32d71a44c499d1b16c19e58edd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a932d7e32d71a44c499d1b16c19e58edd">&#9670;&nbsp;</a></span>test_pass</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int test_pass = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

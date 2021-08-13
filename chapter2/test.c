@@ -22,15 +22,6 @@ static int test_pass = 0;
 
 #define EXPECT_EQ_INT(expect, actual) EXPECT_EQ_BASE((expect) == (actual), expect, actual, "%d")
 
-/*test refactoring*/
-#define TEST_ERROR(error, json)\
-    do {\
-        lept_value v;\
-        v.type = LEPT_TRUE;\
-        EXPECT_EQ_INT(error, lept_parse(&v, json));\
-        EXPECT_EQ_INT(LEPT_NULL, lept_get_type(&v));\
-    }while(0)
-
 /*
 //在没有写解析函数lept_parse之前
 //该函数第一个测试通过，因为刚开始的lept_parse默认返回值为0，但第二个测试的actual应该为2，即true类型
@@ -58,43 +49,31 @@ static void test_parse_false(){
     EXPECT_EQ_INT(LEPT_FALSE,lept_get_type((&v)));
 }
 
-//test parse expect value chapter1
-// static void test_parse_expect_value(){
-//     lept_value v;
-//     v.type = LEPT_TRUE;
-//     EXPECT_EQ_INT(LEPT_PARSE_EXPECT_VALUE,lept_parse(&v,""));
-//     //若解析失败，返回null
-//     EXPECT_EQ_INT(LEPT_NULL,lept_get_type(&v));
-
-//     v.type = LEPT_TRUE;
-//     EXPECT_EQ_INT(LEPT_PARSE_EXPECT_VALUE,lept_parse(&v," "));
-//     //若解析失败，返回null
-//     EXPECT_EQ_INT(LEPT_NULL,lept_get_type(&v));
-// }
-
+//test parse expect value
 static void test_parse_expect_value(){
-    TEST_ERROR(LEPT_PARSE_EXPECT_VALUE,"");
-    TEST_ERROR(LEPT_PARSE_EXPECT_VALUE," ");
+    lept_value v;
+    v.type = LEPT_TRUE;
+    EXPECT_EQ_INT(LEPT_PARSE_EXPECT_VALUE,lept_parse(&v,""));
+    //若解析失败，返回null
+    EXPECT_EQ_INT(LEPT_NULL,lept_get_type(&v));
+
+    v.type = LEPT_TRUE;
+    EXPECT_EQ_INT(LEPT_PARSE_EXPECT_VALUE,lept_parse(&v," "));
+    //若解析失败，返回null
+    EXPECT_EQ_INT(LEPT_NULL,lept_get_type(&v));
 }
 
-//chapter 1 
 //test parse invalid value
-// static void test_parse_invalid_value(){
-//     lept_value v;
-//     v.type = LEPT_TRUE;
-//     EXPECT_EQ_INT(LEPT_PARSE_INVALID_VALUE,lept_parse(&v,"nul"));
-//     EXPECT_EQ_INT(LEPT_NULL,lept_get_type(&v));
-
-//     v.type = LEPT_TRUE;
-//     EXPECT_EQ_INT(LEPT_PARSE_INVALID_VALUE,lept_parse(&v,"invalid"));
-//     EXPECT_EQ_INT(LEPT_NULL,lept_get_type(&v));
-// }
-// test parse invalid value
 static void test_parse_invalid_value(){
-    TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"nul");
-    TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"invalid");
-}
+    lept_value v;
+    v.type = LEPT_TRUE;
+    EXPECT_EQ_INT(LEPT_PARSE_INVALID_VALUE,lept_parse(&v,"nul"));
+    EXPECT_EQ_INT(LEPT_NULL,lept_get_type(&v));
 
+    v.type = LEPT_TRUE;
+    EXPECT_EQ_INT(LEPT_PARSE_INVALID_VALUE,lept_parse(&v,"invalid"));
+    EXPECT_EQ_INT(LEPT_NULL,lept_get_type(&v));
+}
 
 //test root_not_singual
 static void test_parse_root_not_singular(){
