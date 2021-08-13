@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/Users/vectord/GitHubSL/JSON/chapter1/leptjson.h
+/Users/vectord/GitHubSL/JSON/chapter2/leptjson.h
 
-/Users/vectord/GitHubSL/JSON/chapter1/test.c
+/Users/vectord/GitHubSL/JSON/chapter2/test.c
 stdio.h
 -
 stdlib.h
@@ -16,5 +16,5 @@ stdlib.h
 string.h
 -
 leptjson.h
-/Users/vectord/GitHubSL/JSON/chapter1/leptjson.h
+/Users/vectord/GitHubSL/JSON/chapter2/leptjson.h
 

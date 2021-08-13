@@ -44,10 +44,10 @@ RM = /usr/local/Cellar/cmake/3.16.2/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/vectord/GitHubSL/JSON/chapter1
+CMAKE_SOURCE_DIR = /Users/vectord/GitHubSL/JSON/chapter2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/vectord/GitHubSL/JSON/chapter1/bulid
+CMAKE_BINARY_DIR = /Users/vectord/GitHubSL/JSON/chapter2/bulid
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -76,14 +76,14 @@ clean: CMakeFiles/leptjson.dir/clean
 CMakeFiles/leptjson_test.dir/all: CMakeFiles/leptjson.dir/all
 	$(MAKE) -f CMakeFiles/leptjson_test.dir/build.make CMakeFiles/leptjson_test.dir/depend
 	$(MAKE) -f CMakeFiles/leptjson_test.dir/build.make CMakeFiles/leptjson_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles --progress-num=3,4 "Built target leptjson_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles --progress-num=3,4 "Built target leptjson_test"
 .PHONY : CMakeFiles/leptjson_test.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/leptjson_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/leptjson_test.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles 0
 .PHONY : CMakeFiles/leptjson_test.dir/rule
 
 # Convenience name for target.
@@ -103,14 +103,14 @@ CMakeFiles/leptjson_test.dir/clean:
 CMakeFiles/leptjson.dir/all:
 	$(MAKE) -f CMakeFiles/leptjson.dir/build.make CMakeFiles/leptjson.dir/depend
 	$(MAKE) -f CMakeFiles/leptjson.dir/build.make CMakeFiles/leptjson.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles --progress-num=1,2 "Built target leptjson"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles --progress-num=1,2 "Built target leptjson"
 .PHONY : CMakeFiles/leptjson.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/leptjson.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/leptjson.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles 0
 .PHONY : CMakeFiles/leptjson.dir/rule
 
 # Convenience name for target.

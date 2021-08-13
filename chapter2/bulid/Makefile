@@ -48,10 +48,10 @@ RM = /usr/local/Cellar/cmake/3.16.2/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/vectord/GitHubSL/JSON/chapter1
+CMAKE_SOURCE_DIR = /Users/vectord/GitHubSL/JSON/chapter2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/vectord/GitHubSL/JSON/chapter1/bulid
+CMAKE_BINARY_DIR = /Users/vectord/GitHubSL/JSON/chapter2/bulid
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles /Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles /Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

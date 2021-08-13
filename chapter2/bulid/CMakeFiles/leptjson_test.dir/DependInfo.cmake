@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/Users/vectord/GitHubSL/JSON/chapter1/test.c" "/Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles/leptjson_test.dir/test.c.o"
+  "/Users/vectord/GitHubSL/JSON/chapter2/test.c" "/Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles/leptjson_test.dir/test.c.o"
   )
 set(CMAKE_C_COMPILER_ID "Clang")
 
@@ -14,7 +14,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles/leptjson.dir/DependInfo.cmake"
+  "/Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles/leptjson.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

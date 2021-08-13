@@ -24,3 +24,8 @@ static void test_parse_invalid_value(){
 ```
 
 这样子的重构的使得代码结构更容易维护，但性能方面出现了些许损失。
+
+将test文件中的所有测试**ERROR**代码都进行了如上重构，**重新cmake**后测试通过。
+
+![chapter2_ERROR_refactoring_cmake](../graph/chapter2_ERROR_refactoring_cmake.png)
+

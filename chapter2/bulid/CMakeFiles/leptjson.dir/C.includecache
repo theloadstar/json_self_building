@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/Users/vectord/GitHubSL/JSON/chapter1/leptjson.c
+/Users/vectord/GitHubSL/JSON/chapter2/leptjson.c
 leptjson.h
-/Users/vectord/GitHubSL/JSON/chapter1/leptjson.h
+/Users/vectord/GitHubSL/JSON/chapter2/leptjson.h
 assert.h
 -
 stdlib.h
 -
 
-/Users/vectord/GitHubSL/JSON/chapter1/leptjson.h
+/Users/vectord/GitHubSL/JSON/chapter2/leptjson.h
 

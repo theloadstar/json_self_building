@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/Users/vectord/GitHubSL/JSON/chapter1/leptjson.c" "/Users/vectord/GitHubSL/JSON/chapter1/bulid/CMakeFiles/leptjson.dir/leptjson.c.o"
+  "/Users/vectord/GitHubSL/JSON/chapter2/leptjson.c" "/Users/vectord/GitHubSL/JSON/chapter2/bulid/CMakeFiles/leptjson.dir/leptjson.c.o"
   )
 set(CMAKE_C_COMPILER_ID "Clang")
 
