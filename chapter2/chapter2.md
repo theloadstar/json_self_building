@@ -147,3 +147,50 @@ TEST_NUMBER(0.0, "0");
 1. 第一个报错`expect: 0 actual: 2`由`TEST_NUMBER`宏给出`EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v, json))`,期望值为`LEPT_PARSE_OK`，实际上因为没写相关的number解析函数，故解析失败，返回的为`LEPT_PARSE_INVALID_VALUE`，即枚举值2；
 2. 第二个报错`expect: 3 actual: 0`同样由`TEST_NUMBER`宏给出`EXPECT_EQ_INT(LEPT_NUMBER, lept_get_type(&v))`，期望值为`LEPT_NUMBER`,即枚举值3。实际值由于上一步解析失败被赋予了`LEPT_NULL`，即枚举值0；
 3. 第三个报错为get number时的assert断言
+
+# parse_number
+
+使用标准库的`strtod()`函数将字符串转换为double类型，其中`strtod()`的第二个参数为首个无法被解析的字符的地址。故下面的代码line5表示json串无法被解析。
+
+```C
+static int lept_parse_number(lept_context* c, lept_value* v){
+	char *end;
+	v->n = strtod(c->json, &end);
+	/*end 为第一个不能转换的字符的指针*/
+	if(c->json==end)
+		return LEPT_PARSE_INVALID_VALUE;
+	c->json = end;
+	v->type = LEPT_NUMBER;
+	return LEPT_PARSE_OK;
+}
+```
+
+在`lept_parse_value`内部，除了`null`,`true`,`false`以外均为number类型，故使用`default`
+
+```C
+static int lept_parse_value(lept_context* c,lept_value* v){
+	switch(*c->json){
+		case 'n' : return lept_parse_null(c,v);
+		case 't' : return lept_parse_true(c,v);
+		case 'f' : return lept_parse_false(c,v);
+		case '\0': /*printf("LEPT_PARSE_EXPECT_VALUE\n");*/return LEPT_PARSE_EXPECT_VALUE;
+		default:   /*printf("LEPT_PARSE_INVALID_VALUE\n");*/return lept_parse_number(c,v);
+	}
+}
+```
+
+# 结尾
+
+根据origin在`test.c`中添加`#if 0 #endif`相关代码用于作业。执行make并运行后测试通过。
+
+![image-20210813165820227](../graph/chapter2_test_pass_exclude_homework.png)
+
+`#if 0 #endif`：与`/* */`相比，前者支持嵌套，而且可以将0改为1来恢复代码，更多关于条件编译[详见](http://m.biancheng.net/view/449.html)
+
+按照作业要求，增加了`#if 0 #endif`相关代码，并将0改为1后，测试自然无法通过。
+
+![chapter2_homework_request_test_falied](../graph/chapter2_homework_request_test_falied.png)
+
+# To Do
+
+- [ ] lept_parse_value内部default顺序
