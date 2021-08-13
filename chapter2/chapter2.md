@@ -29,3 +29,7 @@ static void test_parse_invalid_value(){
 
 ![chapter2_ERROR_refactoring_cmake](../graph/chapter2_ERROR_refactoring_cmake.png)
 
+<font color = "red">注意！！！</font>修改文件的时候在chapter2里修改，我说呢，每次cmake后结果都一样。。。
+
+![chapter2_ERROR_refactoring_cmake2](../graph/chapter2_ERROR_refactoring_cmake2.png)
+
