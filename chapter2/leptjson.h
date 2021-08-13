@@ -6,6 +6,7 @@ typedef enum { LEPT_NULL, LEPT_FALSE, LEPT_TRUE, LEPT_NUMBER, LEPT_STRING, LEPT_
 
 /*定义存放json值的结构体，目前只需存放NULL/BOOL值，故只需先存放一个值即可*/
 typedef struct{
+	double n;
 	lept_type type;
 } lept_value;
 
@@ -33,6 +34,9 @@ int lept_parse(lept_value* v, const char *json);
 
 /*获取解析结果*/
 lept_type lept_get_type(const lept_value* v);
+
+/*获取json数字*/
+lept_type lept_get_number(const lept_value* v);
 
 
 #endif

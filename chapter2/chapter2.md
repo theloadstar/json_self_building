@@ -33,3 +33,33 @@ static void test_parse_invalid_value(){
 
 ![chapter2_ERROR_refactoring_cmake2](../graph/chapter2_ERROR_refactoring_cmake2.png)
 
+# 数字
+
+为简单起见，leptjson使用双精度double存储JSON数字。先来看一下JSON数字的语法：
+
+```json
+number = [ "-" ] int [ frac ] [ exp ]
+int = "0" / digit1-9 *digit
+frac = "." 1*digit
+exp = ("e" / "E") ["-" / "+"] 1*digit
+```
+
+JSON数字由符号、整数、小数以及指数组成。其中只有整数部分为必需。注意符号只可为`-`，不可为`+`，即以`+`开头的数字为格式错误。整数部分若以0开始，则只能为单个数字0；否则，为由`1-9`组成的若干数字。
+
+小数部分比较直观，就是小数点后是一或多个数字（0-9)
+
+JSON 可使用科学记数法，指数部分由大写 E 或小写 e 开始，然后可有正负号，之后是一或多个数字（0-9）
+
+![chapter2_json_number](../graph/chapter2_json_number.png)
+
+---
+
+为存储数字，在`lept_value`中添加成员:`double n`。同时添加函数`lept_get_number`来获取json的number值。注意，只有lept_type==LEPT_NUMBER时才会存储number，故使用assert断言。
+
+```c
+lept_type lept_get_number(const lept_value* v){
+	assert(v!=NULL&&v->type==LEPT_NUMBER);
+	return v->n;
+}
+```
+
