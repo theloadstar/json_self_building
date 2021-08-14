@@ -3,7 +3,7 @@
 #include <stdlib.h> /*NULL  strtod*/
 #include <stdio.h>
 #include <errno.h>/*errno, ERANGE*/
-#include <math.h>
+#include <math.h>/*HUGE_VAL*/
 
 /*
 //个人没明白这个宏的意义，因为在lept_parse_value里都是经过switch分支进入到对应的解析里的，那么第一个字符
