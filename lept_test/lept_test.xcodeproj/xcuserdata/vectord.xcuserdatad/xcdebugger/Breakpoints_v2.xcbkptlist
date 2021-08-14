@@ -24,7 +24,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F761E60B-1FDA-4A3F-8448-947C2C9B5570"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../chapter2/test.c"
@@ -37,7 +37,7 @@
             <Locations>
                <Location
                   uuid = "F761E60B-1FDA-4A3F-8448-947C2C9B5570 - f8139c2953c6d0fa"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "test_parse_number"
@@ -52,7 +52,7 @@
                </Location>
                <Location
                   uuid = "F761E60B-1FDA-4A3F-8448-947C2C9B5570 - f8139c2953c6d0fa"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "test_parse_number"
@@ -64,6 +64,54 @@
                   startingLineNumber = "86"
                   endingLineNumber = "86"
                   offsetFromSymbolStart = "9389">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0C455557-288C-4A6B-A9EA-9B7AC03A350C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../chapter2/test.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "test_parse_root_not_singular()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "0C455557-288C-4A6B-A9EA-9B7AC03A350C - b3da632539b88824"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_parse_root_not_singular"
+                  moduleName = "lept_test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vectord/GitHubSL/JSON/chapter2/test.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "129"
+                  endingLineNumber = "129"
+                  offsetFromSymbolStart = "316">
+               </Location>
+               <Location
+                  uuid = "0C455557-288C-4A6B-A9EA-9B7AC03A350C - b3da632539b88824"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_parse_root_not_singular"
+                  moduleName = "lept_test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vectord/GitHubSL/JSON/chapter2/test.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "129"
+                  endingLineNumber = "129"
+                  offsetFromSymbolStart = "321">
                </Location>
             </Locations>
          </BreakpointContent>

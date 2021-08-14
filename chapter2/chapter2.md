@@ -213,7 +213,7 @@ static int lept_parse_literal(lept_context* c, lept_value* v, const char* litera
 
 注意line4的`literal[i]`，这里其实也没有错，主要错误在于line8会多+1，致使`\0`被忽略，导致`lept_parse`函数内部`if(*c.json!='\0')ret = LEPT_PARSE_ROOT_NOT_SINGULAR;`报错。具体可见`leptjson.c`的printf调试
 
-## task3
+## task 3
 
 * 常量指针：
 
@@ -239,7 +239,19 @@ static int lept_parse_literal(lept_context* c, lept_value* v, const char* litera
 
 ---
 
+通过invalid number相关的测试后，无法通过invalid number里`LEPT_PARSE_ROOT_NOT_SINGULAR`相关的测试，而且结果与预期不符
 
+![task3_test_falied](../graph/task3_test_falied.png)
+
+开始时认为这里期望是`LEPT_PARSE_OJBK`，actual是`LEPT_PARSE_ROOT_NOT_SINGULAR`.但实际上这里的意思是expect为`LEPT_NULL`,actual为`LEPT_NUMBER`即在number解析函数里0123被解析成了0，尽管最后返回值为`LEPT_PARSE_ROOT_NOT_SINGULAR`，但没有将类型赋为null。（这里只是简单地在找出`LEPT_PARSE_ROOT_NOT_SINGULAR`错误后将类型赋为NULL，并没有修改number的值。）`leptjson.c`的`lept_parse`内部最后的判断出`LEPT_PARSE_ROOT_NOT_SINGULAR`里增加NULL的赋值即可
+
+![chapter2_task3_find_test_failed_reason](../graph/chapter2_task3_find_test_failed_reason.gif)
+
+BTW，sublime这里真智能，直接补上了翻括号，流批。
+
+完成以上步骤后task3完成。
+
+![chapter2_finish_task3](../graph/chapter2_finish_task3.png)
 
 # To Do
 
