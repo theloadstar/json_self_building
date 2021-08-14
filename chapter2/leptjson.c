@@ -38,33 +38,15 @@ static void lept_parse_whitespace(lept_context* c){
 	c->json = p;
 }
 
-static int lept_parse_null(lept_context* c, lept_value* v){
-	EXPECT(c,'n');
-	if(c->json[0]!='u'||c->json[1]!='l'||c->json[2]!='l'){
-		return LEPT_PARSE_INVALID_VALUE;
+static int lept_parse_literal(lept_context* c, lept_value* v, const char* literal, lept_type type){
+	int i;
+	EXPECT(c, literal[0]);
+	for(i=0;literal[i+1];i++){
+		if(c->json[i]!=literal[i+1])
+			return LEPT_PARSE_INVALID_VALUE;
 	}
-	c->json+=3;
-	v->type = LEPT_NULL;
-	return LEPT_PARSE_OK;
-}
-
-static int lept_parse_true(lept_context* c, lept_value* v){
-	EXPECT(c,'t');
-	if(c->json[0]!='r'||c->json[1]!='u'||c->json[2]!='e'){
-		return LEPT_PARSE_INVALID_VALUE;
-	}
-	c->json+=3;
-	v->type = LEPT_TRUE;
-	return LEPT_PARSE_OK;
-}
-
-static int lept_parse_false(lept_context* c, lept_value* v){
-	EXPECT(c,'f');
-	if(c->json[0]!='a'||c->json[1]!='l'||c->json[2]!='s'||c->json[3]!='e'){
-		return LEPT_PARSE_INVALID_VALUE;
-	}
-	c->json+=4;
-	v->type = LEPT_FALSE;
+	c->json+=i;
+	v->type = type;
 	return LEPT_PARSE_OK;
 }
 
@@ -81,9 +63,9 @@ static int lept_parse_number(lept_context* c, lept_value* v){
 
 static int lept_parse_value(lept_context* c,lept_value* v){
 	switch(*c->json){
-		case 'n' : return lept_parse_null(c,v);
-		case 't' : return lept_parse_true(c,v);
-		case 'f' : return lept_parse_false(c,v);
+		case 'n' : return lept_parse_literal(c,v,"null",LEPT_NULL);
+		case 't' : return lept_parse_literal(c,v,"true",LEPT_TRUE);
+		case 'f' : return lept_parse_literal(c,v,"false",LEPT_FALSE);
 		case '\0': /*printf("LEPT_PARSE_EXPECT_VALUE\n");*/return LEPT_PARSE_EXPECT_VALUE;
 		default:   /*printf("LEPT_PARSE_INVALID_VALUE\n");*/return lept_parse_number(c,v);
 	}
@@ -93,6 +75,7 @@ static int lept_parse_value(lept_context* c,lept_value* v){
 //json 格式： ws value ws*/
 int lept_parse(lept_value* v, const char* json){
 	lept_context c;
+    // printf("json address:%d\n",json);
 	/*出现多个value时返回not singular*/
 	int ret = 0;
 	/*v 不得为空指针*/
@@ -103,6 +86,8 @@ int lept_parse(lept_value* v, const char* json){
 	/*先处理一个ws*/
 	lept_parse_whitespace(&c);
 	ret = lept_parse_value(&c,v);
+    // printf("c.json address:%d\n",c.json);
+    // printf("%s\n",json+5);
 	/*若ws value ws解析后还存在字符，返回not singular*/
 	if(ret==LEPT_PARSE_OK){
 		lept_parse_whitespace(&c);

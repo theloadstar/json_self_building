@@ -96,7 +96,7 @@ static void test_parse_expect_value(){
 static void test_parse_invalid_value(){
     TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"nul");
     TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"invalid");
-#if 1
+#if 0
     /*test invalid number*/
     TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"+0");
     TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "+1");

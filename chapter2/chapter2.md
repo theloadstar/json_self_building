@@ -191,6 +191,28 @@ static int lept_parse_value(lept_context* c,lept_value* v){
 
 ![chapter2_homework_request_test_falied](../graph/chapter2_homework_request_test_falied.png)
 
+# HomeWork
+
+## task 1
+
+重构`lept_parse_null()`、`lept_parse_false()`、`lept_parse_true` 为 `lept_parse_literal()`时，刚开始的`lept_parse_literal()`是这样写的：
+
+```C
+static int lept_parse_literal(lept_context* c, lept_value* v, const char* literal, lept_type type){
+	int i;
+	EXPECT(c, literal[0]);
+	for(i=0;literal[i];i++){
+		if(c->json[i]!=literal[i+1])
+			return LEPT_PARSE_INVALID_VALUE;
+	}
+	c->json+=i;
+	v->type = type;
+	return LEPT_PARSE_OK;
+}
+```
+
+注意line4的`literal[i]`，这里其实也没有错，主要错误在于line8会多+1，致使`\0`被忽略，导致`lept_parse`函数内部`if(*c.json!='\0')ret = LEPT_PARSE_ROOT_NOT_SINGULAR;`报错。具体可见`leptjson.c`的printf调试
+
 # To Do
 
 - [ ] lept_parse_value内部default顺序
