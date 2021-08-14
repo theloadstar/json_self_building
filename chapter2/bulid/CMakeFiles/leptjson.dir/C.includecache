@@ -15,6 +15,10 @@ stdlib.h
 -
 stdio.h
 -
+errno.h
+-
+math.h
+-
 
 /Users/vectord/GitHubSL/JSON/chapter2/leptjson.h
 

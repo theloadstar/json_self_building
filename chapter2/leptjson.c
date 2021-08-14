@@ -2,6 +2,8 @@
 #include <assert.h> /*assert()*/
 #include <stdlib.h> /*NULL  strtod*/
 #include <stdio.h>
+#include <errno.h>/*errno, ERANGE*/
+#include <math.h>
 
 /*
 //个人没明白这个宏的意义，因为在lept_parse_value里都是经过switch分支进入到对应的解析里的，那么第一个字符
@@ -87,6 +89,10 @@ static int lept_parse_number(lept_context* c, lept_value* v){
 	}
 	/*get num*/
 	v->n = strtod(c->json, &end);
+    /*LEPT_PARSE_NUMBER_TOO_BIG*/
+    if(errno==ERANGE&&(v->n>=HUGE_VAL||v->n<=-HUGE_VAL)){
+    	return LEPT_PARSE_NUMBER_TOO_BIG;
+    }
 	/*end 为第一个不能转换的字符的指针*/
 	if(c->json==end)
 		return LEPT_PARSE_INVALID_VALUE;
@@ -120,8 +126,6 @@ int lept_parse(lept_value* v, const char* json){
 	/*先处理一个ws*/
 	lept_parse_whitespace(&c);
 	ret = lept_parse_value(&c,v);
-    // printf("c.json address:%d\n",c.json);
-    // printf("%s\n",json+5);
 	/*若ws value ws解析后还存在字符，返回not singular*/
 	if(ret==LEPT_PARSE_OK){
 		lept_parse_whitespace(&c);

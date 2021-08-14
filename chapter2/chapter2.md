@@ -253,6 +253,51 @@ BTW，sublime这里真智能，直接补上了翻括号，流批。
 
 ![chapter2_finish_task3](../graph/chapter2_finish_task3.png)
 
+## task 4
+
+### errno
+
+通过系统调用设置errno的值，会被写入错误码。
+
+### EDOM ERANGE
+
+EDOM表示输入的值在数学定义式里在定义域之外；ERANGE则表示在数学定义式里函数值为无穷或在值域之外
+
+发生错误时会将以上两个值写入errno
+
+### strerror
+
+根据给定的错误码返回错误信息，一种用法：`strerror(errno)`
+
+### HUGE_VAL
+
+strtod的返回值在doble的范围之外，即溢出时，返回改值。[ref](https://en.cppreference.com/w/c/string/byte/strtof)
+
+### 参考
+
+[官方](https://en.cppreference.com/w/c/error/errno)
+
+[ref](https://www.codingdict.com/article/2185)
+
+---
+
+根据以上信息，添加如下代码：
+
+```c
+#include <errno.h>/*errno, ERANGE*/
+#include <math.h>/*HUGE_VAL*/
+/*LEPT_PARSE_NUMBER_TOO_BIG*/
+    if(errno==ERANGE&&(v->n>=HUGE_VAL||v->n<=-HUGE_VAL)){
+    	return LEPT_PARSE_NUMBER_TOO_BIG;
+    }
+```
+
+最终测试通过
+
+![chapter2_task4_test_passed](../graph/chapter2_task4_test_passed.png)
+
+
+
 # To Do
 
-- [ ] lept_parse_value内部default顺序
+- [x] lept_parse_value内部default顺序：无影响，swith分支是if-else判断的，先后顺序无影响
