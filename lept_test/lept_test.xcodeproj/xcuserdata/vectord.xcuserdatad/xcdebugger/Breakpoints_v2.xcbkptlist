@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9793D383-6D46-4610-931F-36D5E214D52F"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../chapter2/test.c"
@@ -18,6 +18,54 @@
             endingLineNumber = "38"
             landmarkName = "test_parse_null()"
             landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F761E60B-1FDA-4A3F-8448-947C2C9B5570"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../chapter2/test.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "test_parse_number()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "F761E60B-1FDA-4A3F-8448-947C2C9B5570 - f8139c2953c6d0fa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_parse_number"
+                  moduleName = "lept_test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vectord/GitHubSL/JSON/chapter2/test.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "86"
+                  endingLineNumber = "86"
+                  offsetFromSymbolStart = "9384">
+               </Location>
+               <Location
+                  uuid = "F761E60B-1FDA-4A3F-8448-947C2C9B5570 - f8139c2953c6d0fa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_parse_number"
+                  moduleName = "lept_test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vectord/GitHubSL/JSON/chapter2/test.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "86"
+                  endingLineNumber = "86"
+                  offsetFromSymbolStart = "9389">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
