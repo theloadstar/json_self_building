@@ -213,6 +213,34 @@ static int lept_parse_literal(lept_context* c, lept_value* v, const char* litera
 
 注意line4的`literal[i]`，这里其实也没有错，主要错误在于line8会多+1，致使`\0`被忽略，导致`lept_parse`函数内部`if(*c.json!='\0')ret = LEPT_PARSE_ROOT_NOT_SINGULAR;`报错。具体可见`leptjson.c`的printf调试
 
+## task3
+
+* 常量指针：
+
+  `type const* name`:指针指向的内容为常量时，该内容不能被修改，但指针指向的地址可以修改。即指向可变，指向的内容不可变。<font color = "red">注意，常量指针可以被赋予变量的地址</font>，此时不能通过该指针来改变变量的值，但可以通过原来的变量或其他指针修改变量的值。例如：
+
+  ```C
+  int a=5;
+  const int* n=&a;
+  a=6;
+  ```
+
+  核心：<font color = "red">不能通过该指针修改指向的地址的值</font>
+
+* 指针常量：
+
+  `type *const name`:指针为一个常量，该指针的值，即指向的地址不能被修改。但是地址里的值能被修改，只是指向的地址不能被修改。
+
+* 指向常量的常量指针：
+
+  `* 两边有 const`:指针的指向不能更改，也不能通过该指针改变该变量的值。但能通过变量本身或其他指针改变变量的值。
+
+* [参考1](https://blog.csdn.net/xingjiarong/article/details/47282255)    [参考2](https://blog.csdn.net/xiaocheng198810/article/details/41542473)
+
+---
+
+
+
 # To Do
 
 - [ ] lept_parse_value内部default顺序

@@ -105,10 +105,11 @@ static void test_parse_expect_value(){
 static void test_parse_invalid_value(){
     TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"nul");
     TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"invalid");
-#if 0
+#if 1
     /*test invalid number*/
     TEST_ERROR(LEPT_PARSE_INVALID_VALUE,"+0");
     TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "+1");
+    TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "0.x");
     TEST_ERROR(LEPT_PARSE_INVALID_VALUE, ".123"); /* at least one digit before '.' */
     TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "1.");   /* at least one digit after '.' */
     TEST_ERROR(LEPT_PARSE_INVALID_VALUE, "INF");

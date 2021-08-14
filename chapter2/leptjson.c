@@ -8,7 +8,8 @@
 //一定是对应相等的，如此一来，此处的assert有何作用？
 */
 #define EXPECT(c,ch) do{ assert(*c->json==(ch));c->json++;}while(0)
-
+#define ISDIGIT(c)       (c>='0'&&c<='9')
+#define ISDIGIT1TO9(c)   (c>='1'&&c<='9')
 /*为减少函数之间传递多个参数，定义json字符串结构体*/
 typedef struct{
 	const char* json;
@@ -51,6 +52,11 @@ static int lept_parse_literal(lept_context* c, lept_value* v, const char* litera
 }
 
 static int lept_parse_number(lept_context* c, lept_value* v){
+	/*判断格式正确性*/
+	const char* p = c->json;/*常量指针，防止通过p修改json的值*/ 
+	/*[-]*/
+	
+	/*get num*/
 	char *end;
 	v->n = strtod(c->json, &end);
 	/*end 为第一个不能转换的字符的指针*/
