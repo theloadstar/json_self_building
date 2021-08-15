@@ -159,3 +159,78 @@ static void test_access_string() {
 printf("%lu\n",sizeof(""));
 ```
 
+# 缓冲区与堆栈
+
+我们上面提到过，JSON语法允许接收空串，即允许带有空字符。譬如类似于`"Hello\u0000World"`的字符串JSON也可接收。这就要求我们在解析字符串时，需要先讲解析好的串存到缓冲区，待全部解析完成后，才将缓冲区内的串整个set进v内。由于缓冲区大小无法预知，故使用动态数组的结构，类似C++里的vector
+
+使用栈的结构来模拟动态数组：
+
+```C
+typedef struct{
+	const char* json;
+	char* stack;
+	size_t size, top;
+}lept_context;
+```
+
+放在lept_context里定义是为了重用stack，每次解析JSON就使用一个stack，而不是每次解析字符串时使用stack。
+
+在创建`lept_context`时，需要初始化以上新增的结构以及最后的释放。使用assert确保最后栈内元素均被弹出
+
+```C
+int lept_parse(lept_value* v, const char* json) {
+    lept_context c;
+    int ret;
+    assert(v != NULL);
+    c.json = json;
+    c.stack = NULL;        /* <- */
+    c.size = c.top = 0;    /* <- */
+    lept_init(v);
+    lept_parse_whitespace(&c);
+    if ((ret = lept_parse_value(&c, v)) == LEPT_PARSE_OK) {
+        /* ... */
+    }
+    assert(c.top == 0);    /* <- */
+    free(c.stack);         /* <- */
+    return ret;
+}
+```
+
+---
+
+压入与弹出操作：
+
+实现要入与弹出的操作，返回数据起始的指针。注意当空间不足时，以1.5倍大小扩展，原因在[这里](https://www.zhihu.com/question/25079705/answer/30030883)。
+
+```C
+#ifndef LEPT_PARSE_STACK_INIT_SIZE
+#define LEPT_PARSE_STACK_INIT_SIZE 256
+#endif
+
+static void* lept_context_push(lept_context* c, size_t size) {
+    void* ret;
+    assert(size > 0);
+    if (c->top + size >= c->size) {
+        if (c->size == 0)
+            c->size = LEPT_PARSE_STACK_INIT_SIZE;
+        while (c->top + size >= c->size)
+            c->size += c->size >> 1;  /* c->size * 1.5 */
+        c->stack = (char*)realloc(c->stack, c->size);
+    }
+    ret = c->stack + c->top;
+    c->top += size;
+    return ret;
+}
+
+static void* lept_context_pop(lept_context* c, size_t size) {
+    assert(c->top >= size);
+    return c->stack + (c->top -= size);
+}
+```
+
+`#ifndef X #define X ... #endif`：这里这样写其实是为设置一个缺省值256，在终端编译时，可以使用`-D`指令定义宏定义`LEPT_PARSE_STACK_INIT_SIZE`，这样进入该程序时就不会重新定义为256；若没有定义编译选项，则默认为缺省值256。[gcc -D](https://blog.csdn.net/y396397735/article/details/53736416?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromBaidu-1.control)
+
+注意，这里`#else 与 #endif`的区别，别想错了，把后者想成了前者，以为没有定义编译选项后后面的程序就不执行了。 [C语言中#ifndef X #define X ... #endif的用法](https://www.cnblogs.com/mupanxi/p/5043707.html)
+
+![chapter3_LEPT_PARSE_STACK_INIT_SIZE](../graph/chapter3_LEPT_PARSE_STACK_INIT_SIZE.png)
+

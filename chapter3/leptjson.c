@@ -17,6 +17,8 @@
 /*为减少函数之间传递多个参数，定义json字符串结构体*/
 typedef struct{
 	const char* json;
+	char* stack;
+	size_t size, top;
 }lept_context;
 
 /*可以直接操作c->json,但写成p使得代码可读性更强
@@ -102,6 +104,9 @@ static int lept_parse_value(lept_context* c,lept_value* v){
 /*json 格式： ws value ws*/
 int lept_parse(lept_value* v, const char* json){
 	lept_context c;
+	/*init c*/
+	c.stack = NULL;
+	c.size=c.top = 0;
     /*printf("json address:%d\n",json);*/
 	/*出现多个value时返回not singular*/
 	int ret = 0;
@@ -121,6 +126,8 @@ int lept_parse(lept_value* v, const char* json){
 			ret = LEPT_PARSE_ROOT_NOT_SINGULAR;
 		}
 	}
+	assert(c.top==0);
+	free(c.stack);
 	return ret;
 }
 

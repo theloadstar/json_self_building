@@ -39,3 +39,9 @@
 
 完成chapter2 练习
 
+# [Chapter3](./chapter3/chapter3.md)
+
+# 8.15
+
+增加字符串相关、set/get函数
+
