@@ -21,6 +21,8 @@ typedef struct{
 	size_t size, top;
 }lept_context;
 
+static int lept_parse_string(lept_context* c, lept_value* v);
+
 /*可以直接操作c->json,但写成p使得代码可读性更强
 */
 static void lept_parse_whitespace(lept_context* c){
@@ -96,6 +98,7 @@ static int lept_parse_value(lept_context* c,lept_value* v){
 		case 't' : return lept_parse_literal(c,v,"true",LEPT_TRUE);
 		case 'f' : return lept_parse_literal(c,v,"false",LEPT_FALSE);
 		case '\0': /*printf("LEPT_PARSE_EXPECT_VALUE\n");*/return LEPT_PARSE_EXPECT_VALUE;
+		case '\"': return lept_parse_string(c,v);
 		default:   /*printf("LEPT_PARSE_INVALID_VALUE\n");*/return lept_parse_number(c,v);
 	}
 }
@@ -104,12 +107,12 @@ static int lept_parse_value(lept_context* c,lept_value* v){
 /*json 格式： ws value ws*/
 int lept_parse(lept_value* v, const char* json){
 	lept_context c;
-	/*init c*/
-	c.stack = NULL;
-	c.size=c.top = 0;
     /*printf("json address:%d\n",json);*/
 	/*出现多个value时返回not singular*/
 	int ret = 0;
+	/*init c*/
+	c.stack = NULL;
+	c.size=c.top = 0;
 	/*v 不得为空指针*/
 	assert(v!=NULL);
 	c.json = json;
@@ -195,6 +198,31 @@ static void* lept_context_push(lept_context* c, size_t size){
 static void* lept_context_pop(lept_context* c, size_t size){
 	assert(c->top>=size);
 	return c->stack+(c->top-=size);
+}
+
+#define PUTC(c, ch) do{ *(char*)lept_context_push(c, sizeof(char))=(ch); }while(0)
+
+static int lept_parse_string(lept_context* c, lept_value* v){
+	/*备份栈顶*/
+	size_t head = c->top, len;
+	const char* p;
+	EXPECT(c,'\"');
+	p = c->json;
+	while(1){
+		char ch = *p++;
+		switch(ch){
+			case '\"':
+			    len = c->top - head;
+			    lept_set_string(v, (const char*)lept_context_pop(c, len),len);
+			    c->json = p;
+			    return LEPT_PARSE_OK;
+			case '\0':
+			    c->top = head;
+			    return LEPT_PARSE_MISS_QUOTATION_MARK;
+			default:
+			    PUTC(c,ch);/*每个字符入栈*/
+		}
+	}
 }
 
 

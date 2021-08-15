@@ -234,3 +234,32 @@ static void* lept_context_pop(lept_context* c, size_t size) {
 
 ![chapter3_LEPT_PARSE_STACK_INIT_SIZE](../graph/chapter3_LEPT_PARSE_STACK_INIT_SIZE.png)
 
+# 解析字符串
+
+```C
+#define PUTC(c, ch) do { *(char*)lept_context_push(c, sizeof(char)) = (ch); } while(0)
+
+static int lept_parse_string(lept_context* c, lept_value* v) {
+    size_t head = c->top, len;
+    const char* p;
+    EXPECT(c, '\"');
+    p = c->json;
+    for (;;) {
+        char ch = *p++;
+        switch (ch) {
+            case '\"':
+                len = c->top - head;
+                lept_set_string(v, (const char*)lept_context_pop(c, len), len);
+                c->json = p;
+                return LEPT_PARSE_OK;
+            case '\0':
+                c->top = head;
+                return LEPT_PARSE_MISS_QUOTATION_MARK;
+            default:
+                PUTC(c, ch);
+        }
+    }
+}
+```
+
+这里的字符串解析先备份栈顶，然后把解析到的字符压栈（一个一个地往里压，返回需要压的字符的首地址，向里压入一个字符），最后计算出长度并一次性把所有字符弹出，再设置至值里。

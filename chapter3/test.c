@@ -24,8 +24,6 @@ static int test_pass = 0;
 #define EXPECT_EQ_DOUBLE(expect, actual) EXPECT_EQ_BASE((expect) == (actual), expect, actual, "%.17g")
 #define EXPECT_EQ_STRING(expect, actual, alength) \
     do{\
-        printf("%lu %lu\n",sizeof(expect),alength);\
-        printf("%s\n",expect);\
         EXPECT_EQ_BASE(sizeof(expect) - 1 == alength && \
         memcmp(expect, actual, alength) == 0, expect, actual, "%s");\
     }while(0)
@@ -43,7 +41,7 @@ static int test_pass = 0;
 static void test_parse_null() {
     lept_value v;
     lept_init(&v);
-    // lept_set_boolean(&v,0);
+    /* lept_set_boolean(&v,0);*/
     v.type = LEPT_TRUE;
     EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v, "null"));
     EXPECT_EQ_INT(LEPT_NULL, lept_get_type(&v));
@@ -53,7 +51,7 @@ static void test_parse_null() {
 static void test_parse_true(){
     lept_value v;
     lept_init(&v);
-    // lept_set_boolean(&v,0);
+    /* lept_set_boolean(&v,0);*/
     v.type = LEPT_FALSE;
     EXPECT_EQ_INT(LEPT_PARSE_OK,lept_parse(&v, "true"));
     EXPECT_EQ_INT(LEPT_TRUE,lept_get_type(&v));
@@ -64,7 +62,7 @@ static void test_parse_true(){
 static void test_parse_false(){
     lept_value v;
     lept_init(&v);
-    // lept_set_boolean(&v,0);
+    /* lept_set_boolean(&v,0);*/
     v.type = LEPT_TRUE;
     EXPECT_EQ_INT(LEPT_PARSE_OK,lept_parse(&v,"false"));
     EXPECT_EQ_INT(LEPT_FALSE,lept_get_type((&v)));
