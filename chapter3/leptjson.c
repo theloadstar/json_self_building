@@ -171,7 +171,31 @@ double lept_get_number(const lept_value* v){
 	return v->u.n;
 }
 
+#ifndef LEPT_PARSE_STACK_INIT_SIZE
+#define LEPT_PARSE_STACK_INIT_SIZE 256
+#endif
 
+static void* lept_context_push(lept_context* c, size_t size){
+	void* ret;
+	assert(size>0);
+	if(c->top+size>c->size){
+		if(c->size==0){
+			c->size = LEPT_PARSE_STACK_INIT_SIZE;
+		}
+		while(c->top+size>c->size){
+			c->size+=c->size>>1;
+		}
+		c->stack = (char*)realloc(c->stack,c->size);
+	}
+	ret = c->stack+c->top;
+	c->top+=size;
+	return ret;
+}
+
+static void* lept_context_pop(lept_context* c, size_t size){
+	assert(c->top>=size);
+	return c->stack+(c->top-=size);
+}
 
 
 
