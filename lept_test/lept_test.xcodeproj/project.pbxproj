@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		163B3C2626C75ABD005CDE3F /* leptjson.c in Sources */ = {isa = PBXBuildFile; fileRef = 163B3C2326C75ABD005CDE3F /* leptjson.c */; };
-		163B3C2726C75ABD005CDE3F /* test.c in Sources */ = {isa = PBXBuildFile; fileRef = 163B3C2526C75ABD005CDE3F /* test.c */; };
+		16171A9326C8C62000D78553 /* test.c in Sources */ = {isa = PBXBuildFile; fileRef = 16171A9026C8C62000D78553 /* test.c */; };
+		16171A9426C8C62000D78553 /* leptjson.c in Sources */ = {isa = PBXBuildFile; fileRef = 16171A9126C8C62000D78553 /* leptjson.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,9 +24,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		163B3C2326C75ABD005CDE3F /* leptjson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = leptjson.c; path = ../../chapter2/leptjson.c; sourceTree = "<group>"; };
-		163B3C2426C75ABD005CDE3F /* leptjson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = leptjson.h; path = ../../chapter2/leptjson.h; sourceTree = "<group>"; };
-		163B3C2526C75ABD005CDE3F /* test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = test.c; path = ../../chapter2/test.c; sourceTree = "<group>"; };
+		16171A9026C8C62000D78553 /* test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = test.c; path = ../../chapter3/test.c; sourceTree = "<group>"; };
+		16171A9126C8C62000D78553 /* leptjson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = leptjson.c; path = ../../chapter3/leptjson.c; sourceTree = "<group>"; };
+		16171A9226C8C62000D78553 /* leptjson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = leptjson.h; path = ../../chapter3/leptjson.h; sourceTree = "<group>"; };
 		1696887726BE218F0007B251 /* lept_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lept_test; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -60,9 +60,9 @@
 		1696887926BE218F0007B251 /* lept_test */ = {
 			isa = PBXGroup;
 			children = (
-				163B3C2326C75ABD005CDE3F /* leptjson.c */,
-				163B3C2426C75ABD005CDE3F /* leptjson.h */,
-				163B3C2526C75ABD005CDE3F /* test.c */,
+				16171A9126C8C62000D78553 /* leptjson.c */,
+				16171A9226C8C62000D78553 /* leptjson.h */,
+				16171A9026C8C62000D78553 /* test.c */,
 			);
 			path = lept_test;
 			sourceTree = "<group>";
@@ -124,8 +124,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				163B3C2726C75ABD005CDE3F /* test.c in Sources */,
-				163B3C2626C75ABD005CDE3F /* leptjson.c in Sources */,
+				16171A9426C8C62000D78553 /* leptjson.c in Sources */,
+				16171A9326C8C62000D78553 /* test.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

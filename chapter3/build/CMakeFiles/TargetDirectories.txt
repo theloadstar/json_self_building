@@ -1,0 +1,4 @@
+/Users/vectord/GitHubSL/JSON/chapter3/build/CMakeFiles/leptjson_test.dir
+/Users/vectord/GitHubSL/JSON/chapter3/build/CMakeFiles/rebuild_cache.dir
+/Users/vectord/GitHubSL/JSON/chapter3/build/CMakeFiles/edit_cache.dir
+/Users/vectord/GitHubSL/JSON/chapter3/build/CMakeFiles/leptjson.dir
