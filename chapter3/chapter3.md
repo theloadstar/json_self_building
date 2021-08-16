@@ -279,7 +279,7 @@ static int lept_parse_string(lept_context* c, lept_value* v) {
 
 task1中，在函数`test_parse()`内部，个人认为`test_access_string();`的测试应该位于其他access之前，因为其他access测试内部都先使用`set_string`将v初始化为string类型，以验证对应的set是否有效。或者说，除了`test_access_null()`以外，其余的access可以不使用set_string，但null仍旧需要，因为`lept_init(&v);`会将v初始化为`null`类型，无法验证`set_null`是否成立
 
-## task3
+## task2
 
 关于转义字符的入栈，以`"\"Hello\\nWorld\""`为例，最终`v->n.s.s`里存储的应该为`"Hello\nWord"`.即最外层双引号内部转义后的内容。
 
@@ -335,7 +335,15 @@ case '\\':
 * 因为当前ch为`\\`时，下一个读入的ch已无转义斜杠，故需要进行但字符判断，即每个case前对于`\b`的判断应该为`case('b')`而非`case('\b')`，除前两个转义之外，其余类似
 * <font color = "red">勿忘break！！！</font>
 
+## task3
 
+注意 `char` 带不带符号，是实现定义的。如果编译器定义 `char` 为带符号的话，`(unsigned char)ch >= 0x80` 的字符，都会变成负数，并产生 `LEPT_PARSE_INVALID_STRING_CHAR` 错误。目前只解析ascii字符，故不用考虑符号，但解析Unicode时需要考虑符号。
+
+---
+
+## 内存泄露检测
+
+在macOS平台上，可以使用valgrind来检测内存泄露。然而，valgrind似乎不支持Sierra以上的系统，具体可以看[这里](https://github.com/john-yohan-park/Valgrind_Catalina)
 
 # To Do
 
