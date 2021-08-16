@@ -272,3 +272,17 @@ static int lept_parse_string(lept_context* c, lept_value* v) {
 * `EXPECT_EQ_`类型的测试，逻辑为调用`BASE`判断`expect==actual`，之后按判断结果进行输出
 * `TEST_TYPE`的逻辑为先测试`parse`即对应的解析，然后测试对应的`type`。对于字符串，还需要测试对应的字符串长度和字符串是否通过测试。注意这部分测试需要在测试前init，在测试后free
 * access是专门用来测试set相关函数的
+
+# Exercise
+
+## task1
+
+task1中，在函数`test_parse()`内部，个人认为`test_access_string();`的测试应该位于其他access之前，因为其他access测试内部都先使用`set_string`将v初始化为string类型，以验证对应的set是否有效。或者说，除了`test_access_null()`以外，其余的access可以不使用set_string，但null仍旧需要，因为`lept_init(&v);`会将v初始化为`null`类型，无法验证`set_null`是否成立
+
+
+
+
+
+# To Do
+
+- [ ] Task1 `test_access_string();`顺序

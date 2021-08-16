@@ -222,6 +222,11 @@ static void test_access_boolean() {
 
 static void test_access_number() {
     /* \TODO */
+    lept_value v;
+    lept_init(&v);
+    lept_set_string(&v,"a",1);
+    lept_set_number(&v,10.01234);
+    EXPECT_EQ_DOUBLE(10.01234,lept_get_number(&v));
 }
 
 static void test_access_string() {
@@ -248,10 +253,10 @@ static void test_parse() {
     test_parse_invalid_string_escape();
     test_parse_invalid_string_char();
 
+    test_access_string();
     test_access_null();
     test_access_boolean();
     test_access_number();
-    test_access_string();
 }
 
 int main() {
