@@ -51,3 +51,5 @@
 
 对比tutorial2_answer于tutorial3，增加Markdown中未提到的内容
 
+增加测试`test_access_boolean`以及相关get函数的实现
+

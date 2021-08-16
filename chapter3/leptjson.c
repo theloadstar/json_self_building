@@ -183,7 +183,9 @@ void lept_set_number(lept_value* v, double n){
 /*boolean*/
 int lept_get_boolean(const lept_value* v){
 	assert(v!=NULL&&(v->type==LEPT_TRUE||v->type==LEPT_FALSE));
-	return 0;
+	/*printf("gettest\n");
+	printf(v->type==LEPT_TRUE?"GET_TRUE\n":"GET_FALSE\n");*/
+	return v->type==LEPT_TRUE;
 }
 void lept_set_boolean(lept_value* v, int b){
 	assert(v!=NULL);
