@@ -41,7 +41,7 @@
 
 # [Chapter3](./chapter3/chapter3.md)
 
-# 8.15
+## 8.15
 
 增加字符串相关、set/get函数
 
@@ -50,3 +50,4 @@
 ## 8.16
 
 对比tutorial2_answer于tutorial3，增加Markdown中未提到的内容
+
