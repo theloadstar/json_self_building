@@ -113,6 +113,7 @@ int lept_parse(lept_value* v, const char* json){
 	/*init c*/
 	c.stack = NULL;
 	c.size=c.top = 0;
+	lept_init(v);
 	/*v 不得为空指针*/
 	assert(v!=NULL);
 	c.json = json;
@@ -172,6 +173,21 @@ lept_type lept_get_type(const lept_value* v){
 double lept_get_number(const lept_value* v){
 	assert(v!=NULL&&v->type==LEPT_NUMBER);
 	return v->u.n;
+}
+
+void lept_set_number(lept_value* v, double n){
+	lept_free(v);
+	v->u.n = n;
+	v->type = LEPT_NUMBER;
+}
+/*boolean*/
+int lept_get_boolean(const lept_value* v){
+	assert(v!=NULL&&(v->type==LEPT_TRUE||v->type==LEPT_FALSE));
+	return 0;
+}
+void lept_set_boolean(lept_value* v, int b){
+	assert(v!=NULL);
+	v->type = b?LEPT_TRUE:LEPT_FALSE;
 }
 
 #ifndef LEPT_PARSE_STACK_INIT_SIZE

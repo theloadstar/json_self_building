@@ -46,3 +46,7 @@
 增加字符串相关、set/get函数
 
 完成chapter3基础部分，包括字符串表示、内存管理、缓冲区与堆栈以及字符串解析
+
+## 8.16
+
+对比tutorial2_answer于tutorial3，增加Markdown中未提到的内容
