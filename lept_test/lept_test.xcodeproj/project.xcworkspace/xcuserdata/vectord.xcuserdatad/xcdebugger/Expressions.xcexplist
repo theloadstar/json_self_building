@@ -3,6 +3,17 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "lept_parse_string:leptjson.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "c-&gt;stack">
+            </PersistentString>
+            <PersistentString
+               value = "ch">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "lept_parse_literal:leptjson.c">
          <PersistentStrings>
             <PersistentString

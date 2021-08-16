@@ -54,3 +54,5 @@
 增加测试`test_access_boolean`以及相关get函数的实现
 
 完成task1，调整`test_access_string();`在`test_parse()`中的测试顺序
+
+完成task2，debug过程虽显曲折，但也算是有所收获，详见chapter3md

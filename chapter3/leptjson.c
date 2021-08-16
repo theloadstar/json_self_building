@@ -150,8 +150,8 @@ void lept_set_string(lept_value* v, const char* s, size_t len){
 const char* lept_get_string(const lept_value* v){
 	assert(v!=NULL&&v->type==LEPT_STRING);
 	return v->u.s.s;
-
 }
+
 size_t lept_get_string_length(const lept_value* v){
 	assert(v!=NULL&&v->type==LEPT_STRING);
 	return v->u.s.len;
@@ -237,6 +237,22 @@ static int lept_parse_string(lept_context* c, lept_value* v){
 			case '\0':
 			    c->top = head;
 			    return LEPT_PARSE_MISS_QUOTATION_MARK;
+			case '\\':
+			    ch = *p++;
+			    switch(ch){
+			    	case '\"': PUTC(c,'\"');break;
+			    	case '\\': PUTC(c,'\\');break;
+			    	case '/':  PUTC(c,'/'); break;
+			    	case 'b':  PUTC(c,'\b');break;
+			    	case 'f':  PUTC(c,'\f');break;
+			    	case 'n':  PUTC(c,'\n');break;
+			    	case 'r':  PUTC(c,'\r');break;
+			    	case 't':  PUTC(c,'\t');break;
+			    	default:
+			    	    c->top = head;
+			    	    return LEPT_PARSE_INVALID_STRING_ESCAPE;
+			    }
+			    break;
 			default:
 			    PUTC(c,ch);/*每个字符入栈*/
 		}

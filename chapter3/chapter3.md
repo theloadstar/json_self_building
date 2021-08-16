@@ -279,7 +279,61 @@ static int lept_parse_string(lept_context* c, lept_value* v) {
 
 task1中，在函数`test_parse()`内部，个人认为`test_access_string();`的测试应该位于其他access之前，因为其他access测试内部都先使用`set_string`将v初始化为string类型，以验证对应的set是否有效。或者说，除了`test_access_null()`以外，其余的access可以不使用set_string，但null仍旧需要，因为`lept_init(&v);`会将v初始化为`null`类型，无法验证`set_null`是否成立
 
+## task3
 
+关于转义字符的入栈，以`"\"Hello\\nWorld\""`为例，最终`v->n.s.s`里存储的应该为`"Hello\nWord"`.即最外层双引号内部转义后的内容。
+
+刚开始自己的想法是当前ch为转义后斜杠，即`\\`时，先讲ch入栈，这样就出现了最终存储的斜杠为转义前的双斜杠，而非转义后的单斜杠。但只压入单斜杠无法实现，故应该ch不入栈，直接入后面的转义后的字符。如上面的例子里，先不入栈`\\`，而后面入栈`\n`。
+
+换句话说，以上例子中，最终的转义斜杠是给`n`用的，而使用原来的存储方式会使得该转义斜杠给另外一个斜杠用，导致错误。
+
+Before：
+
+```C
+case '\\':
+			    PUTC(c,tem);/*先将\入栈*/
+			    cs = *p++;
+			    switch(cs){
+			    	case '\"':
+			    	case '\\':
+			    	case '/':
+			    	case 'b':
+			    	case 'f':
+			    	case 'n':
+			    	case 'r':
+			    	case 't':PUTC(c,cs);break;
+			    	default:
+			    	    c->top = head;
+			    	    return LEPT_PARSE_INVALID_STRING_ESCAPE;
+			    }
+			    break;
+```
+
+After：
+
+```C
+case '\\':
+			    ch = *p++;
+			    switch(ch){
+			    	case '\"': PUTC(c,'\"');break;
+			    	case '\\': PUTC(c,'\\');break;
+			    	case '/':  PUTC(c,'/'); break;
+			    	case 'b':  PUTC(c,'\b');break;
+			    	case 'f':  PUTC(c,'\f');break;
+			    	case 'n':  PUTC(c,'\n');break;
+			    	case 'r':  PUTC(c,'\r');break;
+			    	case 't':  PUTC(c,'\t');break;
+			    	default:
+			    	    c->top = head;
+			    	    return LEPT_PARSE_INVALID_STRING_ESCAPE;
+			    }
+			    break;
+```
+
+<font color = "red">注意</font>：
+
+* 因为当前ch为`\\`时，下一个读入的ch已无转义斜杠，故需要进行但字符判断，即每个case前对于`\b`的判断应该为`case('b')`而非`case('\b')`，除前两个转义之外，其余类似
+* <font color = "red">勿忘break！！！</font>
 
 
 
