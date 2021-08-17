@@ -97,5 +97,54 @@ static void lept_encode_utf8(lept_context* c, unsigned u) {
 }
 ```
 
+## Task 3
 
+Task3总体上没什么太大的波折，按部就班，扫到高代理项则向后扫描是否有低代理项、低代理项是否在范围内，否则就报`LEPT_PARSE_INVALID_UNICODE_SURROGATE`的错，注意扫完高代理项后需要先扫`\\u`。
+
+```C
+case 'u':
+                        if (!(p = lept_parse_hex4(p, &u)))
+                            STRING_ERROR(LEPT_PARSE_INVALID_UNICODE_HEX);
+                        /* \TODO surrogate handling */
+                        if(ISHIGHSURR(u)){
+                            ch = *p++;
+                            if(ch!='\\')
+                               return LEPT_PARSE_INVALID_UNICODE_SURROGATE;
+                            ch = *p++;
+                            if(ch!='u')
+                               return LEPT_PARSE_INVALID_UNICODE_SURROGATE;
+                        	if(!(p=lept_parse_hex4(p, &u2)))
+                        		return LEPT_PARSE_INVALID_UNICODE_SURROGATE;
+                        	if(ISLOWSURR(u2)){
+                        		u = 0x10000+(u-0xD800)*0x400+(u2-0xDC00);
+                        	}
+                        	else
+                        		return LEPT_PARSE_INVALID_UNICODE_SURROGATE;
+                        }
+                        lept_encode_utf8(c, u);
+                        break;
+```
+
+以下是叶老师的代码，进位等操作还是很讲究的
+
+```C
+case 'u':
+			if (!(p = lept_parse_hex4(p, &u)))
+          STRING_ERROR(LEPT_PARSE_INVALID_UNICODE_HEX);
+      if (u >= 0xD800 && u <= 0xDBFF) { /* surrogate pair */
+           if (*p++ != '\\')
+              STRING_ERROR(LEPT_PARSE_INVALID_UNICODE_SURROGATE);
+           if (*p++ != 'u')
+              STRING_ERROR(LEPT_PARSE_INVALID_UNICODE_SURROGATE);
+           if (!(p = lept_parse_hex4(p, &u2)))
+              STRING_ERROR(LEPT_PARSE_INVALID_UNICODE_HEX);
+           if (u2 < 0xDC00 || u2 > 0xDFFF)
+              STRING_ERROR(LEPT_PARSE_INVALID_UNICODE_SURROGATE);
+           u = (((u - 0xD800) << 10) | (u2 - 0xDC00)) + 0x10000;
+       }
+       lept_encode_utf8(c, u);
+       break;
+```
+
+![chapter4_test_result_after](../graph/chapter4_test_result_after.png)
 

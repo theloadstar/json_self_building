@@ -123,6 +123,7 @@ static void test_parse_number(){
     }while(0)
 
 static void test_parse_string() {
+#if 1
     TEST_STRING("", "\"\"");
     TEST_STRING("Hello", "\"Hello\"");
     TEST_STRING("Hello\nWorld", "\"Hello\\nWorld\"");
@@ -133,7 +134,8 @@ static void test_parse_string() {
     TEST_STRING("\x24", "\"\\u0024\"");         /* Dollar sign U+0024 */
     TEST_STRING("\xC2\xA2", "\"\\u00A2\"");     /* Cents sign U+00A2 */
     TEST_STRING("\xE2\x82\xAC", "\"\\u20AC\""); /* Euro sign U+20AC */
-#if 0
+#endif
+#if 1
     TEST_STRING("\xF0\x9D\x84\x9E", "\"\\uD834\\uDD1E\"");  /* G clef sign U+1D11E */
     TEST_STRING("\xF0\x9D\x84\x9E", "\"\\ud834\\udd1e\"");  /* G clef sign U+1D11E */
 #endif
@@ -205,7 +207,7 @@ static void test_parse_invalid_string_char() {
 }
 
 static void test_parse_invalid_unicode_hex() {
-#if 0
+#if 1
     TEST_ERROR(LEPT_PARSE_INVALID_UNICODE_HEX, "\"\\u\"");
     TEST_ERROR(LEPT_PARSE_INVALID_UNICODE_HEX, "\"\\u0\"");
     TEST_ERROR(LEPT_PARSE_INVALID_UNICODE_HEX, "\"\\u01\"");
@@ -222,7 +224,7 @@ static void test_parse_invalid_unicode_hex() {
 }
 
 static void test_parse_invalid_unicode_surrogate() {
-#if 0
+#if 1
     TEST_ERROR(LEPT_PARSE_INVALID_UNICODE_SURROGATE, "\"\\uD800\"");
     TEST_ERROR(LEPT_PARSE_INVALID_UNICODE_SURROGATE, "\"\\uDBFF\"");
     TEST_ERROR(LEPT_PARSE_INVALID_UNICODE_SURROGATE, "\"\\uD800\\\\\"");

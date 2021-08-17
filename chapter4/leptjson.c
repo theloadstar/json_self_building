@@ -14,7 +14,8 @@
 #define ISDIGIT(c)       ((c)>='0'&&(c)<='9')
 #define ISDIGIT1TO9(c)   ((c)>='1'&&(c)<='9')
 #define PUTC(c, ch) do{ *(char*)lept_context_push(c, sizeof(char))=(ch); }while(0)
-
+#define ISHIGHSURR(u) ((u)>=0xD800&&(u)<=0xDBFF)
+#define ISLOWSURR(u)  ((u)>=0xDC00&&(u)<=0xDFFF)
 /*为减少函数之间传递多个参数，定义json字符串结构体*/
 typedef struct{
 	const char* json;
@@ -240,6 +241,7 @@ static const char* lept_parse_hex4(const char* p, unsigned* u) {
 }
 /*将码点解析为UTF-8*/
 static void lept_encode_utf8(lept_context* c, unsigned u) {
+	assert(u<=0x10ffff);
     /* \TODO */
 	if(u<=0x007f){
 		PUTC(c, u);
@@ -270,7 +272,7 @@ static void lept_encode_utf8(lept_context* c, unsigned u) {
 static int lept_parse_string(lept_context* c, lept_value* v){
 	/*备份栈顶*/
 	size_t head = c->top, len;
-	unsigned u;
+	unsigned u, u2;
 	const char* p;
 	EXPECT(c,'\"');
 	p = c->json;
@@ -299,6 +301,21 @@ static int lept_parse_string(lept_context* c, lept_value* v){
                         if (!(p = lept_parse_hex4(p, &u)))
                             STRING_ERROR(LEPT_PARSE_INVALID_UNICODE_HEX);
                         /* \TODO surrogate handling */
+                        if(ISHIGHSURR(u)){
+                            ch = *p++;
+                            if(ch!='\\')
+                               return LEPT_PARSE_INVALID_UNICODE_SURROGATE;
+                            ch = *p++;
+                            if(ch!='u')
+                               return LEPT_PARSE_INVALID_UNICODE_SURROGATE;
+                        	if(!(p=lept_parse_hex4(p, &u2)))
+                        		return LEPT_PARSE_INVALID_UNICODE_SURROGATE;
+                        	if(ISLOWSURR(u2)){
+                        		u = 0x10000+(u-0xD800)*0x400+(u2-0xDC00);
+                        	}
+                        	else
+                        		return LEPT_PARSE_INVALID_UNICODE_SURROGATE;
+                        }
                         lept_encode_utf8(c, u);
                         break;
 			    	default:
