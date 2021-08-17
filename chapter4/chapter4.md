@@ -51,3 +51,51 @@ codepoint = 0x10000 + (H − 0xD800) × 0x400 + (L − 0xDC00)
 | U+0800 ~ U+FFFF    | 16       | 1110xxxx | 10xxxxxx | 10xxxxxx |          |
 | U+10000 ~ U+10FFFF | 21       | 11110xxx | 10xxxxxx | 10xxxxxx | 10xxxxxx |
 
+# Exercise
+
+先来张编写作业代码前的测试结果，还挺刺激的ಠ_ಠ
+
+![chapter4_test_result_before](../graph/chapter4_test_result_before.png)
+
+## Task2
+
+UTF-8的存储。在编写 `lept_encode_utf8()`函数时，脑袋一直绕不过弯来，以`TEST_STRING("\x24", "\"\\u0024\"");`，后面的JSON在解析完成并以UTF-8格式存储之后，应该显示为`\x24`才对。实际上，确实显示了，只不过是以字符的形式显示。换言之，我的疑惑之处在于测试代码解析时只存储数字36至`v->u.s.s`中，没有存储`\u`,`\x`之类的字符，打印出来确实字符而不是`36`。直到我重新回顾了一遍PUTC代码：
+
+```c
+#define PUTC(c, ch) do{ *(char*)lept_context_push(c, sizeof(char))=(ch); }while(0)
+```
+
+从这行代码能够看出，将36压入栈时，36是作为char类型被压入的；换句话说，压入的是符号`$`的<font color = "red">码点</font>36，而不是字符3和字符6。由于存储的类型为字符（串），故打印时按照字符类型输出，相应的码点输出的便为对应的字符。
+
+将字符转换为UTF-8格式存储的函数`lept_encode_utf8`如下，line12把800写成了8000卡了我好久：
+
+```C
+/*将码点解析为UTF-8*/
+static void lept_encode_utf8(lept_context* c, unsigned u) {
+    /* \TODO */
+	if(u<=0x007f){
+		PUTC(c, u);
+	}
+	else if(u>=0x0080&&u<=0x07ff){
+		/*>>操作为了分割字节，即分组； &操作为了将高位置0，故第一组全部&0xff，也可以不&*/
+		PUTC(c,(0xC0|((u>>6)&0xFF)));/*0xC0 = 1100 0000*/
+		PUTC(c,(0x80|((u   )&0x3F)));/*0x80 = 1000 0000, 0x3F将除低六位外全置0*/
+	}
+	else if(u>=0x0800&&u<=0xFFFF){
+		/*printf("%d %d %d\n",0xE0 | ((u >> 12) & 0xFF),0x80 | ((u >>  6) & 0x3F),0x80 | ( u        & 0x3F));
+		printf("%d %d %d\n",(0xE0|((u>>12)&0xFF)),(0x80|((u>>6 )&0x3F)),(0x80|((u    )&0x3F)));*/
+		PUTC(c,(0xE0|((u>>12)&0xFF)));/*0xE0=1110 0000*/
+		PUTC(c,(0x80|((u>>6 )&0x3F)));/*0x80=1000 0000*/
+		PUTC(c,(0x80|((u    )&0x3F)));
+	}
+	else if(u>=0x10000&&u<=0x10FFFF){
+		PUTC(c,(0xF0|((u>>18)&0xFF)));/*0xF0=1111 0000*/
+		PUTC(c,(0x80|((u>>12)&0x3F)));
+		PUTC(c,(0x80|((u>> 6)&0x3F)));
+		PUTC(c,(0x80|((u    )&0x3F)));
+	}
+}
+```
+
+
+
