@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/vectord/GitHubSL/JSON/chapter4/leptjson.h
+stddef.h
+-
+
+/Users/vectord/GitHubSL/JSON/chapter4/test.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+leptjson.h
+/Users/vectord/GitHubSL/JSON/chapter4/leptjson.h
+

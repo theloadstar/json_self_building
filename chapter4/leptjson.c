@@ -247,8 +247,7 @@ static int lept_parse_string(lept_context* c, lept_value* v){
 			    c->json = p;
 			    return LEPT_PARSE_OK;
 			case '\0':
-			    c->top = head;
-			    return LEPT_PARSE_MISS_QUOTATION_MARK;
+			    STRING_ERROR(LEPT_PARSE_MISS_QUOTATION_MARK);
 			case '\\':
 			    ch = *p++;
 			    switch(ch){
@@ -260,15 +259,19 @@ static int lept_parse_string(lept_context* c, lept_value* v){
 			    	case 'n':  PUTC(c,'\n');break;
 			    	case 'r':  PUTC(c,'\r');break;
 			    	case 't':  PUTC(c,'\t');break;
+			    	case 'u':
+                        if (!(p = lept_parse_hex4(p, &u)))
+                            STRING_ERROR(LEPT_PARSE_INVALID_UNICODE_HEX);
+                        /* \TODO surrogate handling */
+                        lept_encode_utf8(c, u);
+                        break;
 			    	default:
-			    	    c->top = head;
-			    	    return LEPT_PARSE_INVALID_STRING_ESCAPE;
+			    	STRING_ERROR(LEPT_PARSE_INVALID_STRING_ESCAPE);
 			    }
 			    break;
 			default:
 			    if((unsigned)ch<0x20){
-			    	c->top = head;
-			    	return LEPT_PARSE_INVALID_STRING_CHAR;
+			    	STRING_ERROR(LEPT_PARSE_INVALID_STRING_CHAR);
 			    }
 			    PUTC(c,ch);/*每个字符入栈*/
 		}
