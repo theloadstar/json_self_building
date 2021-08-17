@@ -56,3 +56,6 @@
 完成task1，调整`test_access_string();`在`test_parse()`中的测试顺序
 
 完成task2，debug过程虽显曲折，但也算是有所收获，详见chapter3md
+
+# [Chapter4](./chapter4/chapter4.md)
+
