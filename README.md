@@ -59,3 +59,9 @@
 
 # [Chapter4](./chapter4/chapter4.md)
 
+## 8.17
+
+完成`/uxxxx`转义的解析、chapter4 task以及相应的报错处理
+
+# [Chapter5](./chapter5/chapter5.md)
+
