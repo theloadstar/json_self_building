@@ -162,10 +162,20 @@ size_t lept_get_string_length(const lept_value* v){
 }
 
 void lept_free(lept_value* v){
+	size_t i;
 	assert(v!=NULL);
-	if(v->type==LEPT_STRING){
-		free(v->u.s.s);
+	switch(v->type){
+		case LEPT_STRING:
+		    free(v->u.s.s);break;
+		case LEPT_ARRAY:
+		    for(i=0;i<v->u.a.size;i++)
+		    	lept_free(&v->u.a.e[i]);
+		    free(v->u.a.e);break;
+		default:break;
 	}
+	/*if(v->type==LEPT_STRING){
+		free(v->u.s.s);
+	}*/
 	v->type = LEPT_NULL;/*避免重复释放*/
 }
 

@@ -201,6 +201,8 @@ result：
 
 在写Task3时，发现代码中并没有`free`context内栈的相关的代码，其实这是因为在函数`lept_parse`结尾会统一free `lept_context`。
 
+这里由于Mac端的内存泄漏工具`valgrind`不支持Catalina系统了，所以就没装。开始自己在`lept_parse_array`里试着free了一下，产生未malloc而free的问题。
+
 ## Task4
 
 在`lept_parse_array`开头备份`c->top`，出现错误时先恢复再返回
@@ -209,7 +211,7 @@ result：
 
 ~~`lept_context_push`返回的虽然是`void`类型的指针，但其指向的内容还是`lept_context`的类型，~~
 
-这个是啥bug我还是真没看出来。
+这个是啥bug我还是真没看出来。使用改方式修改代码，以上的task测试也全部通过。
 
 
 
