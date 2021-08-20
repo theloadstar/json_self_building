@@ -333,5 +333,7 @@ static int lept_parse_array(lept_context* c, lept_value* v) {
 
 - [x] change `while(1)`  to `for(;;)`
 
-- [ ] Task 5消化
+- [x] Task 5消化：
+
+  简单说realloc若重新分配成功可能会返回一个新地址，而这里上层的e指向的是老地址，就变成悬空指针了。[参考](https://blog.csdn.net/snlying/article/details/4005238)
 
