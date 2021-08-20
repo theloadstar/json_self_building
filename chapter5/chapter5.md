@@ -193,9 +193,34 @@ result：
 
 ![chapter5_task1_result](../graph/chapter5_task1_result.png)
 
+---
+
+官方：
+
+自己写的与叶老师的task1答案相似，不用之处在于case2叶老师使用for循环，可读性更强
+
+```C
+lept_init(&v);
+    EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v, "[ [ ] , [ 0 ] , [ 0 , 1 ] , [ 0 , 1 , 2 ] ]"));
+    EXPECT_EQ_INT(LEPT_ARRAY, lept_get_type(&v));
+    EXPECT_EQ_SIZE_T(4, lept_get_array_size(&v));
+    for (i = 0; i < 4; i++) {
+        lept_value* a = lept_get_array_element(&v, i);
+        EXPECT_EQ_INT(LEPT_ARRAY, lept_get_type(a));
+        EXPECT_EQ_SIZE_T(i, lept_get_array_size(a));
+        for (j = 0; j < i; j++) {
+            lept_value* e = lept_get_array_element(a, j);
+            EXPECT_EQ_INT(LEPT_NUMBER, lept_get_type(e));
+            EXPECT_EQ_DOUBLE((double)j, lept_get_number(e));
+        }
+    }
+```
+
 ## Task2
 
 在`lept_parse_array`识别`]`前加入whitespace的识别
+
+Task2自己的解答正确，与叶老师的区别在于`,`之后的ws解析移到了循环开始处，而叶老师在`,`分支内解析ws，之后开始下一轮循环，本质上自己与其是一样的。
 
 ## Task3
 
@@ -203,9 +228,59 @@ result：
 
 这里由于Mac端的内存泄漏工具`valgrind`不支持Catalina系统了，所以就没装。开始自己在`lept_parse_array`里试着free了一下，产生未malloc而free的问题。
 
+这题最后看的叶老师的解答，应该写在`lept_free()`里。知道位置后自己也尝试着写了，但没通过测试。原因是数组内部的元素仍旧可能是数组，这就要求我们需要递归调用`lept_free()`。
+
+```C
+void lept_free(lept_value* v){
+	size_t i;
+	assert(v!=NULL);
+	switch(v->type){
+		case LEPT_STRING:
+		    free(v->u.s.s);break;
+		case LEPT_ARRAY:
+		    for(i=0;i<v->u.a.size;i++)
+		    	lept_free(&v->u.a.e[i]);
+		    free(v->u.a.e);break;
+		default:break;
+	}
+	/*if(v->type==LEPT_STRING){
+		free(v->u.s.s);
+	}*/
+	v->type = LEPT_NULL;/*避免重复释放*/
+}
+```
+
 ## Task4
 
 在`lept_parse_array`开头备份`c->top`，出现错误时先恢复再返回
+
+我的解法只实现了“弹出”，没有实现释放。具体地，对于size内的每一个元素，都需要free过，使用pop获得对应的初始地址即可。
+
+```C
+static int lept_parse_array(lept_context* c, lept_value* v) {
+    /* ... */
+    for (;;) {
+        /* ... */
+        if ((ret = lept_parse_value(c, &e)) != LEPT_PARSE_OK)
+            break;
+        /* ... */
+        if (*c->json == ',') {
+            /* ... */
+        }
+        else if (*c->json == ']') {
+            /* ... */
+        }
+        else {
+            ret = LEPT_PARSE_MISS_COMMA_OR_SQUARE_BRACKET;
+            break;
+        }
+    }
+    /* Pop and free values on the stack */
+    for (i = 0; i < size; i++)
+        lept_free((lept_value*)lept_context_pop(c, sizeof(lept_value)));
+    return ret;
+}
+```
 
 ## Task5
 
@@ -213,11 +288,27 @@ result：
 
 这个是啥bug我还是真没看出来。使用改方式修改代码，以上的task测试也全部通过。
 
+看了解答后，知道会出现悬挂指针的问题，而这个问题涉及到需要增加stack的size，即需要压力测试，一般的测试测不出来。以下直接引用叶老师的[answer](origin/tutorial05_answer.md)：
 
+---
 
+这个 bug 源于压栈时，会获得一个指针 `e`，指向从堆栈分配到的空间：
 
+```C
+    for (;;) {
+        /* bug! */
+        lept_value* e = lept_context_push(c, sizeof(lept_value));
+        lept_init(e);
+        size++;
+        if ((ret = lept_parse_value(c, e)) != LEPT_PARSE_OK)
+            return ret;
+        /* ... */
+    }
+```
 
+然后，我们把这个指针调用 `lept_parse_value(c, e)`，这里会出现问题，因为 `lept_parse_value()` 及之下的函数都需要调用 `lept_context_push()`，而 `lept_context_push()` 在发现栈满了的时候会用 `realloc()` 扩容。这时候，我们上层的 `e` 就会失效，变成一个悬挂指针（dangling pointer），而且 `lept_parse_value(c, e)` 会通过这个指针写入解析结果，造成非法访问。
 
+---
 
 # TO Do
 

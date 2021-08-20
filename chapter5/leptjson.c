@@ -173,10 +173,7 @@ void lept_free(lept_value* v){
 		    free(v->u.a.e);break;
 		default:break;
 	}
-	/*if(v->type==LEPT_STRING){
-		free(v->u.s.s);
-	}*/
-	v->type = LEPT_NULL;/*避免重复释放*/
+	v->type = LEPT_NULL;
 }
 
 lept_type lept_get_type(const lept_value* v){
@@ -355,8 +352,8 @@ lept_value* lept_get_array_element(const lept_value* v, size_t index){
 }
 
 static int lept_parse_array(lept_context* c, lept_value* v){
-	size_t head = c->top;
-	size_t size = 0;
+	/*size_t head = c->top;*/
+	size_t size = 0, i;
 	int ret;
 	EXPECT(c,'[');
 	/*chapter5 task2*/
@@ -374,11 +371,10 @@ static int lept_parse_array(lept_context* c, lept_value* v){
 		lept_init(&e);
 		lept_parse_whitespace(c);
 		if((ret = lept_parse_value(c,&e))!=LEPT_PARSE_OK){
-			/*free(e.u.a.e);
-			e.u.a.size = 0;
-			e.type = LEPT_NULL;*/
+			/*my answer of task4 chapter5
 			c->top = head;
-			return ret;
+			return ret;*/
+			break;
 		}
 		memcpy(lept_context_push(c,sizeof(lept_value)),&e,sizeof(lept_value));
 		size++;
@@ -398,10 +394,15 @@ static int lept_parse_array(lept_context* c, lept_value* v){
 			/*free(v->u.a.e);
 			v->u.a.size = 0;
 			v->type = LEPT_NULL;*/
+			/*my answer of task4 chapter5
 			c->top = head;
-			return LEPT_PARSE_MISS_COMMA_OR_SQUARE_BRACKET;
+			return LEPT_PARSE_MISS_COMMA_OR_SQUARE_BRACKET;*/
+			ret = LEPT_PARSE_MISS_COMMA_OR_SQUARE_BRACKET;
+			break;
 		}
 	}
+	for(i=0;i<size;i++)
+		lept_free((lept_value*)lept_context_pop(c,sizeof(lept_value)));
 	return ret;
 }
 
