@@ -143,6 +143,10 @@ static void test_parse_array() {
 
 在写Task3时，发现代码中并没有`free`context内栈的相关的代码，其实这是因为在函数`lept_parse`结尾会统一free `lept_context`。
 
+## Task4
+
+在`lept_parse_array`开头备份`c->top`，出现错误时先恢复再返回
+
 
 
 
