@@ -129,9 +129,19 @@ static void test_parse_array() {
 
 ![while(1)和for(;;)的区别](../graph/while(1)和for(;;)的区别.png)
 
+# Exercise
+
+## Task1
 
 
 
+## Task2
+
+在`lept_parse_array`识别`]`前加入whitespace的识别
+
+## Task3
+
+在写Task3时，发现代码中并没有`free`context内栈的相关的代码，其实这是因为在函数`lept_parse`结尾会统一free `lept_context`。
 
 
 

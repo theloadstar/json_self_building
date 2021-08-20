@@ -348,6 +348,8 @@ static int lept_parse_array(lept_context* c, lept_value* v){
 	size_t size = 0;
 	int ret;
 	EXPECT(c,'[');
+	/*chapter5 task2*/
+	lept_parse_whitespace(c);
 	/*空数组*/
 	if(*c->json==']'){
 		c->json++;
