@@ -285,7 +285,7 @@ static int lept_parse_string(lept_context* c, lept_value* v){
 	const char* p;
 	EXPECT(c,'\"');
 	p = c->json;
-	while(1){
+	for(;;){
 		char ch = *p++;
 		switch(ch){
 			case '\"':
@@ -366,7 +366,7 @@ static int lept_parse_array(lept_context* c, lept_value* v){
 		v->u.a.e = NULL;
 		return LEPT_PARSE_OK;
 	}
-	while(1){
+	for(;;){
 		lept_value e;
 		lept_init(&e);
 		lept_parse_whitespace(c);

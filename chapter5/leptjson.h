@@ -17,6 +17,17 @@ struct lept_value{
 	lept_type type;
 };
 
+/*this one is ok as well
+typedef struct lept_value{
+	union{
+		struct {struct lept_value* e; size_t size; }a;
+		struct {char* s; size_t len;}s;
+		double n;
+	}u;
+	lept_type type;
+} lept_value;
+*/
+
 /*解析函数返回值类型*/
 enum {
 	LEPT_PARSE_OK = 0,

@@ -71,7 +71,9 @@ struct lept_value{
 };
 ```
 
-<span jump id = "jump">is this ojbk?</span>
+<span jump id = "jump">is this ok?</span>
+
+解答：以下不行，因为使用的是匿名结构体+typedef，在line3时无法得知`lept_value`的定义来源
 
 ```C
 typedef struct{
@@ -312,6 +314,24 @@ static int lept_parse_array(lept_context* c, lept_value* v) {
 
 # TO Do
 
-- [ ] [isthisok](#jump)
-- [ ] change `while(1)`  to `for(;;)`
+- [x] [isthisok](#jump)：not OJBK，with error:
+
+  ![chapter5_todo_1](../graph/chapter5_todo_1.png)
+
+   this one is ok, add `lept_value` after `struct` 
+
+  ```C
+  typedef struct lept_value{
+  	union{
+  		struct {struct lept_value* e; size_t size; }a;/*array*/
+  		struct {char* s; size_t len;}s;/*string*/
+  		double n;                      /*number*/
+  	}u;
+  	lept_type type;
+  } lept_value;
+  ```
+
+- [x] change `while(1)`  to `for(;;)`
+
+- [ ] Task 5消化
 
