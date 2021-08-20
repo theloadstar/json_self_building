@@ -133,7 +133,65 @@ static void test_parse_array() {
 
 ## Task1
 
+首先增加了这一行测试：
 
+```C
+EXPECT_EQ_INT(LEPT_PARSE_OK,lept_parse(&v,"[ null , false , true , 123 , \"abc\" ]"));
+```
+
+然后测试不通过，调试发现是因为`ws parse`的问题，在`while`的<font color = "red">值前后</font>进行解析空格。同样的，Task2的空格解析对应空数组，这里的空格解析对应非空数组。
+
+最终case1的`[ null , false , true , 123 , \"abc\" ]`测试如下：
+
+```C
+/*task1 case 1*/
+    EXPECT_EQ_INT(LEPT_PARSE_OK,lept_parse(&v,"[ null , false , true , 123 , \"abc\" ]"));
+    EXPECT_EQ_INT(LEPT_ARRAY, lept_get_type(&v));
+    EXPECT_EQ_SIZE_T(5, lept_get_array_size(&v));
+    /*null*/
+    EXPECT_EQ_INT(LEPT_NULL, lept_get_type(lept_get_array_element(&v, 0)));
+    /*false*/
+    EXPECT_EQ_INT(LEPT_FALSE, lept_get_type(lept_get_array_element(&v, 1)));
+    /*true*/
+    EXPECT_EQ_INT(LEPT_TRUE, lept_get_type(lept_get_array_element(&v, 2)));
+    /*number*/
+    EXPECT_EQ_INT(LEPT_NUMBER, lept_get_type(lept_get_array_element(&v, 3)));
+    EXPECT_EQ_DOUBLE(123.0, lept_get_number(lept_get_array_element(&v, 3)));
+    /*string "abd*/
+    EXPECT_EQ_INT(LEPT_STRING, lept_get_type(lept_get_array_element(&v, 4)));
+    EXPECT_EQ_STRING("abc",lept_get_string(lept_get_array_element(&v, 4)),lept_get_string_length(lept_get_array_element(&v, 4)));
+```
+
+case2如下：
+
+```C
+lept_init(&v);
+    EXPECT_EQ_INT(LEPT_PARSE_OK,lept_parse(&v,"[ [ ] , [ 0 ] , [ 0 , 1 ] , [ 0 , 1 , 2 ] ]"));
+    EXPECT_EQ_INT(LEPT_ARRAY, lept_get_type(&v));
+    EXPECT_EQ_SIZE_T(4, lept_get_array_size(&v));
+    /*[]*/
+    EXPECT_EQ_INT(LEPT_ARRAY, lept_get_type(lept_get_array_element(&v, 0)));
+    EXPECT_EQ_SIZE_T(0, lept_get_array_size(lept_get_array_element(&v, 0)));
+    /*[0]*/
+    EXPECT_EQ_INT(LEPT_ARRAY, lept_get_type(lept_get_array_element(&v, 1)));
+    EXPECT_EQ_SIZE_T(1, lept_get_array_size(lept_get_array_element(&v, 1)));
+    EXPECT_EQ_DOUBLE(0.0, lept_get_number(lept_get_array_element(lept_get_array_element(&v, 1),0)));
+    /*[0,1*/
+    EXPECT_EQ_INT(LEPT_ARRAY, lept_get_type(lept_get_array_element(&v, 2)));
+    EXPECT_EQ_SIZE_T(2, lept_get_array_size(lept_get_array_element(&v, 2)));
+    EXPECT_EQ_DOUBLE(0.0, lept_get_number(lept_get_array_element(lept_get_array_element(&v, 2),0)));
+    EXPECT_EQ_DOUBLE(1.0, lept_get_number(lept_get_array_element(lept_get_array_element(&v, 2),1)));
+    /*[0,1,2]*/
+    EXPECT_EQ_INT(LEPT_ARRAY, lept_get_type(lept_get_array_element(&v, 3)));
+    EXPECT_EQ_SIZE_T(3, lept_get_array_size(lept_get_array_element(&v, 3)));
+    EXPECT_EQ_DOUBLE(0.0, lept_get_number(lept_get_array_element(lept_get_array_element(&v, 3),0)));
+    EXPECT_EQ_DOUBLE(1.0, lept_get_number(lept_get_array_element(lept_get_array_element(&v, 3),1)));
+    EXPECT_EQ_DOUBLE(2.0, lept_get_number(lept_get_array_element(lept_get_array_element(&v, 3),2)));
+```
+
+result：
+
+![chapter5_task1_result](../graph/chapter5_task1_result.png)
 
 ## Task2
 
@@ -147,6 +205,12 @@ static void test_parse_array() {
 
 在`lept_parse_array`开头备份`c->top`，出现错误时先恢复再返回
 
+## Task5
+
+~~`lept_context_push`返回的虽然是`void`类型的指针，但其指向的内容还是`lept_context`的类型，~~
+
+这个是啥bug我还是真没看出来。
+
 
 
 
@@ -156,3 +220,5 @@ static void test_parse_array() {
 # TO Do
 
 - [ ] [isthisok](#jump)
+- [ ] change `while(1)`  to `for(;;)`
+

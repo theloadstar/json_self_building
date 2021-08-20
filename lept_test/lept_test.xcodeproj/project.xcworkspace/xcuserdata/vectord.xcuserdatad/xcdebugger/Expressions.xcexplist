@@ -3,6 +3,17 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "lept_parse_value:leptjson.c">
+      </ContextState>
+      <ContextState
+         contextName = "lept_parse_literal:leptjson.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "literal[i]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "lept_parse_string:leptjson.c">
          <PersistentStrings>
             <PersistentString
@@ -14,10 +25,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "lept_parse_literal:leptjson.c">
+         contextName = "lept_parse_array:leptjson.c">
          <PersistentStrings>
             <PersistentString
-               value = "literal[i]">
+               value = "c-&gt;json">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

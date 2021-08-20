@@ -362,6 +362,7 @@ static int lept_parse_array(lept_context* c, lept_value* v){
 	while(1){
 		lept_value e;
 		lept_init(&e);
+		lept_parse_whitespace(c);
 		if((ret = lept_parse_value(c,&e))!=LEPT_PARSE_OK){
 			/*free(e.u.a.e);
 			e.u.a.size = 0;
@@ -371,6 +372,7 @@ static int lept_parse_array(lept_context* c, lept_value* v){
 		}
 		memcpy(lept_context_push(c,sizeof(lept_value)),&e,sizeof(lept_value));
 		size++;
+		lept_parse_whitespace(c);
 		if(*c->json==',')
 			c->json++;
 		else if(*c->json==']'){
