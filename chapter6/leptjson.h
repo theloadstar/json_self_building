@@ -7,14 +7,22 @@
 typedef enum { LEPT_NULL, LEPT_FALSE, LEPT_TRUE, LEPT_NUMBER, LEPT_STRING, LEPT_ARRAY, LEPT_OBJECT } lept_type;
 
 typedef struct lept_value lept_value;
+typedef struct lept_member lept_member;
 /*定义存放json值的结构体，目前只需存放NULL/BOOL值，故只需先存放一个值即可*/
 struct lept_value{
 	union{
+		struct {lept_member* m;size_t size;}o;/*object*/
 		struct {lept_value* e; size_t size; }a;/*array*/
 		struct {char* s; size_t len;}s;/*string*/
 		double n;                      /*number*/
 	}u;
 	lept_type type;
+};
+
+struct lept_member{
+	char* k;
+	size_t klen;
+	lept_value v;
 };
 
 /*this one is ok as well
@@ -72,5 +80,12 @@ void lept_set_string(lept_value* v, const char* s, size_t len);
 /*array*/
 size_t lept_get_array_size(const lept_value* v);
 lept_value* lept_get_array_element(const lept_value* v, size_t index);
+
+/*object*/
+size_t lept_get_object_size(const lept_value* v);
+const char* lept_get_object_key(const lept_value* v, size_t index);
+size_t lept_get_object_key_length(const lept_value* v, size_t index);
+lept_value* lept_get_object_value(const lept_value* v, size_t index);
+
 
 #endif

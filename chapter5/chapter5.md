@@ -337,3 +337,30 @@ static int lept_parse_array(lept_context* c, lept_value* v) {
 
   简单说realloc若重新分配成功可能会返回一个新地址，而这里上层的e指向的是老地址，就变成悬空指针了。[参考](https://blog.csdn.net/snlying/article/details/4005238)
 
+  具体地，会产生形如如下代码的错误：
+
+  ```C
+  #include <malloc.h> 
+  char *p，*q; 
+  p = (char * ) malloc (10); 
+  q=p; 
+  p = (char * ) realloc (p,20); 
+  ```
+
+  即e开始保存了地址，但`lept_parse_value`可能因为realloc重新分配了`c-.stack`的地址，导致e保存的地址已经被回收，e称为悬挂指针
+
+  ```C
+      for (;;) {
+          /* bug! */
+          lept_value* e = lept_context_push(c, sizeof(lept_value));
+          lept_init(e);
+          size++;
+          if ((ret = lept_parse_value(c, e)) != LEPT_PARSE_OK)
+              return ret;
+          /* ... */
+      }
+  
+  ```
+
+  
+
