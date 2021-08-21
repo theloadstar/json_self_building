@@ -383,9 +383,6 @@ static int lept_parse_array(lept_context* c, lept_value* v){
 		lept_init(&e);
 		lept_parse_whitespace(c);
 		if((ret = lept_parse_value(c,&e))!=LEPT_PARSE_OK){
-			/*my answer of task4 chapter5
-			c->top = head;
-			return ret;*/
 			break;
 		}
 		memcpy(lept_context_push(c,sizeof(lept_value)),&e,sizeof(lept_value));
@@ -397,18 +394,11 @@ static int lept_parse_array(lept_context* c, lept_value* v){
 			c->json++;
 			v->type = LEPT_ARRAY;
 			v->u.a.size = size;
-			/*每一个元素都需要一个value大小来装*/
 			size *= sizeof(lept_value);
 			memcpy(v->u.a.e = (lept_value*)malloc(size),lept_context_pop(c,size),size);
 			return LEPT_PARSE_OK;
 		}
 		else{
-			/*free(v->u.a.e);
-			v->u.a.size = 0;
-			v->type = LEPT_NULL;*/
-			/*my answer of task4 chapter5
-			c->top = head;
-			return LEPT_PARSE_MISS_COMMA_OR_SQUARE_BRACKET;*/
 			ret = LEPT_PARSE_MISS_COMMA_OR_SQUARE_BRACKET;
 			break;
 		}
@@ -439,7 +429,61 @@ lept_value* lept_get_object_value(const lept_value* v, size_t index){
 	return &v->u.o.m[index].v;
 }
 
-
+static int lept_parse_object(lept_context* c, lept_valye* v){
+	size_t size;
+	lept_member m;
+	int ret;
+	EXPECT(c, '{');
+	lept_parse_whitespace(c);
+	/*空对象*/
+	if(*c->json == '}'){
+		c->json++;
+		v->type = LEPT_OBJECT;
+		v->u.o.m = NULL;
+		v->u.o.size = 0;
+		return LEPT_PARSE_OK;
+	}
+	m.k = NULL;
+	size = 0;
+	for(;;){
+		lept_init(&m.v);
+		/*parse key to m.k, m.klen*/
+		if((ret=lept_parse_string_raw(c,&m.k,&m.klen))!=LEPT_PARSE_OK)
+			break;
+		/*parse ws colon ws*/
+		lept_parse_whitespace(c);
+		if(*c->json!=':'){
+			ret = LEPT_PARSE_MISS_COLON;
+			break;
+		}
+		lept_parse_whitespace(c);
+		c->json++;
+		/*parse value*/
+		if((ret=lept_parse_value(c,&m.v))!=LEPT_PARSE_OK){
+			break;
+		}
+		memcpy(lept_context_push(c,sizeof(lept_member)),&m,sizeof(lept_member));
+		size++;
+		m.k = NULL;/* ownership is transferred to member on stack */
+		/*parse ws [comma|right-curly-brace] ws*/
+		lept_parse_whitespace(c);
+		if(*c->json==',')
+			c->json++;
+		else if(*c->json=='}'){
+			c->json++;
+			v->type = LEPT_OBJECT;
+			v->u.o.size = size;
+			size*=sizeof(lept_member);
+			memcpy(v->u.o.m=(lept_member*)malloc(size),lept_context_pop(c,size),size);
+			return LEPT_PARSE_OK;
+		}
+		else{
+			ret = LEPT_PARSE_MISS_COMMA_OR_CURLY_BRACKET;
+			break;
+		}
+	}
+	/*pop and free members on the stacks*/
+}
 
 
 
