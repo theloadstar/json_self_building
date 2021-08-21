@@ -25,6 +25,7 @@ typedef struct{
 
 static int lept_parse_string(lept_context* c, lept_value* v);
 static int lept_parse_array(lept_context* c, lept_value* v);
+static int lept_parse_object(lept_context* c, lept_value* v);
 
 /*可以直接操作c->json,但写成p使得代码可读性更强
 */
@@ -103,6 +104,7 @@ static int lept_parse_value(lept_context* c,lept_value* v){
 		case '\0': /*printf("LEPT_PARSE_EXPECT_VALUE\n");*/return LEPT_PARSE_EXPECT_VALUE;
 		case '\"': return lept_parse_string(c,v);
 		case '[' : return lept_parse_array(c,v);
+		case '{' : return lept_parse_object(c,v);
 		default:   /*printf("LEPT_PARSE_INVALID_VALUE\n");*/return lept_parse_number(c,v);
 	}
 }
@@ -429,7 +431,7 @@ lept_value* lept_get_object_value(const lept_value* v, size_t index){
 	return &v->u.o.m[index].v;
 }
 
-static int lept_parse_object(lept_context* c, lept_valye* v){
+static int lept_parse_object(lept_context* c, lept_value* v){
 	size_t size;
 	lept_member m;
 	int ret;
@@ -483,6 +485,7 @@ static int lept_parse_object(lept_context* c, lept_valye* v){
 		}
 	}
 	/*pop and free members on the stacks*/
+	return ret;
 }
 
 
