@@ -450,7 +450,7 @@ static void test_parse() {
     test_parse_invalid_unicode_surrogate();
     test_parse_miss_comma_or_square_bracket();
 
-#if 0
+#if 1
     test_parse_object();
 #endif
 

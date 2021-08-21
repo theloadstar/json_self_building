@@ -435,6 +435,8 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 	size_t size;
 	lept_member m;
 	int ret;
+    char *s = NULL;
+    size_t len = 0;
 	EXPECT(c, '{');
 	lept_parse_whitespace(c);
 	/*空对象*/
@@ -450,16 +452,18 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 	for(;;){
 		lept_init(&m.v);
 		/*parse key to m.k, m.klen*/
-		if((ret=lept_parse_string_raw(c,&m.k,&m.klen))!=LEPT_PARSE_OK)
+		if((ret=lept_parse_string_raw(c,&s,&len))!=LEPT_PARSE_OK)
 			break;
+        m.klen = len;
+        memcpy(m.k = (char*)malloc(m.klen), s, m.klen);
 		/*parse ws colon ws*/
 		lept_parse_whitespace(c);
 		if(*c->json!=':'){
 			ret = LEPT_PARSE_MISS_COLON;
 			break;
 		}
+        c->json++;
 		lept_parse_whitespace(c);
-		c->json++;
 		/*parse value*/
 		if((ret=lept_parse_value(c,&m.v))!=LEPT_PARSE_OK){
 			break;

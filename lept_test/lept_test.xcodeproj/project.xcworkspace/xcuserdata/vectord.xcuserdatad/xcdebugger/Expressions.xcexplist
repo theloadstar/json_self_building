@@ -31,6 +31,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "lept_parse_object:leptjson.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "c-&gt;json">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "lept_set_string:leptjson.c">
       </ContextState>
       <ContextState
