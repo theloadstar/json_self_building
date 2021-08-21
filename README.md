@@ -65,3 +65,17 @@
 
 # [Chapter5](./chapter5/chapter5.md)
 
+## 8.18
+
+完成chapter5基础部分
+
+剔除`.DS_Store`
+
+## 8.20
+
+完成chapter5练习部分
+
+# [Chapter6](chapter6/chapter6.md)
+
+## 8.21
+
