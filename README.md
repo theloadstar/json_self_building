@@ -84,3 +84,9 @@
 增加字符串解析的重构、对象解析的实现
 
 完成task1，task2有bug
+
+## 8.22
+
+fix task2的bug，增加新的todo
+
+完成chapter6
