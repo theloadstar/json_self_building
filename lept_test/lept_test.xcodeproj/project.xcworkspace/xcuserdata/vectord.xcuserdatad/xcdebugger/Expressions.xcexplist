@@ -3,6 +3,9 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "lept_get_object_key_length:leptjson.c">
+      </ContextState>
+      <ContextState
          contextName = "lept_context_pop:leptjson.c">
       </ContextState>
       <ContextState
@@ -36,13 +39,21 @@
             <PersistentString
                value = "c-&gt;json">
             </PersistentString>
+            <PersistentString
+               value = "m.k">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "lept_set_string:leptjson.c">
       </ContextState>
       <ContextState
-         contextName = "lept_parse_value:leptjson.c">
+         contextName = "test_parse_object:test.c">
+         <PersistentStrings>
+            <PersistentString
+               value = "v-&gt;u.o.m[0].k">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "lept_parse_array:leptjson.c">
@@ -51,6 +62,9 @@
                value = "c-&gt;json">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "lept_get_object_key:leptjson.c">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

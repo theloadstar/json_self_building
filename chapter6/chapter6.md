@@ -349,6 +349,7 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 		memcpy(lept_context_push(c,sizeof(lept_member)),&m,sizeof(lept_member));
 		size++;
 		m.k = NULL;/* ownership is transferred to member on stack */
+    //free(m.k);
 		/*parse ws [comma|right-curly-brace] ws*/
 		lept_parse_whitespace(c);
 		if(*c->json==','){
@@ -378,6 +379,70 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 
 ![chapter6_task2_pass_alltest](../graph/chapter6_task2_pass_alltest.png)
 
+~~注意`free(m.k)`~~
+
+# 总结
+
+回过头来，看一下这两个函数；
+
+```C
+static void* lept_context_push(lept_context* c, size_t size){
+	void* ret;
+	assert(size>0);
+	if(c->top+size>c->size){
+		if(c->size==0){
+			c->size = LEPT_PARSE_STACK_INIT_SIZE;
+		}
+		while(c->top+size>c->size){
+			c->size+=c->size>>1;
+		}
+		c->stack = (char*)realloc(c->stack,c->size);
+	}
+	ret = c->stack+c->top;
+	c->top+=size;
+	return ret;
+}
+
+static void* lept_context_pop(lept_context* c, size_t size){
+	assert(c->top>=size);
+	return c->stack+(c->top-=size);
+}
+```
+
+这两个函数，有两个特点：
+
+1. 返回值类型为void指针：在chapter3写字符串解析时还有点疑惑为什么不直接写成`char*`类型，实现了数组与对象解析后才了解到指定为void类型的指针能够复用`c->stack`栈而不用重新设立数据结构，妙。至于类型转换的问题，size传入正确时，使用memcpy即可。
+
+2. 这两个函数并没有实现真正的压入和弹出操作，只是返回相应的首地址（以及扩容）；压栈和弹出的操作外部调用完成（`PUTC`  `memcpy`)；这样的好处叶老师在[chapter5_answer](../chapter5/origin/tutorial05_answer.md)最后提到过，
+
+   > 这样的 API 设计在一些情况会更方便一些，例如在把字符串值转化（stringify）为 JSON 时，我们可以预先在堆栈分配字符串所需的最大空间，而当时是未有数据填充进去的。
+
+   具体的实现应该在后两章中能够看到
+
+# Answer Checking
+
+## Task1
+
+task1与叶老师的答案完全一样
+
+## Task2
+
+如果不考虑Task3的内存free部分，该部分答案也一样
+
+## Task3
+
+本来打算上午花一点时间核对一下答案然后今天（8.22）继续推进chapter7的，结果Task3花了一下午，最终也没有想出个所以然来。主要问题在于`m.k`的free位置：
+
+1. 叶老师对于`m.k`的free放在了循环体的外面，但事实上每次循环`m.k`都会`malloc`新的内存。这个地方卡了我很久，直到看了[这个issue](https://github.com/miloyip/json-tutorial/issues/174)。刚看完这个issue的时候一直在想，`memcpy`的功能是拷贝，source指针的内存所有权并没有被转移，知道又看一遍代码，这一句:
+
+   `memcpy(lept_context_push(c,sizeof(lept_member)),&m,sizeof(lept_member));`
+
+   是把m的值拷贝进c的栈里，这里暂时还看不出什么端倪；又回过头去看了一下`member`的结构，才猛然间回想起，`m.k`是一个指针，意思就是上面的那行代码把指针的值，即地址值拷贝进了c的栈里、`m.k` malloc的地址值拷贝进了栈里，其释放会由最后的for循环统一负责。
+
+   但还是有一个问题，我在代码里增加`free(m.k)`以后，Xcode里单步调试与直接运行的结果会不一样，to-do
+
+2. 
+
 # To do
 
-- [ ] Task2的第三点直接传入`m.klen`是否也可
+- [x] Task2的第三点直接传入`m.klen`是否也可：可以
