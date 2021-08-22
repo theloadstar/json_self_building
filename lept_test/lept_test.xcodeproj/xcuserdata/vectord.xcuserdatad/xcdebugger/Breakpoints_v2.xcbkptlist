@@ -232,7 +232,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "ADC2A2E2-70AF-4113-8115-3BBD47F68E48"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../chapter6/test.c"
@@ -248,7 +248,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "29E83925-89C0-497D-94BF-C8B8E1727263"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../chapter6/leptjson.c"
@@ -264,7 +264,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "A686D732-1781-420D-96F2-DEB93F692ABF"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../chapter6/leptjson.c"
@@ -274,6 +274,118 @@
             endingLineNumber = "455"
             landmarkName = "lept_parse_object(c, v)"
             landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "94FB9393-1976-48F2-A1A0-FC1692DC0842"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../chapter6/test.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "466"
+            endingLineNumber = "466"
+            landmarkName = "test_parse()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D0C3792C-CE63-4D93-9632-40982A29F407"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../chapter6/test.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
+            landmarkName = "test_parse_miss_key()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "D0C3792C-CE63-4D93-9632-40982A29F407 - 758cac721bded9d5"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_parse_miss_key"
+                  moduleName = "lept_test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vectord/GitHubSL/JSON/chapter6/test.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "274"
+                  endingLineNumber = "274"
+                  offsetFromSymbolStart = "349">
+               </Location>
+               <Location
+                  uuid = "D0C3792C-CE63-4D93-9632-40982A29F407 - 758cac721bded9d5"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_parse_miss_key"
+                  moduleName = "lept_test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vectord/GitHubSL/JSON/chapter6/test.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "274"
+                  endingLineNumber = "274"
+                  offsetFromSymbolStart = "354">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D72B22F8-4F1C-453C-B5B4-5A34200F8A01"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../chapter6/test.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
+            landmarkName = "test_parse_miss_key()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "D72B22F8-4F1C-453C-B5B4-5A34200F8A01 - 758cac721bded9d5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_parse_miss_key"
+                  moduleName = "lept_test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vectord/GitHubSL/JSON/chapter6/test.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "280"
+                  endingLineNumber = "280"
+                  offsetFromSymbolStart = "2446">
+               </Location>
+               <Location
+                  uuid = "D72B22F8-4F1C-453C-B5B4-5A34200F8A01 - 758cac721bded9d5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "test_parse_miss_key"
+                  moduleName = "lept_test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vectord/GitHubSL/JSON/chapter6/test.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "280"
+                  endingLineNumber = "280"
+                  offsetFromSymbolStart = "2451">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

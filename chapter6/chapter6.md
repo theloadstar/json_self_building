@@ -275,6 +275,109 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 
 ![object_basic_test](../graph/object_basic_test.png)
 
+## test_parse_miss_key
+
+未加入`LEPT_PARSE_MISS_KEY`的判定，在`lept_parse_string_raw`前加入如下代码：
+
+```C
+if(*c->json!='\"'){
+			ret = LEPT_PARSE_MISS_KEY;
+			break;
+		}
+```
+
+加入以上代码后，如下测试无法通过：
+
+```C
+TEST_ERROR(LEPT_PARSE_MISS_KEY, "{\"a\":1,");
+```
+
+即在出现错误时返回前没有将c->stack清空，导致`lept_parse`内部断言`assert(c->top==0)`失败
+
+添加如下代码：
+
+```C
+for(i=0;i<size;i++){
+		lept_free((lept_value*)lept_context_pop(c,sizeof(lept_member)));
+	}
+```
+
+最终，所有测试全部通过，最终的task2代码如下：
+
+```C
+static int lept_parse_object(lept_context* c, lept_value* v){
+	size_t size, i;
+	lept_member m;
+	int ret;
+    char *s = NULL;
+    size_t len = 0;
+	EXPECT(c, '{');
+	lept_parse_whitespace(c);
+	/*空对象*/
+	if(*c->json == '}'){
+		c->json++;
+		v->type = LEPT_OBJECT;
+		v->u.o.m = NULL;
+		v->u.o.size = 0;
+		return LEPT_PARSE_OK;
+	}
+	m.k = NULL;
+	size = 0;
+	for(;;){
+		lept_init(&m.v);
+		/*parse key to m.k, m.klen*/
+		if(*c->json!='\"'){
+			ret = LEPT_PARSE_MISS_KEY;
+			break;
+		}
+		if((ret=lept_parse_string_raw(c,&s,&len))!=LEPT_PARSE_OK)
+			break;
+        m.klen = len;
+        memcpy(m.k = (char*)malloc(m.klen), s, m.klen);
+		/*parse ws colon ws*/
+		lept_parse_whitespace(c);
+		if(*c->json!=':'){
+			ret = LEPT_PARSE_MISS_COLON;
+			break;
+		}
+        c->json++;
+		lept_parse_whitespace(c);
+		/*parse value*/
+		if((ret=lept_parse_value(c,&m.v))!=LEPT_PARSE_OK){
+			break;
+		}
+		memcpy(lept_context_push(c,sizeof(lept_member)),&m,sizeof(lept_member));
+		size++;
+		m.k = NULL;/* ownership is transferred to member on stack */
+		/*parse ws [comma|right-curly-brace] ws*/
+		lept_parse_whitespace(c);
+		if(*c->json==','){
+			c->json++;
+			lept_parse_whitespace(c);
+		}
+		else if(*c->json=='}'){
+			c->json++;
+			v->type = LEPT_OBJECT;
+			v->u.o.size = size;
+			size*=sizeof(lept_member);
+			memcpy(v->u.o.m=(lept_member*)malloc(size),lept_context_pop(c,size),size);
+			return LEPT_PARSE_OK;
+		}
+		else{
+			ret = LEPT_PARSE_MISS_COMMA_OR_CURLY_BRACKET;
+			break;
+		}
+	}
+	/*pop and free members on the stacks*/
+	for(i=0;i<size;i++){
+		lept_free((lept_value*)lept_context_pop(c,sizeof(lept_member)));
+	}
+	return ret;
+}
+```
+
+![chapter6_task2_pass_alltest](../graph/chapter6_task2_pass_alltest.png)
+
 # To do
 
 - [ ] Task2的第三点直接传入`m.klen`是否也可

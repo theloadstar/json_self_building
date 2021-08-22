@@ -432,7 +432,7 @@ lept_value* lept_get_object_value(const lept_value* v, size_t index){
 }
 
 static int lept_parse_object(lept_context* c, lept_value* v){
-	size_t size;
+	size_t size, i;
 	lept_member m;
 	int ret;
     char *s = NULL;
@@ -452,6 +452,10 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 	for(;;){
 		lept_init(&m.v);
 		/*parse key to m.k, m.klen*/
+		if(*c->json!='\"'){
+			ret = LEPT_PARSE_MISS_KEY;
+			break;
+		}
 		if((ret=lept_parse_string_raw(c,&s,&len))!=LEPT_PARSE_OK)
 			break;
         m.klen = len;
@@ -491,6 +495,9 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 		}
 	}
 	/*pop and free members on the stacks*/
+	for(i=0;i<size;i++){
+		lept_free((lept_value*)lept_context_pop(c,sizeof(lept_member)));
+	}
 	return ret;
 }
 
