@@ -4,7 +4,7 @@
 
 与数组类似，不同的是对象使用花括号`{}` (`U+007B` `U+007D`) 进行解析，并且由对象成员`member`组成。对象成员为键值对，其中键为JSON字符串，值为JSON值。（数组内部的成员即为JSON值）。完整语法：
 
-```JSON
+```Markdown
 member = string ws %x3A ws value
 object = %x7B ws [ member *( ws %x2C ws member ) ] ws %x7D
 ```
@@ -452,7 +452,7 @@ task1与叶老师的答案完全一样
    <font color = "red">还有一点，</font>break时临时的member没有将k地址copy至内存，故也需要free
 
    ```C
-   free(m.k);
+   	free(m.k);
    	for(i=0;i<size;i++){
    		// lept_free((lept_value*)lept_context_pop(c,sizeof(lept_member)));
    		lept_member* m = (lept_member*)lept_context_pop(c, sizeof(lept_member));

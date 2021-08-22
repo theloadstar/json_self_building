@@ -1,6 +1,6 @@
 # JSON字符串语法
 
-```
+```markdown
 string = quotation-mark *char quotation-mark
 char = unescaped /
    escape (
@@ -28,9 +28,9 @@ C中的字符串都表示为空结尾字符串，即以`\0`结尾。然而，JSO
 
 ---
 
-`size_t`：简单说就可以将它视为方便移植的`usigned`数据类型，用于表示size的大小
-
-具体可参考：[stackoverflow](https://stackoverflow.com/questions/19732319/difference-between-size-t-and-unsigned-int#:~:text=The%20purpose%20of%20size_t%20is,more%20likely%20to%20be%20portable)  [知乎](https://www.zhihu.com/question/24773728/answer/1904137353) (前一个的总结) [csdn](https://blog.csdn.net/xiagu_jinchengwu/article/details/79401522)
+> `size_t`：简单说就可以将它视为方便移植的`usigned`数据类型，用于表示size的大小
+>
+> 具体可参考：[stackoverflow](https://stackoverflow.com/questions/19732319/difference-between-size-t-and-unsigned-int#:~:text=The%20purpose%20of%20size_t%20is,more%20likely%20to%20be%20portable)  [知乎](https://www.zhihu.com/question/24773728/answer/1904137353) (前一个的总结) [csdn](https://blog.csdn.net/xiagu_jinchengwu/article/details/79401522)
 
 ---
 
@@ -77,20 +77,20 @@ int main() {
 
 ---
 
-`realloc()`：realloc(void \*\__ptr, size_t __size)：更改已经配置的内存空间，即更改由malloc()函数分配的内存空间的大小。
-
-
-如果将分配的内存减少，realloc仅仅是改变索引的信息。
-
-如果是将分配的内存扩大，则有以下情况：
-
-1. 如果当前内存段后面有需要的内存空间，则直接扩展这段内存空间，realloc()将返回原指针。
-2. 如果当前内存段后面的空闲字节不够，那么就使用堆中的第一个能够满足这一要求的内存块，将目前的数据复制到新的位置，并将原来的数据块释放掉，返回新的内存块位置。
-3. 如果申请失败，将返回NULL，此时，原来的指针仍然有效。
-
-<font color = "red">注意</font>：如果调用成功，不管当前内存段后面的空闲空间是否满足要求，都会释放掉原来的指针，重新返回一个指针，虽然返回的指针有可能和原来的指针一样，即不能再次释放掉原来的指针。
-
-[参考](https://blog.csdn.net/hackerain/article/details/7954006)
+> `realloc()`：realloc(void \*\__ptr, size_t __size)：更改已经配置的内存空间，即更改由malloc()函数分配的内存空间的大小。
+>
+>
+> 如果将分配的内存减少，realloc仅仅是改变索引的信息。
+>
+> 如果是将分配的内存扩大，则有以下情况：
+>
+> 1. 如果当前内存段后面有需要的内存空间，则直接扩展这段内存空间，realloc()将返回原指针。
+> 2. 如果当前内存段后面的空闲字节不够，那么就使用堆中的第一个能够满足这一要求的内存块，将目前的数据复制到新的位置，并将原来的数据块释放掉，返回新的内存块位置。
+> 3. 如果申请失败，将返回NULL，此时，原来的指针仍然有效。
+>
+> <font color = "red">注意</font>：如果调用成功，不管当前内存段后面的空闲空间是否满足要求，都会释放掉原来的指针，重新返回一个指针，虽然返回的指针有可能和原来的指针一样，即不能再次释放掉原来的指针。
+>
+> [参考](https://blog.csdn.net/hackerain/article/details/7954006)
 
 ---
 
@@ -347,4 +347,4 @@ case '\\':
 
 # To Do
 
-- [ ] Task1 `test_access_string();`顺序
+- [x] Task1 `test_access_string();`顺序:在所有测试都能通过的情况下顺序影响较小，因为一个测试内部调用了另一个测试测试的接口，该接口在全部测试均通过的情况下已确保正确。但个人还是建议将string接口的测试放在前面。

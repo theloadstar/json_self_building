@@ -1,6 +1,6 @@
 # 重构
 
-之前大三写OO的时候也经常重构代码，就是在**不改变代码外在行为的情况下改善程序的内部结构。**在test.c	程序中，`test_parse_true`,`test_parse_null`,`test_parse_false`这几个程序包含了很多重复代码，这违反了DRY(do not repeat yourself)原则。故需要对这三个函数进行重构。
+之前大三写OO的时候也经常重构代码，就是在**不改变代码外在行为的情况下改善程序的内部结构**。在test.c	程序中，`test_parse_true`,`test_parse_null`,`test_parse_false`这几个程序包含了很多重复代码，这违反了DRY(do not repeat yourself)原则。故需要对这三个函数进行重构。
 
 此外，在函数`test_parse_expect_value`,`test_parse_invalid_value`中，每测试一个JSON值，都会有两行代码的重复，为此，引入如下的宏定义：
 
@@ -37,7 +37,7 @@ static void test_parse_invalid_value(){
 
 为简单起见，leptjson使用双精度double存储JSON数字。先来看一下JSON数字的语法：
 
-```json
+```markdown
 number = [ "-" ] int [ frac ] [ exp ]
 int = "0" / digit1-9 *digit
 frac = "." 1*digit
@@ -65,7 +65,9 @@ lept_type lept_get_number(const lept_value* v){
 
 ---
 
-<font color = "red">宏定义的参数是**无类型的**</font>[参考](https://www.cnblogs.com/mini-coconut/p/8516801.html)
+<font color = "red">宏定义的参数是**无类型的**</font>
+
+[参考](https://www.cnblogs.com/mini-coconut/p/8516801.html)
 
 ---
 
@@ -247,7 +249,7 @@ static int lept_parse_literal(lept_context* c, lept_value* v, const char* litera
 
 ![chapter2_task3_find_test_failed_reason](../graph/chapter2_task3_find_test_failed_reason.gif)
 
-BTW，sublime这里真智能，直接补上了翻括号，流批。
+BTW，sublime这里真智能，直接补上了反括号，流批。
 
 完成以上步骤后task3完成。
 

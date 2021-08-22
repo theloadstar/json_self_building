@@ -13,7 +13,7 @@ JSON为树状结构，包含六种数据类型
 
 如下例子所示：
 
-```C++
+```json
 {
     "title": "Design Patterns",
     "subtitle": "Elements of Reusable Object-Oriented Software",

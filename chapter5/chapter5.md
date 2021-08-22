@@ -2,7 +2,7 @@
 
 与认知中的数组不同，JSON中的数组可以有多种类型，即不像C/C++那样一个数组只能存放一种特定的类型，其语法如下：
 
-```json
+```markdown
 array = %x5B ws [ value *( ws %x2C ws value ) ] ws %x5D
 ```
 
@@ -288,33 +288,33 @@ static int lept_parse_array(lept_context* c, lept_value* v) {
 
 ~~`lept_context_push`返回的虽然是`void`类型的指针，但其指向的内容还是`lept_context`的类型，~~
 
-这个是啥bug我还是真没看出来。使用改方式修改代码，以上的task测试也全部通过。
+这个是啥bug我还是真没看出来。使用该方式修改代码，以上的task测试也全部通过。
 
 看了解答后，知道会出现悬挂指针的问题，而这个问题涉及到需要增加stack的size，即需要压力测试，一般的测试测不出来。以下直接引用叶老师的[answer](origin/tutorial05_answer.md)：
 
 ---
 
-这个 bug 源于压栈时，会获得一个指针 `e`，指向从堆栈分配到的空间：
-
-```C
-    for (;;) {
-        /* bug! */
-        lept_value* e = lept_context_push(c, sizeof(lept_value));
-        lept_init(e);
-        size++;
-        if ((ret = lept_parse_value(c, e)) != LEPT_PARSE_OK)
-            return ret;
-        /* ... */
-    }
-```
-
-然后，我们把这个指针调用 `lept_parse_value(c, e)`，这里会出现问题，因为 `lept_parse_value()` 及之下的函数都需要调用 `lept_context_push()`，而 `lept_context_push()` 在发现栈满了的时候会用 `realloc()` 扩容。这时候，我们上层的 `e` 就会失效，变成一个悬挂指针（dangling pointer），而且 `lept_parse_value(c, e)` 会通过这个指针写入解析结果，造成非法访问。
+> 这个 bug 源于压栈时，会获得一个指针 `e`，指向从堆栈分配到的空间：
+>
+> ```C
+>     for (;;) {
+>         /* bug! */
+>         lept_value* e = lept_context_push(c, sizeof(lept_value));
+>         lept_init(e);
+>         size++;
+>         if ((ret = lept_parse_value(c, e)) != LEPT_PARSE_OK)
+>             return ret;
+>         /* ... */
+>     }
+> ```
+>
+> 然后，我们把这个指针调用 `lept_parse_value(c, e)`，这里会出现问题，因为 `lept_parse_value()` 及之下的函数都需要调用 `lept_context_push()`，而 `lept_context_push()` 在发现栈满了的时候会用 `realloc()` 扩容。这时候，我们上层的 `e` 就会失效，变成一个悬挂指针（dangling pointer），而且 `lept_parse_value(c, e)` 会通过这个指针写入解析结果，造成非法访问。
 
 ---
 
 # TO Do
 
-- [x] [isthisok](#jump)：not OJBK，with error:
+- [x] [isthisok](#jump)：not OK，with error:
 
   ![chapter5_todo_1](../graph/chapter5_todo_1.png)
 
