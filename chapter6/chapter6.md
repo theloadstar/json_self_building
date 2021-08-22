@@ -200,7 +200,80 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 2. line20直接将`m.k` `m.klen`传入错误，因为`m.k`传入的话将直接指向`c->stack`，使得line34 copy时出现错误，即m中的内容copy至`c->stack`后被错位覆盖
 3. 使用临时变量`char *s = NULL;size_t len = 0;`，注意len不得定义为指针类型，否则需要malloc，较为麻烦。之后需要使用`memcpy`将s中的内容复制到`m.k`中，注意这里<font color = "red">需要malloc</font>
 
+---
 
+8月22
+
+4. 解析了`,`之后紧跟着需要解析ws
+
+更正了以上四点后，通过object基础测试，代码如下：
+
+```C
+static int lept_parse_object(lept_context* c, lept_value* v){
+	size_t size;
+	lept_member m;
+	int ret;
+    char *s = NULL;
+    size_t len = 0;
+	EXPECT(c, '{');
+	lept_parse_whitespace(c);
+	/*空对象*/
+	if(*c->json == '}'){
+		c->json++;
+		v->type = LEPT_OBJECT;
+		v->u.o.m = NULL;
+		v->u.o.size = 0;
+		return LEPT_PARSE_OK;
+	}
+	m.k = NULL;
+	size = 0;
+	for(;;){
+		lept_init(&m.v);
+		/*parse key to m.k, m.klen*/
+		if((ret=lept_parse_string_raw(c,&s,&len))!=LEPT_PARSE_OK)
+			break;
+        m.klen = len;
+        memcpy(m.k = (char*)malloc(m.klen), s, m.klen);
+		/*parse ws colon ws*/
+		lept_parse_whitespace(c);
+		if(*c->json!=':'){
+			ret = LEPT_PARSE_MISS_COLON;
+			break;
+		}
+        c->json++;
+		lept_parse_whitespace(c);
+		/*parse value*/
+		if((ret=lept_parse_value(c,&m.v))!=LEPT_PARSE_OK){
+			break;
+		}
+		memcpy(lept_context_push(c,sizeof(lept_member)),&m,sizeof(lept_member));
+		size++;
+		m.k = NULL;/* ownership is transferred to member on stack */
+		/*parse ws [comma|right-curly-brace] ws*/
+		lept_parse_whitespace(c);
+		if(*c->json==','){
+			c->json++;
+			lept_parse_whitespace(c);
+		}
+		else if(*c->json=='}'){
+			c->json++;
+			v->type = LEPT_OBJECT;
+			v->u.o.size = size;
+			size*=sizeof(lept_member);
+			memcpy(v->u.o.m=(lept_member*)malloc(size),lept_context_pop(c,size),size);
+			return LEPT_PARSE_OK;
+		}
+		else{
+			ret = LEPT_PARSE_MISS_COMMA_OR_CURLY_BRACKET;
+			break;
+		}
+	}
+	/*pop and free members on the stacks*/
+	return ret;
+}
+```
+
+![object_basic_test](../graph/object_basic_test.png)
 
 # To do
 

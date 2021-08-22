@@ -213,6 +213,13 @@ static void test_parse_object() {
     lept_free(&v);
 
     lept_init(&v);
+    /*EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v,
+        " { "
+        "\"n\" : null , "
+        "\"f\" : false  "
+        " } "
+    ));*/
+#if 1
     EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v,
         " { "
         "\"n\" : null , "
@@ -258,6 +265,7 @@ static void test_parse_object() {
             EXPECT_EQ_DOUBLE(i + 1.0, lept_get_number(ov));
         }
     }
+#endif
     lept_free(&v);
 }
 

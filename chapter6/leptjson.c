@@ -473,8 +473,10 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 		m.k = NULL;/* ownership is transferred to member on stack */
 		/*parse ws [comma|right-curly-brace] ws*/
 		lept_parse_whitespace(c);
-		if(*c->json==',')
+		if(*c->json==','){
 			c->json++;
+			lept_parse_whitespace(c);
+		}
 		else if(*c->json=='}'){
 			c->json++;
 			v->type = LEPT_OBJECT;
