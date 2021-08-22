@@ -173,6 +173,13 @@ void lept_free(lept_value* v){
 		    for(i=0;i<v->u.a.size;i++)
 		    	lept_free(&v->u.a.e[i]);
 		    free(v->u.a.e);break;
+		case LEPT_OBJECT:
+		    for(i=0;i<v->u.o.size;i++){
+		    	free(v->u.o.m[i].k);
+		    	lept_free(&v->u.o.m[i].v);
+		    }
+		    free(v->u.o.m);
+		    break;
 		default:break;
 	}
 	v->type = LEPT_NULL;
@@ -498,6 +505,7 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 		}
 	}
 	/*pop and free members on the stacks*/
+	free(m.k);
 	for(i=0;i<size;i++){
 		// lept_free((lept_value*)lept_context_pop(c,sizeof(lept_member)));
 		lept_member* m = (lept_member*)lept_context_pop(c, sizeof(lept_member));

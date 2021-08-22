@@ -427,7 +427,7 @@ task1与叶老师的答案完全一样
 
 ## Task2
 
-如果不考虑Task3的内存free部分，该部分答案也一样
+如果不考虑Task3的内存free部分，该部分答案也基本一致
 
 ## Task3
 
@@ -441,8 +441,135 @@ task1与叶老师的答案完全一样
 
    但还是有一个问题，我在代码里增加`free(m.k)`以后，Xcode里单步调试与直接运行的结果会不一样，to-do
 
-2. 
+2. for循环break后，我原来的代码是这样的：
+
+   ```C
+   lept_free((lept_value*)lept_context_pop(c,sizeof(lept_member)));
+   ```
+
+   这样其实只是将`c->stack`的栈顶置0，并没有free内部的内存。（因为`lept_context_pop`函数仅仅返回出栈的首地址指针，并不执行弹出操作）正确做法应该是每次取出栈顶的member，free其内部的k以及value
+
+   <font color = "red">还有一点，</font>break时临时的member没有将k地址copy至内存，故也需要free
+
+   ```C
+   free(m.k);
+   	for(i=0;i<size;i++){
+   		// lept_free((lept_value*)lept_context_pop(c,sizeof(lept_member)));
+   		lept_member* m = (lept_member*)lept_context_pop(c, sizeof(lept_member));
+           free(m->k);
+           lept_free(&m->v);
+   	}
+   ```
+
+   个人认为叶老师的answer中最后的`v->type = LEPT_NULL;`没必要，因为break显然不会改变初始type`LEPT_NULL`。
+
+3. `lept_free`应该增加`object`类型的free，今天一直在死磕第一点，把这一点给疏忽了🤦‍♂️
+
+   ```C
+   void lept_free(lept_value* v) {
+       size_t i;
+       assert(v != NULL);
+       switch (v->type) {
+           /* ... */
+           case LEPT_OBJECT:
+               for (i = 0; i < v->u.o.size; i++) {
+                   free(v->u.o.m[i].k);
+                   lept_free(&v->u.o.m[i].v);
+               }
+               free(v->u.o.m);
+               break;
+           default: break;
+       }
+       v->type = LEPT_NULL;
+   }
+   ```
+
+Finally：
+
+![chapter6_final](../graph/chapter6_final.png)
 
 # To do
 
 - [x] Task2的第三点直接传入`m.klen`是否也可：可以
+
+- [ ] 代码：
+
+  ```C
+  static int lept_parse_object(lept_context* c, lept_value* v){
+  	size_t size, i;
+  	lept_member m;
+  	int ret;
+      char *s = NULL;
+      /*size_t len = 0;*/
+  	EXPECT(c, '{');
+  	lept_parse_whitespace(c);
+  	/*空对象*/
+  	if(*c->json == '}'){
+  		c->json++;
+  		v->type = LEPT_OBJECT;
+  		v->u.o.m = NULL;
+  		v->u.o.size = 0;
+  		return LEPT_PARSE_OK;
+  	}
+  	m.k = NULL;
+  	size = 0;
+  	for(;;){
+  		lept_init(&m.v);
+  		/*parse key to m.k, m.klen*/
+  		if(*c->json!='\"'){
+  			ret = LEPT_PARSE_MISS_KEY;
+  			break;
+  		}
+  		if((ret=lept_parse_string_raw(c,&s,&m.klen))!=LEPT_PARSE_OK)
+  			break;
+          /*m.klen = len;*/
+          memcpy(m.k = (char*)malloc(m.klen), s, m.klen);
+  		/*parse ws colon ws*/
+  		lept_parse_whitespace(c);
+  		if(*c->json!=':'){
+  			ret = LEPT_PARSE_MISS_COLON;
+  			break;
+  		}
+          c->json++;
+  		lept_parse_whitespace(c);
+  		/*parse value*/
+  		if((ret=lept_parse_value(c,&m.v))!=LEPT_PARSE_OK){
+  			break;
+  		}
+  		memcpy(lept_context_push(c,sizeof(lept_member)),&m,sizeof(lept_member));
+  		size++;
+  		free(m.k);
+  		m.k = NULL;/* ownership is transferred to member on stack */
+  		/*parse ws [comma|right-curly-brace] ws*/
+  		lept_parse_whitespace(c);
+  		if(*c->json==','){
+  			c->json++;
+  			lept_parse_whitespace(c);
+  		}
+  		else if(*c->json=='}'){
+  			c->json++;
+  			v->type = LEPT_OBJECT;
+  			v->u.o.size = size;
+  			size*=sizeof(lept_member);
+  			memcpy(v->u.o.m=(lept_member*)malloc(size),lept_context_pop(c,size),size);
+  			return LEPT_PARSE_OK;
+  		}
+  		else{
+  			ret = LEPT_PARSE_MISS_COMMA_OR_CURLY_BRACKET;
+  			break;
+  		}
+  	}
+  	/*pop and free members on the stacks*/
+  	for(i=0;i<size;i++){
+  		// lept_free((lept_value*)lept_context_pop(c,sizeof(lept_member)));
+  		lept_member* m = (lept_member*)lept_context_pop(c, sizeof(lept_member));
+          free(m->k);
+          lept_free(&m->v);
+  	}
+  	return ret;
+  }
+  ```
+
+  运行与调试的结果不同，出错原因应该在line44
+
+- [ ] 

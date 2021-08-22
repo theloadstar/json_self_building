@@ -483,19 +483,19 @@ static void test_access() {
 }
 
 int main() {
-//   test_parse();
-//   test_access();
+  test_parse();
+  test_access();
     /*char s[5] = "hell";
     printf("%lu\n",sizeof(""));*/
-//   printf("%d/%d (%3.2f%%) passed\n", test_pass, test_count, test_pass * 100.0 / test_count);
+  printf("%d/%d (%3.2f%%) passed\n", test_pass, test_count, test_pass * 100.0 / test_count);
     /*printf("%s\n",__VERSION__);*/
     /*printf("%c\n",36);*/
     /*chapter6 task3 free(m.k) test*/
-    char *s = "12";
+    /*char *s = "12";
     char *ss = NULL;
     memcpy(ss = (char*)malloc(3), s, 2);
     ss[0] = '3';
-    printf("%s %s\n",s,ss);
+    printf("%s %s\n",s,ss);*/
     return main_ret;
 }
 
