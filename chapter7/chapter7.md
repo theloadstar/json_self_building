@@ -243,3 +243,33 @@ static void lept_stringify_string(lept_context* c, const char* s, size_t len) {
 实现上对照`lept_parse_string_raw`即可，switch中的内容倒置，注意添加上`\\`。有一个例外，即`/`字符，具体可见issue [#82](lept_parse_string_raw)、[#51](https://github.com/miloyip/json-tutorial/issues/51)、[#139](https://github.com/miloyip/json-tutorial/issues/139)。
 
 关于`%X`,[ref](https://blog.csdn.net/u012291393/article/details/41171063)
+
+## Task2
+
+没啥好说的，不是很难
+
+```C
+        case LEPT_ARRAY:
+            PUTC(c,'[');
+            for(i=0;i<v->u.a.size;i++){
+            	if(i>0)
+            		PUTC(c,',');
+            	lept_stringify_value(c,&v->u.a.e[i]);
+            }
+            PUTC(c,']');
+            break;
+        case LEPT_OBJECT:
+            PUTC(c,'{');
+            for(i=0;i<v->u.o.size;i++){
+            	if(i>0)
+            		PUTC(c,',');
+            	lept_stringify_string(c,v->u.o.m[i].k,v->u.o.m[i].klen);
+            	PUTC(c,':');
+            	lept_stringify_value(c,&v->u.o.m[i].v);
+            }
+            PUTC(c,'}');
+            break;
+```
+
+## Task3
+
