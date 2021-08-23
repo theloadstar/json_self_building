@@ -90,3 +90,8 @@
 fix task2的bug，增加新的todo
 
 完成chapter6
+
+# [chapter7](chapter7/chapter7.md)
+
+## 8.23
+
