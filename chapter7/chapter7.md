@@ -94,3 +94,100 @@ int main(){
 ![chapter7_test_result](chapter7_test_result.png)
 
 因此，需要使用`type*`类型的str来指向`c->stack`，即`char**`。
+
+# NULL、TRUE、FALSE的生成
+
+首先编写测试：
+
+```C
+#define TEST_ROUNDTRIP(json)\
+    do {\
+        lept_value v;\
+        char* json2;\
+        size_t length;\
+        lept_init(&v);\
+        EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&v, json));\
+        EXPECT_EQ_INT(LEPT_STRINGIFY_OK, lept_stringify(&v, &json2, &length));\
+        EXPECT_EQ_STRING(json, json2, length);\
+        lept_free(&v);\
+        free(json2);\
+    } while(0)
+
+static void test_stringify() {
+    TEST_ROUNDTRIP("null");
+    TEST_ROUNDTRIP("false");
+    TEST_ROUNDTRIP("true");
+    /* ... */
+}
+```
+
+这个测试的主要思路就是先将JSON解析至v中，之后再从v中生成JSON至json2中，最后逐字符比较json2与json。该测试方法称为往返测试(roundtrip)。但鉴于同一JSON内容可以有多种不同的表示方式，例如可以插入不定数量的空白字符，数字 `1.0` 和 `1`也是等价的，还有一种方法是再次解析json2存至v2中，然后比较v与v2的树结构是否相同。该功能在下一节实现。
+
+在`lept_stringify_value`中，定义`PUTS`宏来输出字符串：
+
+```C
+#define PUTS(c, s, len)     memcpy(lept_context_push(c, len), s, len)
+
+static int lept_stringify_value(lept_context* c, const lept_value* v) {
+    size_t i;
+    int ret;
+    switch (v->type) {
+        case LEPT_NULL:   PUTS(c, "null",  4); break;
+        case LEPT_FALSE:  PUTS(c, "false", 5); break;
+        case LEPT_TRUE:   PUTS(c, "true",  4); break;
+        /* ... */
+    }
+    return LEPT_STRINGIFY_OK;
+}
+```
+
+# 数字的生成
+
+---
+
+* printf,sprintf,fprintf
+
+简单说，第一个为标准输出，第二个输出到指定字符串，第三个输出到文件
+
+[参考](https://blog.csdn.net/qq_37059136/article/details/80278742)
+
+---
+
+生成数字也较为简单，如下所示：
+
+```C
+        case LEPT_NUMBER:
+            {
+                char buffer[32];
+                int length = sprintf(buffer, "%.17g", v->u.n);
+                PUTS(c, buffer, length);
+            }
+            break;
+```
+
+其中，sprintf若成功，返回写入的字符总数；否则，返回负数。[ref](https://blog.csdn.net/weixin_49083782/article/details/107385612)
+
+关于`%17g`，可以参考[chapter2.md](../chapter2/chapter2.md)的**TEST**部分。
+
+以上的代码每次都需要`memcpy`，更合适的代码如下所示：
+
+```C
+        case LEPT_NUMBER:
+            {
+                char* buffer = lept_context_push(c, 32);
+                int length = sprintf(buffer, "%.17g", v->u.n);
+                c->top -= 32 - length;
+            }
+            break;
+```
+
+首先申请32大小的buffer字符数组，然后直接吸入length长度的字符串，最后更新栈顶置字符串结尾
+
+以上代码可以更简洁里：
+
+```C
+        case LEPT_NUMBER:
+            c->top -= 32 - sprintf(lept_context_push(c, 32), "%.17g", v->u.n);
+            break;
+```
+
