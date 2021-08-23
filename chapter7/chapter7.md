@@ -273,3 +273,52 @@ static void lept_stringify_string(lept_context* c, const char* s, size_t len) {
 
 ## Task3
 
+`lept_stringify_string()`优化，目前的该函数会频繁调用`PUTC`与`PUTS`,显然这对性能会有一定的影响。根据叶老师的解答，进行如下分析：
+
+我们的主要目的就是减少函数调用的次数，那么我们可以在开始时即申请较大的足够的内存，之后的入栈操作都在该内存上；等生成完毕后再根据大小改变栈顶。
+
+对于一个字符，其最大能够生成的字符串为`\uxxxx`，即六个字符大小，故一个value能够生成的JSON串大小最大为`len*6`，再加上两个双引号大小，即为`len*6+2`。这便为最初需要申请的最大的大小。
+
+此外，自行编写十六进位输出，省去`printf()`的内存开销。代码如下：
+
+```C
+static void lept_stringify_string(lept_context* c, const char* s, size_t len) {
+    static const char hex_digits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+    size_t i, size;
+    char* head, *p;
+    assert(s != NULL);
+    p = head = lept_context_push(c, size = len * 6 + 2); /* "\u00xx..." */
+    *p++ = '"';
+    for (i = 0; i < len; i++) {
+        unsigned char ch = (unsigned char)s[i];
+        switch (ch) {
+            case '\"': *p++ = '\\'; *p++ = '\"'; break;
+            case '\\': *p++ = '\\'; *p++ = '\\'; break;
+            case '\b': *p++ = '\\'; *p++ = 'b';  break;
+            case '\f': *p++ = '\\'; *p++ = 'f';  break;
+            case '\n': *p++ = '\\'; *p++ = 'n';  break;
+            case '\r': *p++ = '\\'; *p++ = 'r';  break;
+            case '\t': *p++ = '\\'; *p++ = 't';  break;
+            default:
+                if (ch < 0x20) {
+                    *p++ = '\\'; *p++ = 'u'; *p++ = '0'; *p++ = '0';
+                    *p++ = hex_digits[ch >> 4];
+                    *p++ = hex_digits[ch & 15];
+                }
+                else
+                    *p++ = s[i];
+        }
+    }
+    *p++ = '"';
+    c->top -= size - (p - head);
+}
+```
+
+> 为什么 `hex_digits` 不用字符串字面量 `"0123456789ABCDEF"`？其实是可以的，但这会多浪费 1 个字节（实际因数据对齐可能会浪费 4 个或更多）。
+
+以上需要考虑到`\0`，而且由于数据对齐问题，故可能浪费更多字节。这里真的是又双叒叕感受到了自己与业界大牛代码水平的差距。
+
+# To do
+
+- [ ] 自己实现一遍Task3的内容
+
