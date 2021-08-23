@@ -191,3 +191,55 @@ static int lept_stringify_value(lept_context* c, const lept_value* v) {
             break;
 ```
 
+# Exercise
+
+## Task1
+
+这里我刚开始主要的问题在于如何实现码点>0x7F的字符的转换，知道看到issue[#121](https://github.com/miloyip/json-tutorial/issues/121)、[#106](https://github.com/miloyip/json-tutorial/issues/106)以及[#83](https://github.com/miloyip/json-tutorial/issues/83)：
+
+> 在 `Value` 中的字符串是以 UTF-8 编码的，所以可以直接输出成 UTF-8 的 JSON。
+> JSON 规定只有 `ch < 0x20` 的必须转换成 `U+00XX`。
+> 其他字符，可以用编码本身的方式写入，**或** 是 `U+XXXX`。
+> 在 RapidJSON 中，特别做了一个 ASCII 编码格式，必然把 `ch >= 0x80` 的字符都以 `U+XXXX` 形式输出。
+>
+> 但对于解析器，必须能解析两种形式。
+
+即JSON字符串的生成不需要转换为`\uxxxx`的形式，直接输出UTF-8格式的JSON即可。当然，要实现转换也并非不行，实现`lept_parse_string_raw`的逆过程即可。
+
+实现：
+
+```C
+static void lept_stringify_string(lept_context* c, const char* s, size_t len) {
+    size_t i;
+    char ch;
+    assert(s!=NULL);
+    PUTC(c,'\"');
+    for(i=0;i<len;i++){
+    	ch = s[i];
+    	switch(ch){
+    		case '\"':PUTS(c,"\\\"",2);break;
+    		case '\\':PUTS(c,"\\\\",2);break;
+    		case '/' :PUTS(c,"\\/" ,2);break;
+    		case '\b':PUTS(c,"\\b" ,2);break;
+    		case '\f':PUTS(c,"\\f" ,2);break;
+    		case '\n':PUTS(c,"\\n" ,2);break;
+    		case '\r':PUTS(c,"\\r" ,2);break;
+    		case '\t':PUTS(c,"\\t" ,2);break;
+    		default:
+	    		if(ch<0x20){
+	    			char buffer[7];
+	    			sprintf(buffer,"\\u%04X",ch);
+	    			PUTS(c,buffer,6);
+	    		}
+	    		else{
+	    			PUTC(c,ch);
+	    		}
+    	}
+    }
+    PUTC(c,'\"');
+}
+```
+
+实现上对照`lept_parse_string_raw`即可，switch中的内容倒置，注意添加上`\\`。有一个例外，即`/`字符，具体可见issue [#82](lept_parse_string_raw)、[#51](https://github.com/miloyip/json-tutorial/issues/51)、[#139](https://github.com/miloyip/json-tutorial/issues/139)。
+
+关于`%X`,[ref](https://blog.csdn.net/u012291393/article/details/41171063)
