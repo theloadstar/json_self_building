@@ -1,7 +1,7 @@
 #include "leptjson.h"
 #include <assert.h> /*assert()*/
 #include <stdlib.h> /*NULL  strtod  malloc free realloc*/
-#include <stdio.h>
+#include <stdio.h> /*sprintf()*/
 #include <errno.h>/*errno, ERANGE*/
 #include <string.h>/*memcpy*/
 #include <math.h>/*HUGE_VAL*/
@@ -16,6 +16,14 @@
 #define PUTC(c, ch) do{ *(char*)lept_context_push(c, sizeof(char))=(ch); }while(0)
 #define ISHIGHSURR(u) ((u)>=0xD800&&(u)<=0xDBFF)
 #define ISLOWSURR(u)  ((u)>=0xDC00&&(u)<=0xDFFF)
+
+/*stringify*/
+#ifndef LEPT_PARSE_STRINGIFY_INIT_SIZE
+#define LEPT_PARSE_STRINGIFY_INIT_SIZE 256
+#endif
+
+#define PUTS(c, s, len)     memcpy(lept_context_push(c, len), s, len)
+
 /*为减少函数之间传递多个参数，定义json字符串结构体*/
 typedef struct{
 	const char* json;
@@ -514,6 +522,42 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 	}
 	return ret;
 }
+
+/*stringify*/
+static void lept_stringify_string(lept_context* c, const char* s, size_t len) {
+    /* ... */
+}
+
+static void lept_stringify_value(lept_context* c, const lept_value* v) {
+    switch (v->type) {
+        case LEPT_NULL:   PUTS(c, "null",  4); break;
+        case LEPT_FALSE:  PUTS(c, "false", 5); break;
+        case LEPT_TRUE:   PUTS(c, "true",  4); break;
+        case LEPT_NUMBER: c->top -= 32 - sprintf(lept_context_push(c, 32), "%.17g", v->u.n); break;
+        case LEPT_STRING: lept_stringify_string(c, v->u.s.s, v->u.s.len); break;
+        case LEPT_ARRAY:
+            /* ... */
+            break;
+        case LEPT_OBJECT:
+            /* ... */
+            break;
+        default: assert(0 && "invalid type");
+    }
+}
+
+char* lept_stringify(const lept_value* v, size_t* length) {
+    lept_context c;
+    assert(v != NULL);
+    c.stack = (char*)malloc(c.size = LEPT_PARSE_STRINGIFY_INIT_SIZE);
+    c.top = 0;
+    lept_stringify_value(&c, v);
+    if (length)
+        *length = c.top;
+    PUTC(&c, '\0');
+    return c.stack;
+}
+
+
 
 
 

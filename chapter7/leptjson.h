@@ -59,6 +59,7 @@ enum {
 #define lept_set_null(v) lept_free(v);
 
 int lept_parse(lept_value* v, const char *json);
+char* lept_stringify(const lept_value* v, size_t* length);
 
 /*获取解析结果*/
 lept_type lept_get_type(const lept_value* v);
