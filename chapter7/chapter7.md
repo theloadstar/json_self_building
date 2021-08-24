@@ -320,5 +320,5 @@ static void lept_stringify_string(lept_context* c, const char* s, size_t len) {
 
 # To do
 
-- [ ] 自己实现一遍Task3的内容
+- [x] 自己实现一遍Task3的内容
 

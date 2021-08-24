@@ -95,3 +95,16 @@ fix task2的bug，增加新的todo
 
 ## 8.23
 
+增加chapter7基础部分
+
+完成chapter7的task1、2以及task3的理论部分
+
+完成task3
+
+## 8.24
+
+完成chapter7的to-do部分
+
+至此，该项目算是阶段性结束了。chapter8暂时决定不写，后续有其他的学习计划。
+
+具体的总结之后回过头来沉淀。

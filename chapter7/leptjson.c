@@ -524,7 +524,7 @@ static int lept_parse_object(lept_context* c, lept_value* v){
 }
 
 /*stringify*/
-static void lept_stringify_string(lept_context* c, const char* s, size_t len) {
+/*static void lept_stringify_string(lept_context* c, const char* s, size_t len) {
     size_t i;
     char ch;
     assert(s!=NULL);
@@ -552,6 +552,43 @@ static void lept_stringify_string(lept_context* c, const char* s, size_t len) {
     	}
     }
     PUTC(c,'\"');
+}*/
+
+/*optimize*/
+static void lept_stringify_string(lept_context* c, const char* s, size_t len) {
+	static const char hex_digits[] = {'0','1','2','3','4','5','6','7','8','9','0','A','B','C','D','E','F'};
+    size_t i, size;
+    char *head, *p;
+    assert(s!=NULL);
+    head = p = lept_context_push(c,size = len*6+2);
+    *p++ = '\"';
+    for(i=0;i<len;i++){
+    	unsigned char ch = (unsigned char)s[i];
+    	switch(ch){
+    		case '\"':*p++ = '\\';*p++ = '\"';break;
+    		case '\\':*p++ = '\\';*p++ = '\\' ;break;
+    		case '/' :*p++ = '\\';*p++ = '/'  ;break;
+    		case '\b':*p++ = '\\';*p++ = 'b'  ;break;
+    		case '\f':*p++ = '\\';*p++ = 'f'  ;break;
+    		case '\n':*p++ = '\\';*p++ = 'n'  ;break;
+    		case '\r':*p++ = '\\';*p++ = 'r'  ;break;
+    		case '\t':*p++ = '\\';*p++ = 't'  ;break;
+    		default:
+	    		if(ch<0x20){
+	    			*p++ = '\\';
+	    			*p++ = 'u';
+	    			*p++ = '0';
+	    			*p++ = '0';
+	    			*p++ = hex_digits[ch>>4];/*十六进制第二位*/
+	    			*p++ = hex_digits[ch&15];/*十六进制首位*/
+	    		}
+	    		else{
+	    			*p++ = ch;;
+	    		}
+    	}
+    }
+    *p++ = '\"';
+    c->top -= size-(p-head);
 }
 
 static void lept_stringify_value(lept_context* c, const lept_value* v) {
